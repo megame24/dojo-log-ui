@@ -1,0 +1,4 @@
+babel.config.js
+src/**/*.test.tsx
+src/**/*.test.ts
+node_modules/**
