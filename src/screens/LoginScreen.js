@@ -15,7 +15,6 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import useAuth from '../auth/useAuth';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required().min(2).max(255).label('Name'),
   email: Yup.string()
     .required()
     .matches(
@@ -23,29 +22,18 @@ const validationSchema = Yup.object().shape({
       'Invalid email'
     )
     .label('Email'),
-  username: Yup.string().required().min(2).max(255).label('Username '),
-  password: Yup.string()
-    .required()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!”#$%&'()*+,\-./:;<=>?@[\]^_`{|}~]).{8,}$/,
-      'Your password must be greater than 8 characters and must contain at least one uppercase letter, one lowercase letter, one number, and a special character'
-    )
-    .label('Password'),
-  confirmPassword: Yup.string()
-    .required()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .label('Confirm Password'),
+  password: Yup.string().required().label('Password'),
 });
 
-function SignupScreen({ navigation }) {
+function LoginScreen({ navigation }) {
   const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (user) => {
+  const handleSubmit = async (credentials) => {
     setError('');
     setLoading(true);
-    const { ok, data } = await usersApi.signup(user);
+    const { ok, data } = await usersApi.login(credentials);
     setLoading(false);
 
     if (!ok) return setError(data?.message || 'An unexpected error occurred');
@@ -61,34 +49,24 @@ function SignupScreen({ navigation }) {
         <FormLogo />
         <Form
           initialValues={{
-            name: '',
             email: '',
-            username: '',
             password: '',
-            confirmPassword: '',
           }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          <FormHeader>Sign up</FormHeader>
+          <FormHeader>Login</FormHeader>
           <ErrorMessage
             style={styles.errorMessage}
             error={error}
             visible={!!error}
           />
-          <FormField name="name" label="Name" autoCorrect={false} />
           <FormField
             name="email"
             autoCapitalize="none"
             keyboardType="email-address"
             textContentType="emailAddress"
             label="Email"
-            autoCorrect={false}
-          />
-          <FormField
-            name="username"
-            label="Username"
-            autoCapitalize="none"
             autoCorrect={false}
           />
           <FormField
@@ -99,19 +77,15 @@ function SignupScreen({ navigation }) {
             textContentType="password"
             autoCorrect={false}
           />
-          <FormField
-            name="confirmPassword"
-            autoCapitalize="none"
-            label="Confirm password"
-            secureTextEntry
-            textContentType="password"
-            autoCorrect={false}
-          />
-          <SubmitButton title="Sign up" />
+          <SubmitButton title="Login" />
           <FormFooter
-            message="Already have an account?"
-            linkText="Login"
-            onLinkPress={() => navigation.navigate('login')}
+            linkText="Forgot password?"
+            onLinkPress={() => console.log('pressed FP')}
+          />
+          <FormFooter
+            message="Don't have an account?"
+            linkText="Sign up"
+            onLinkPress={() => navigation.navigate('signup')} // store in constants!!!!!
           />
         </Form>
       </Screen>
@@ -125,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignupScreen;
+export default LoginScreen;
