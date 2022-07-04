@@ -10,18 +10,13 @@ import SubmitButton from '../components/forms/SubmitButton';
 import Screen from '../components/Screen';
 import usersApi from '../api/users';
 import ErrorMessage from '../components/forms/ErrorMessage';
-import { StyleSheet } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import useAuth from '../auth/useAuth';
+import constants from '../config/constants';
+import validationSchemaObject from '../config/validationSchemaObject';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .required()
-    .matches(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      'Invalid email'
-    )
-    .label('Email'),
+  email: validationSchemaObject.email,
   password: Yup.string().required().label('Password'),
 });
 
@@ -36,7 +31,7 @@ function LoginScreen({ navigation }) {
     const { ok, data } = await usersApi.login(credentials);
     setLoading(false);
 
-    if (!ok) return setError(data?.message || 'An unexpected error occurred');
+    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
 
     const { authToken } = data;
     login(authToken);
@@ -56,11 +51,7 @@ function LoginScreen({ navigation }) {
           validationSchema={validationSchema}
         >
           <FormHeader>Login</FormHeader>
-          <ErrorMessage
-            style={styles.errorMessage}
-            error={error}
-            visible={!!error}
-          />
+          <ErrorMessage error={error} visible={!!error} />
           <FormField
             name="email"
             autoCapitalize="none"
@@ -80,23 +71,19 @@ function LoginScreen({ navigation }) {
           <SubmitButton title="Login" />
           <FormFooter
             linkText="Forgot password?"
-            onLinkPress={() => console.log('pressed FP')}
+            onLinkPress={() =>
+              navigation.navigate(constants.FORGOT_PASSWORD_SCREEN)
+            }
           />
           <FormFooter
             message="Don't have an account?"
             linkText="Sign up"
-            onLinkPress={() => navigation.navigate('signup')} // store in constants!!!!!
+            onLinkPress={() => navigation.navigate(constants.SIGNUP_SCREEN)}
           />
         </Form>
       </Screen>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  errorMessage: {
-    textAlign: 'center',
-  },
-});
 
 export default LoginScreen;

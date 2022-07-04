@@ -19,7 +19,11 @@ function FormField({ label, name, ...otherProps }) {
         value={values[name]}
         {...otherProps}
       />
-      <ErrorMessage error={errors[name]} visible={touched[name]} />
+      <ErrorMessage
+        style={styles.error}
+        error={errors[name]}
+        visible={touched[name]}
+      />
     </View>
   );
 }
@@ -30,6 +34,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
+  },
+  error: {
+    textAlign: 'left',
   },
 });
 
