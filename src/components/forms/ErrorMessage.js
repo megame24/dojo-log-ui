@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   error: {
     color: colors.red,
     marginTop: 5,
+    textAlign: 'center',
   },
 });
 

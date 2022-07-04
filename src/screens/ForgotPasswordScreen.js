@@ -11,29 +11,26 @@ import Screen from '../components/Screen';
 import usersApi from '../api/users';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
-import useAuth from '../auth/useAuth';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 
 const validationSchema = Yup.object().shape({
-  ...validationSchemaObject,
+  email: validationSchemaObject.email,
 });
 
-function SignupScreen({ navigation }) {
-  const { login } = useAuth();
+function ForgotPasswordScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (user) => {
+  const handleSubmit = async (email) => {
     setError('');
     setLoading(true);
-    const { ok, data } = await usersApi.signup(user);
+    const { ok, data } = await usersApi.forgotPassword(email);
     setLoading(false);
 
     if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
 
-    const { authToken } = data;
-    login(authToken);
+    navigation.navigate(constants.RESET_PASSWORD_SCREEN);
   };
 
   return (
@@ -42,19 +39,12 @@ function SignupScreen({ navigation }) {
       <Screen scrollable>
         <FormLogo />
         <Form
-          initialValues={{
-            name: '',
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
-          }}
+          initialValues={{ email: '' }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          <FormHeader>Sign up</FormHeader>
+          <FormHeader>Forgot password</FormHeader>
           <ErrorMessage error={error} visible={!!error} />
-          <FormField name="name" label="Name" autoCorrect={false} />
           <FormField
             name="email"
             autoCapitalize="none"
@@ -63,31 +53,9 @@ function SignupScreen({ navigation }) {
             label="Email"
             autoCorrect={false}
           />
-          <FormField
-            name="username"
-            label="Username"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <FormField
-            name="password"
-            autoCapitalize="none"
-            label="Password"
-            secureTextEntry
-            textContentType="password"
-            autoCorrect={false}
-          />
-          <FormField
-            name="confirmPassword"
-            autoCapitalize="none"
-            label="Confirm password"
-            secureTextEntry
-            textContentType="password"
-            autoCorrect={false}
-          />
-          <SubmitButton title="Sign up" />
+          <SubmitButton title="Send email" />
           <FormFooter
-            message="Already have an account?"
+            message="Remember password?"
             linkText="Login"
             onLinkPress={() => navigation.navigate(constants.LOGIN_SCREEN)}
           />
@@ -97,4 +65,4 @@ function SignupScreen({ navigation }) {
   );
 }
 
-export default SignupScreen;
+export default ForgotPasswordScreen;
