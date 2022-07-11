@@ -18,8 +18,8 @@ export default function App() {
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
-    // check expiration!!!!
-    if (user) setUser(user);
+
+    if (user && Date.now() < user.exp * 1000) setUser(user);
   };
 
   useEffect(() => {
