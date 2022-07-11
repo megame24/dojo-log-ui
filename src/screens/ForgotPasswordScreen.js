@@ -5,7 +5,6 @@ import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
 import FormFooter from '../components/forms/FormFooter';
 import FormHeader from '../components/forms/FormHeader';
-import FormLogo from '../components/forms/FormLogo';
 import SubmitButton from '../components/forms/SubmitButton';
 import Screen from '../components/Screen';
 import usersApi from '../api/users';
@@ -13,6 +12,7 @@ import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
+import FormSubHeader from '../components/forms/FormSubHeader';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -37,7 +37,6 @@ function ForgotPasswordScreen({ navigation }) {
     <>
       <ActivityIndicator visible={loading} />
       <Screen scrollable>
-        <FormLogo />
         <Form
           initialValues={{ email: '' }}
           onSubmit={handleSubmit}
@@ -45,6 +44,9 @@ function ForgotPasswordScreen({ navigation }) {
         >
           <FormHeader>Forgot password</FormHeader>
           <ErrorMessage error={error} visible={!!error} />
+          <FormSubHeader>
+            Kindly enter your email address to receive a reset password code.
+          </FormSubHeader>
           <FormField
             name="email"
             autoCapitalize="none"
@@ -53,7 +55,7 @@ function ForgotPasswordScreen({ navigation }) {
             label="Email"
             autoCorrect={false}
           />
-          <SubmitButton title="Send email" />
+          <SubmitButton title="Send code" />
           <FormFooter
             message="Remember password?"
             linkText="Login"
