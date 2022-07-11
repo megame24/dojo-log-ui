@@ -8,9 +8,10 @@ function FormHeader({ children }) {
 
 const styles = StyleSheet.create({
   formHeader: {
-    textAlign: 'center',
-    fontSize: 25,
+    // textAlign: 'center',
+    fontSize: 30,
     fontWeight: 'bold',
+    marginTop: 20,
   },
 });
 

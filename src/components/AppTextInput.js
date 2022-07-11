@@ -14,7 +14,7 @@ function AppTextInput({ width = '100%', ...otherProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     marginTop: 5,
     borderRadius: 10,
     borderWidth: 1,

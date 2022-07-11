@@ -5,7 +5,6 @@ import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
 import FormFooter from '../components/forms/FormFooter';
 import FormHeader from '../components/forms/FormHeader';
-import FormLogo from '../components/forms/FormLogo';
 import SubmitButton from '../components/forms/SubmitButton';
 import Screen from '../components/Screen';
 import usersApi from '../api/users';
@@ -14,6 +13,7 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import useAuth from '../auth/useAuth';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
+import FormSubHeader from '../components/forms/FormSubHeader';
 
 const validationSchema = Yup.object().shape({
   ...validationSchemaObject,
@@ -40,7 +40,6 @@ function SignupScreen({ navigation }) {
     <>
       <ActivityIndicator visible={loading} />
       <Screen scrollable>
-        <FormLogo />
         <Form
           initialValues={{
             name: '',
@@ -54,6 +53,9 @@ function SignupScreen({ navigation }) {
         >
           <FormHeader>Sign up</FormHeader>
           <ErrorMessage error={error} visible={!!error} />
+          <FormSubHeader>
+            Welcome! kindly enter your details to get started.
+          </FormSubHeader>
           <FormField name="name" label="Name" autoCorrect={false} />
           <FormField
             name="email"
