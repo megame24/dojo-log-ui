@@ -16,7 +16,6 @@ function FormFooter({ message, linkText, onLinkPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 15,
