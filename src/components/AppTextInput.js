@@ -4,13 +4,17 @@ import colors from '../config/colors';
 
 import defaultStyle from '../config/styles';
 
-function AppTextInput({ width = '100%', ...otherProps }) {
-  return (
-    <View style={[styles.container, { width }]}>
-      <TextInput {...otherProps} style={defaultStyle.text} />
+const AppTextInput = React.forwardRef(
+  ({ containerStyle, inputStyle, ...otherProps }, ref) => (
+    <View style={[styles.container, containerStyle]}>
+      <TextInput
+        ref={ref}
+        {...otherProps}
+        style={[defaultStyle.text, inputStyle]}
+      />
     </View>
-  );
-}
+  )
+);
 
 const styles = StyleSheet.create({
   container: {

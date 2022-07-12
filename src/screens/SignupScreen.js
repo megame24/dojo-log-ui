@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
+import jwtDecode from 'jwt-decode';
 
 import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
@@ -33,7 +34,8 @@ function SignupScreen({ navigation }) {
     if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
 
     const { authToken } = data;
-    login(authToken);
+    const { id } = jwtDecode(authToken);
+    navigation.navigate(constants.VERIFY_SCREEN, { userId: id });
   };
 
   return (

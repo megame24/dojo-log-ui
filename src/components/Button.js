@@ -2,10 +2,21 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import colors from '../config/colors';
 
-function Button({ children, style, color = colors.primary, onPress }) {
+function Button({
+  children,
+  style,
+  color = colors.primary,
+  onPress,
+  ...otherProps
+}) {
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor: color }, style]}
+      {...otherProps}
+      style={[
+        styles.container,
+        { backgroundColor: color, opacity: otherProps.disabled ? 0.5 : 1 },
+        style,
+      ]}
       onPress={onPress}
     >
       <Text style={styles.text}>{children}</Text>
