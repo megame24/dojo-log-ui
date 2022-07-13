@@ -12,9 +12,12 @@ import usersApi from '../api/users';
 import useAuth from '../auth/useAuth';
 import ActivityIndicator from '../components/ActivityIndicator';
 import ErrorMessage from '../components/forms/ErrorMessage';
+import useApi from '../hooks/useApi';
 
 function VerifyScreen({ route, navigation }) {
   const { login } = useAuth();
+  const verifyApi = useApi(usersApi.verifyUser);
+  const resendCodeApi = useApi(usersApi.resendCode);
   const [verificationCodeObj, setVerificationCodeObj] = useState({
     1: '',
     2: '',
@@ -26,8 +29,6 @@ function VerifyScreen({ route, navigation }) {
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const { userId } = route.params;
 
@@ -43,20 +44,16 @@ function VerifyScreen({ route, navigation }) {
   }, [verificationCodeObj]);
 
   const handleSubmit = async () => {
-    setError('');
-    setLoading(true);
-
     let verificationCode = '';
     Object.values(verificationCodeObj).forEach((value) => {
       verificationCode += value;
     });
-    const { ok, data } = await usersApi.verifyUser(
+    const { ok, data } = await verifyApi.request(
       { code: verificationCode },
       userId
     );
-    setLoading(false);
 
-    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
+    if (!ok) return;
 
     const { authToken } = data;
     login(authToken);
@@ -64,21 +61,20 @@ function VerifyScreen({ route, navigation }) {
 
   const resendCode = async () => {
     // implement wait time after each click!!!
-    setError('');
-    setLoading(true);
+    await resendCodeApi.request(userId);
 
-    const { ok, data } = await usersApi.resendCode(userId);
-    setLoading(false);
-
-    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
+    // display an auto disappearing success message!!!
   };
 
   return (
     <>
-      <ActivityIndicator visible={loading} />
+      <ActivityIndicator visible={verifyApi.loading || resendCodeApi.loading} />
       <Screen>
         <FormHeader>Verification</FormHeader>
-        <ErrorMessage error={error} visible={!!error} />
+        <ErrorMessage
+          error={verifyApi.error || resendCodeApi.error}
+          visible={!!(verifyApi.loading || resendCodeApi.loading)}
+        />
         <FormSubHeader>
           Kindly enter the verification code we sent to your email.
         </FormSubHeader>

@@ -15,6 +15,7 @@ import useAuth from '../auth/useAuth';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -23,18 +24,13 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const { login } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const loginApi = useApi(usersApi.login);
 
   const handleSubmit = async (credentials) => {
-    setError('');
-    setLoading(true);
-    const { ok, data } = await usersApi.login(credentials);
-    setLoading(false);
+    const { ok, data } = await loginApi.request(credentials);
 
-    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
+    if (!ok) return;
 
-    // TODO: REFACTOR!!!!
     const { authToken } = data;
     const { verified, id } = jwtDecode(authToken);
 
@@ -44,7 +40,7 @@ function LoginScreen({ navigation }) {
 
   return (
     <>
-      <ActivityIndicator visible={loading} />
+      <ActivityIndicator visible={loginApi.loading} />
       <Screen scrollable>
         <Form
           initialValues={{
@@ -55,7 +51,7 @@ function LoginScreen({ navigation }) {
           validationSchema={validationSchema}
         >
           <FormHeader>Login</FormHeader>
-          <ErrorMessage error={error} visible={!!error} />
+          <ErrorMessage error={loginApi.error} visible={!!loginApi.error} />
           <FormSubHeader>
             Welcome back! kindly enter your login details to continue.
           </FormSubHeader>

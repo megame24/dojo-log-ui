@@ -13,29 +13,26 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
 });
 
 function ForgotPasswordScreen({ navigation }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const forgotPasswordApi = useApi(usersApi.forgotPassword);
 
   const handleSubmit = async (email) => {
-    setError('');
-    setLoading(true);
-    const { ok, data } = await usersApi.forgotPassword(email);
-    setLoading(false);
+    const { ok } = await forgotPasswordApi.request(email);
 
-    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
+    if (!ok) return;
 
     navigation.navigate(constants.RESET_PASSWORD_SCREEN);
   };
 
   return (
     <>
-      <ActivityIndicator visible={loading} />
+      <ActivityIndicator visible={forgotPasswordApi.loading} />
       <Screen scrollable>
         <Form
           initialValues={{ email: '' }}
@@ -43,7 +40,10 @@ function ForgotPasswordScreen({ navigation }) {
           validationSchema={validationSchema}
         >
           <FormHeader>Forgot password</FormHeader>
-          <ErrorMessage error={error} visible={!!error} />
+          <ErrorMessage
+            error={forgotPasswordApi.error}
+            visible={!!forgotPasswordApi.error}
+          />
           <FormSubHeader>
             Kindly enter your email address to receive a reset password code.
           </FormSubHeader>
