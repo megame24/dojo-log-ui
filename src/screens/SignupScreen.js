@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
-import jwtDecode from 'jwt-decode';
 
 import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
@@ -11,36 +10,30 @@ import Screen from '../components/Screen';
 import usersApi from '../api/users';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
-import useAuth from '../auth/useAuth';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
+import useApi from '../hooks/useApi';
 
 const validationSchema = Yup.object().shape({
   ...validationSchemaObject,
 });
 
 function SignupScreen({ navigation }) {
-  const { login } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const signupApi = useApi(usersApi.signup);
 
   const handleSubmit = async (user) => {
-    setError('');
-    setLoading(true);
-    const { ok, data } = await usersApi.signup(user);
-    setLoading(false);
+    const { ok, data } = await signupApi.request(user);
 
-    if (!ok) return setError(data?.message || constants.UNEXPECTED_ERROR);
+    if (!ok) return;
 
-    const { authToken } = data;
-    const { id } = jwtDecode(authToken);
-    navigation.navigate(constants.VERIFY_SCREEN, { userId: id });
+    const { userId } = data;
+    navigation.navigate(constants.VERIFY_SCREEN, { userId });
   };
 
   return (
     <>
-      <ActivityIndicator visible={loading} />
+      <ActivityIndicator visible={signupApi.loading} />
       <Screen scrollable>
         <Form
           initialValues={{
@@ -54,7 +47,7 @@ function SignupScreen({ navigation }) {
           validationSchema={validationSchema}
         >
           <FormHeader>Sign up</FormHeader>
-          <ErrorMessage error={error} visible={!!error} />
+          <ErrorMessage error={signupApi.error} visible={!!signupApi.error} />
           <FormSubHeader>
             Welcome! kindly enter your details to get started.
           </FormSubHeader>
