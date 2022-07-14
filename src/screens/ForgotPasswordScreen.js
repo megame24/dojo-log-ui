@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 
 import Form from '../components/forms/Form';
@@ -23,11 +23,12 @@ function ForgotPasswordScreen({ navigation }) {
   const forgotPasswordApi = useApi(usersApi.forgotPassword);
 
   const handleSubmit = async (email) => {
-    const { ok } = await forgotPasswordApi.request(email);
+    const { ok, data } = await forgotPasswordApi.request(email);
 
     if (!ok) return;
 
-    navigation.navigate(constants.RESET_PASSWORD_SCREEN);
+    const { userId } = data;
+    navigation.navigate(constants.RESET_PASSWORD_SCREEN, { userId });
   };
 
   return (
