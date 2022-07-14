@@ -10,10 +10,14 @@ const verifyUser = (code, userId) => api.put(`/users/${userId}/verify`, code);
 
 const resendCode = (userId) => api.get(`/users/${userId}/send-verification`);
 
+const resetPassword = (passwordDetails, userId) =>
+  api.put(`/users/${userId}/reset-password`, passwordDetails);
+
 export default {
   signup,
   login,
   forgotPassword,
   verifyUser,
   resendCode,
+  resetPassword,
 };
