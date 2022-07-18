@@ -6,5 +6,5 @@ export default {
   mediumGray: 'rgba(0,0,0,0.6)',
   lightGray: 'rgba(0,0,0,0.38)',
   red: '#E74C3C',
-  borderGray: '#C4C4C4',
+  borderGray: 'rgba(0,0,0,0.1)',
 };

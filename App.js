@@ -11,6 +11,7 @@ import navigationTheme from './src/navigation/navigationTheme';
 import AuthContext from './src/auth/context';
 import authStorage from './src/auth/storage';
 import AppNavigator from './src/navigation/AppNavigator';
+import MyDrawer from './src/navigation/DrawerNavigator';
 
 export default function App() {
   const [user, setUser] = useState();

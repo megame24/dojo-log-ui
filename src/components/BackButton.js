@@ -1,8 +1,8 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
 import colors from '../config/colors';
-import { TouchableOpacity } from 'react-native';
 
 function BackButton({ onPress, size }) {
   return (
