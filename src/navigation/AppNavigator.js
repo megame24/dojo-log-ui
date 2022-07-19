@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
+
 import AppText from '../components/AppText';
 import Screen from '../components/Screen';
 import { Pressable } from 'react-native';
@@ -7,9 +14,9 @@ import useAuth from '../auth/useAuth';
 import AuthContext from '../auth/context';
 import AdminNavigator from './AdminNavigator';
 import constants from '../config/constants';
-import MyDrawer from './DrawerNavigator';
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function HomeScreen() {
   const { logout } = useAuth();
@@ -26,19 +33,19 @@ function AppNavigator() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       {user.role.toLowerCase() === 'admin' ? (
-        <Stack.Screen
+        <Drawer.Screen
           name={constants.ADMIN_SCREEN}
           component={AdminNavigator}
         />
       ) : (
-        <Stack.Screen
+        <Drawer.Screen
           name={constants.BASE_USER_SCREEN}
           component={HomeScreen}
         />
       )}
-    </Stack.Navigator>
+    </Drawer.Navigator>
   );
 }
 
