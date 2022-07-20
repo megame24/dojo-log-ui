@@ -73,7 +73,7 @@ function VerifyScreen({ route, navigation }) {
         <FormHeader>Verification</FormHeader>
         <ErrorMessage
           error={verifyApi.error || resendCodeApi.error}
-          visible={!!(verifyApi.loading || resendCodeApi.loading)}
+          visible={!!(verifyApi.error || resendCodeApi.error)}
         />
         <FormSubHeader>
           Kindly enter the verification code we sent to your email.
