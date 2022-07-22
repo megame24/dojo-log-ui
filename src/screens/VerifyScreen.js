@@ -81,7 +81,7 @@ function VerifyScreen({ route, navigation }) {
         <View style={styles.codesContainer}>
           <AppTextInput
             inputStyle={styles.textInput}
-            containerStyle={styles.textInputContainer}
+            inputContainerStyle={styles.textInputContainer}
             keyboardType="number-pad"
             textContentType="oneTimeCode"
             maxLength={1}
@@ -93,7 +93,7 @@ function VerifyScreen({ route, navigation }) {
           />
           <AppTextInput
             inputStyle={styles.textInput}
-            containerStyle={styles.textInputContainer}
+            inputContainerStyle={styles.textInputContainer}
             keyboardType="number-pad"
             textContentType="oneTimeCode"
             maxLength={1}
@@ -106,7 +106,7 @@ function VerifyScreen({ route, navigation }) {
           />
           <AppTextInput
             inputStyle={styles.textInput}
-            containerStyle={styles.textInputContainer}
+            inputContainerStyle={styles.textInputContainer}
             keyboardType="number-pad"
             textContentType="oneTimeCode"
             maxLength={1}
@@ -119,7 +119,7 @@ function VerifyScreen({ route, navigation }) {
           />
           <AppTextInput
             inputStyle={styles.textInput}
-            containerStyle={styles.textInputContainer}
+            inputContainerStyle={styles.textInputContainer}
             keyboardType="number-pad"
             textContentType="oneTimeCode"
             maxLength={1}

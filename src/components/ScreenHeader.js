@@ -8,15 +8,13 @@ import AppText from './AppText';
 function ScreenHeader({ header, LeftIcon, RightIcon }) {
   return (
     <View style={styles.container}>
-      <View style={[styles.topNavItem, styles.leftIconContainer]}>
-        {LeftIcon && <LeftIcon />}
-      </View>
-      <View style={[styles.topNavItem, styles.headerContainer]}>
+      <View style={styles.leftIconContainer}>{LeftIcon && <LeftIcon />}</View>
+      <View style={styles.headerContainer}>
         <AppText numberOfLines={1} style={styles.header}>
           {header}
         </AppText>
       </View>
-      <View style={[styles.topNavItem, styles.rightIconContainer]}>
+      <View style={styles.rightIconContainer}>
         {RightIcon && <RightIcon />}
       </View>
     </View>
@@ -26,7 +24,7 @@ function ScreenHeader({ header, LeftIcon, RightIcon }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight + 15,
     paddingBottom: 15,
     paddingRight: 20,
     paddingLeft: 20,
@@ -34,17 +32,17 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.borderGray,
     alignItems: 'center',
   },
-  topNavItem: {
-    width: '33.33%',
-    flexDirection: 'row',
-  },
   leftIconContainer: {
+    width: '20%',
     justifyContent: 'flex-start',
   },
   rightIconContainer: {
+    width: '20%',
     justifyContent: 'flex-end',
   },
   headerContainer: {
+    width: '60%',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   header: {

@@ -1,9 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import colors from '../config/colors';
 import CategoriesNavigator from './CategoriesNavigator';
 import SettingsNavigator from './SettingsNavigator';
+import constants from '../config/constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,8 +31,11 @@ function AdminNavigator() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Categories" component={CategoriesNavigator} />
-      <Tab.Screen name="Settings" component={SettingsNavigator} />
+      <Tab.Screen
+        name={constants.CATEGORIES_TAB}
+        component={CategoriesNavigator}
+      />
+      <Tab.Screen name={constants.SETTINGS_TAB} component={SettingsNavigator} />
     </Tab.Navigator>
   );
 }
