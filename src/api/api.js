@@ -8,7 +8,7 @@ const api = create({
 api.addAsyncRequestTransform(async (request) => {
   const authToken = await authStorage.getToken();
   if (!authToken) return;
-  request.headers['authToken'] = authToken;
+  request.headers['token'] = authToken;
 });
 
 export default api;

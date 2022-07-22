@@ -20,6 +20,10 @@ export default function App() {
     const user = await authStorage.getUser();
 
     if (user && Date.now() < user.exp * 1000) setUser(user);
+    else {
+      setUser(null);
+      authStorage.removeToken();
+    }
   };
 
   useEffect(() => {

@@ -5,8 +5,8 @@ import colors from '../config/colors';
 import defaultStyle from '../config/styles';
 
 const AppTextInput = React.forwardRef(
-  ({ containerStyle, inputStyle, ...otherProps }, ref) => (
-    <View style={[styles.container, containerStyle]}>
+  ({ inputContainerStyle, inputStyle, ...otherProps }, ref) => (
+    <View style={[styles.container, inputContainerStyle]}>
       <TextInput
         ref={ref}
         {...otherProps}

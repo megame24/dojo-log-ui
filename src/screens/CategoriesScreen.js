@@ -4,6 +4,7 @@ import Screen from '../components/Screen';
 import ScreenHeader from '../components/ScreenHeader';
 import FloatingButton from '../components/FloatingButton';
 import HeaderMenu from '../components/HeaderMenu';
+import constants from '../config/constants';
 
 function CategoriesScreen({ navigation }) {
   return (
@@ -15,7 +16,9 @@ function CategoriesScreen({ navigation }) {
         )}
       />
       <Screen scrollable />
-      <FloatingButton onPress={() => console.log('hola')} />
+      <FloatingButton
+        onPress={() => navigation.navigate(constants.CREATE_CATEGORIES_SCREEN)}
+      />
     </>
   );
 }

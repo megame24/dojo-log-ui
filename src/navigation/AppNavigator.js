@@ -1,11 +1,5 @@
 import React, { useContext } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import AppText from '../components/AppText';
 import Screen from '../components/Screen';
@@ -15,7 +9,6 @@ import AuthContext from '../auth/context';
 import AdminNavigator from './AdminNavigator';
 import constants from '../config/constants';
 
-const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function HomeScreen() {
