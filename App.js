@@ -8,13 +8,15 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import AuthNavigator from './src/navigation/AuthNavigator';
 import navigationTheme from './src/navigation/navigationTheme';
-import AuthContext from './src/auth/context';
-import authStorage from './src/auth/storage';
+import AuthContext from './src/context/authContext';
+import ExpiredSessionContext from './src/context/expiredSessionContext';
+import authStorage from './src/utility/authStorage';
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
@@ -54,9 +56,13 @@ export default function App() {
   return (
     <View style={styles.root} onLayout={onLayoutRootView}>
       <AuthContext.Provider value={{ user, setUser }}>
-        <NavigationContainer theme={navigationTheme}>
-          {user ? <AppNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
+        <ExpiredSessionContext.Provider
+          value={{ sessionExpired, setSessionExpired }}
+        >
+          <NavigationContainer theme={navigationTheme}>
+            {user ? <AppNavigator /> : <AuthNavigator />}
+          </NavigationContainer>
+        </ExpiredSessionContext.Provider>
       </AuthContext.Provider>
     </View>
   );

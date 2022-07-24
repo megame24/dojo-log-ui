@@ -4,8 +4,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import AppText from '../components/AppText';
 import Screen from '../components/Screen';
 import { Pressable } from 'react-native';
-import useAuth from '../auth/useAuth';
-import AuthContext from '../auth/context';
+import useAuth from '../hooks/useAuth';
+import AuthContext from '../context/authContext';
 import AdminNavigator from './AdminNavigator';
 import constants from '../config/constants';
 

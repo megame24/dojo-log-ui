@@ -60,7 +60,6 @@ function CreateCategoryScreen({ navigation }) {
           />
           <FormField name="name" label="Name" autoCorrect={false} />
           <ColorFormField
-            style={styles.colorField}
             name="color"
             label="Color"
             autoCapitalize="none"
@@ -75,26 +74,6 @@ function CreateCategoryScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: { paddingTop: 10 },
-  colorContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  colorField: {
-    width: '60%',
-  },
-  colorView: {
-    width: '30%',
-    height: 40,
-    marginBottom: 4,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.borderGray,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });
 
 export default CreateCategoryScreen;

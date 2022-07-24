@@ -9,7 +9,7 @@ import FormSubHeader from '../components/forms/FormSubHeader';
 import Screen from '../components/Screen';
 import constants from '../config/constants';
 import usersApi from '../api/users';
-import useAuth from '../auth/useAuth';
+import useAuth from '../hooks/useAuth';
 import ActivityIndicator from '../components/ActivityIndicator';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import useApi from '../hooks/useApi';

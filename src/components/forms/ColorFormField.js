@@ -17,7 +17,7 @@ function ColorFormField({ name, ...otherProps }) {
 
   return (
     <View style={styles.colorContainer}>
-      <FormField name={name} {...otherProps} />
+      <FormField style={styles.colorField} name={name} {...otherProps} />
       <FormField
         style={styles.colorView}
         inputContainerStyle={[
