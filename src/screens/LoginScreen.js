@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import jwtDecode from 'jwt-decode';
 
@@ -11,11 +11,12 @@ import Screen from '../components/Screen';
 import usersApi from '../api/users';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
-import useAuth from '../auth/useAuth';
+import useAuth from '../hooks/useAuth';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
 import useApi from '../hooks/useApi';
+import ExpiredSessionContext from '../context/expiredSessionContext';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -25,6 +26,15 @@ const validationSchema = Yup.object().shape({
 function LoginScreen({ navigation }) {
   const { login } = useAuth();
   const loginApi = useApi(usersApi.login);
+  const { sessionExpired, setSessionExpired } = useContext(
+    ExpiredSessionContext
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSessionExpired(false);
+    }, 5000);
+  }, []);
 
   const handleSubmit = async (credentials) => {
     const { ok, data } = await loginApi.request(credentials);
@@ -52,6 +62,10 @@ function LoginScreen({ navigation }) {
         >
           <FormHeader>Login</FormHeader>
           <ErrorMessage error={loginApi.error} visible={!!loginApi.error} />
+          <ErrorMessage
+            error={constants.SESSION_EXPIRED_ERROR}
+            visible={sessionExpired}
+          />
           <FormSubHeader>
             Welcome back! kindly enter your login details to continue.
           </FormSubHeader>
