@@ -11,7 +11,6 @@ import FormField from '../components/forms/FormField';
 import SubmitButton from '../components/forms/SubmitButton';
 import Screen from '../components/Screen';
 import ScreenHeader from '../components/ScreenHeader';
-import colors from '../config/colors';
 import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import useApi from '../hooks/useApi';
@@ -44,7 +43,7 @@ function CreateCategoryScreen({ navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={createCategoryApi.loading} />
-      <Screen style={styles.screen} scrollable>
+      <Screen screenHeaderPresent style={styles.screen} scrollable>
         <Form
           initialValues={{
             name: '',

@@ -2,9 +2,20 @@ import React from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 
-function Screen({ style, children, scrollable = false }) {
+function Screen({
+  style,
+  children,
+  scrollable = false,
+  screenHeaderPresent = false,
+}) {
   return (
-    <SafeAreaView style={[styles.screen, style]}>
+    <SafeAreaView
+      style={[
+        styles.screen,
+        style,
+        { paddingTop: screenHeaderPresent ? 0 : Constants.statusBarHeight },
+      ]}
+    >
       {scrollable && (
         <ScrollView style={[styles.view, style]}>{children}</ScrollView>
       )}
@@ -15,7 +26,6 @@ function Screen({ style, children, scrollable = false }) {
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: Constants.statusBarHeight,
     flex: 1,
   },
   view: {

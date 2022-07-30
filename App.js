@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import AuthNavigator from './src/navigation/AuthNavigator';
 import navigationTheme from './src/navigation/navigationTheme';
@@ -59,9 +60,11 @@ export default function App() {
         <ExpiredSessionContext.Provider
           value={{ sessionExpired, setSessionExpired }}
         >
-          <NavigationContainer theme={navigationTheme}>
-            {user ? <AppNavigator /> : <AuthNavigator />}
-          </NavigationContainer>
+          <MenuProvider>
+            <NavigationContainer theme={navigationTheme}>
+              {user ? <AppNavigator /> : <AuthNavigator />}
+            </NavigationContainer>
+          </MenuProvider>
         </ExpiredSessionContext.Provider>
       </AuthContext.Provider>
     </View>
