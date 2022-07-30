@@ -7,6 +7,7 @@ function Screen({
   children,
   scrollable = false,
   screenHeaderPresent = false,
+  floatingButtonRoom = 0,
 }) {
   return (
     <SafeAreaView
@@ -17,9 +18,17 @@ function Screen({
       ]}
     >
       {scrollable && (
-        <ScrollView style={[styles.view, style]}>{children}</ScrollView>
+        <ScrollView style={[styles.view, style]}>
+          {children}
+          <View style={{ marginTop: floatingButtonRoom }} />
+        </ScrollView>
       )}
-      {!scrollable && <View style={[styles.view, style]}>{children}</View>}
+      {!scrollable && (
+        <View style={[styles.view, style]}>
+          {children}
+          <View style={{ marginTop: floatingButtonRoom }} />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

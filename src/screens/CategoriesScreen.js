@@ -58,7 +58,7 @@ function CategoriesScreen({ navigation }) {
       <ActivityIndicator
         visible={getCategoriesApi.loading || deleteCategoryApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen screenHeaderPresent scrollable floatingButtonRoom={80}>
         <ErrorMessage
           error={getCategoriesApi.error || deleteCategoryApi.error}
           visible={!!getCategoriesApi.error || deleteCategoryApi.error}
@@ -100,7 +100,6 @@ function CategoriesScreen({ navigation }) {
             </Menu>
           </View>
         ))}
-        <View floatingButtonRoom="extract" style={{ marginTop: 80 }} />
       </Screen>
       <FloatingButton
         onPress={() => navigation.navigate(constants.CREATE_CATEGORIES_SCREEN)}
