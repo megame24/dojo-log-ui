@@ -14,7 +14,7 @@ function Screen({
       style={[
         styles.screen,
         style,
-        { paddingTop: screenHeaderPresent ? 0 : Constants.statusBarHeight },
+        { paddingTop: screenHeaderPresent ? 10 : Constants.statusBarHeight },
       ]}
     >
       {scrollable && (
