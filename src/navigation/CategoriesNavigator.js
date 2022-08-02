@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import constants from '../config/constants';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CreateCategoryScreen from '../screens/CreateCategoryScreen';
+import UpdateCategoryScreen from '../screens/UpdateCategoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,10 @@ function CategoriesNavigator() {
       <Stack.Screen
         name={constants.CREATE_CATEGORIES_SCREEN}
         component={CreateCategoryScreen}
+      />
+      <Stack.Screen
+        name={constants.UPDATE_CATEGORIES_SCREEN}
+        component={UpdateCategoryScreen}
       />
     </Stack.Navigator>
   );

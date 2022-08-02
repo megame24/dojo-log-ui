@@ -87,7 +87,14 @@ function CategoriesScreen({ navigation }) {
               <MenuOptions
                 customStyles={{ optionsContainer: styles.popupMenuOptions }}
               >
-                <MenuOption style={styles.popupMenuOption}>
+                <MenuOption
+                  onSelect={() =>
+                    navigation.navigate(constants.UPDATE_CATEGORIES_SCREEN, {
+                      category,
+                    })
+                  }
+                  style={styles.popupMenuOption}
+                >
                   <AppText>Edit</AppText>
                 </MenuOption>
                 <MenuOption
@@ -145,9 +152,6 @@ const styles = StyleSheet.create({
   },
   popupMenuOption: {
     padding: 8,
-  },
-  text: {
-    padding: 10,
   },
 });
 

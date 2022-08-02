@@ -12,24 +12,26 @@ import SubmitButton from '../components/forms/SubmitButton';
 import Screen from '../components/Screen';
 import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
-import validationSchemaObject from '../config/validationSchemaObject';
 import useApi from '../hooks/useApi';
 import ColorFormField from '../components/forms/ColorFormField';
 import categoryApi from '../api/category';
 
 const validationSchema = Yup.object().shape({
-  name: validationSchemaObject.name,
+  name: Yup.string().min(2).max(255).label('Name'),
   color: Yup.string()
-    .required()
     .test('validColor', 'Color must be valid', validateColor)
     .label('Color'),
 });
 
-function CreateCategoryScreen({ navigation }) {
-  const createCategoryApi = useApi(categoryApi.create);
+function UpdateCategoryScreen({ navigation, route }) {
+  const updateCategoryApi = useApi(categoryApi.update);
+  const { category: outdatedCategory } = route.params;
 
   const handleSubmit = async (category) => {
-    const { ok } = await createCategoryApi.request(category);
+    const { ok } = await updateCategoryApi.request(
+      category,
+      outdatedCategory.id
+    );
 
     if (!ok) return;
 
@@ -39,23 +41,23 @@ function CreateCategoryScreen({ navigation }) {
   return (
     <>
       <ScreenHeader
-        header={constants.CREATE_CATEGORIES_SCREEN}
+        header={constants.UPDATE_CATEGORIES_SCREEN}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
-      <ActivityIndicator visible={createCategoryApi.loading} />
+      <ActivityIndicator visible={updateCategoryApi.loading} />
       <Screen screenHeaderPresent scrollable>
         <Form
           initialValues={{
-            name: '',
-            color: '',
+            name: outdatedCategory.name,
+            color: outdatedCategory.color,
           }}
           values
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
           <ErrorMessage
-            error={createCategoryApi.error}
-            visible={!!createCategoryApi.error}
+            error={updateCategoryApi.error}
+            visible={!!updateCategoryApi.error}
           />
           <FormField name="name" label="Name" autoCorrect={false} />
           <ColorFormField
@@ -64,11 +66,11 @@ function CreateCategoryScreen({ navigation }) {
             autoCapitalize="none"
             autoCorrect={false}
           />
-          <SubmitButton title="Create" />
+          <SubmitButton title="Save" />
         </Form>
       </Screen>
     </>
   );
 }
 
-export default CreateCategoryScreen;
+export default UpdateCategoryScreen;
