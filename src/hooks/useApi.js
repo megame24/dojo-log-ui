@@ -18,7 +18,7 @@ function useApi(apiFunc) {
 
     if (!response.ok) {
       const errorMessage = response.data?.message || constants.UNEXPECTED_ERROR;
-      if (errorMessage.toLowerCase() === 'invalid token') {
+      if (errorMessage.toLowerCase() === constants.INVALID_TOKEN) {
         setSessionExpired(true);
         logout();
       } else {

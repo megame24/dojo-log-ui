@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import validateColor from 'validate-color';
 
@@ -15,12 +14,14 @@ import constants from '../config/constants';
 import useApi from '../hooks/useApi';
 import ColorFormField from '../components/forms/ColorFormField';
 import categoryApi from '../api/category';
+import glossary from '../config/glossary';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(2).max(255).label('Name'),
   color: Yup.string()
     .test('validColor', 'Color must be valid', validateColor)
     .label('Color'),
+  iconName: Yup.string().max(255).label('Icon Name'),
 });
 
 function UpdateCategoryScreen({ navigation, route }) {
@@ -50,6 +51,7 @@ function UpdateCategoryScreen({ navigation, route }) {
           initialValues={{
             name: outdatedCategory.name,
             color: outdatedCategory.color,
+            iconName: outdatedCategory.iconName,
           }}
           values
           onSubmit={handleSubmit}
@@ -65,6 +67,14 @@ function UpdateCategoryScreen({ navigation, route }) {
             label="Color"
             autoCapitalize="none"
             autoCorrect={false}
+          />
+          <FormField
+            name="iconName"
+            label="Icon name"
+            autoCapitalize="none"
+            autoCorrect={false}
+            infoIcon
+            infoIconContent={glossary.CATEGORY_ICON_NAME}
           />
           <SubmitButton title="Save" />
         </Form>

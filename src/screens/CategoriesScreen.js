@@ -28,8 +28,8 @@ function CategoriesScreen({ navigation }) {
   const isFocused = useIsFocused();
 
   const getCategoriesAsync = async () => {
-    const { data } = await getCategoriesApi.request();
-    setCategories(data);
+    const { data, ok } = await getCategoriesApi.request();
+    if (ok) setCategories(data);
   };
 
   useEffect(() => {
@@ -69,11 +69,10 @@ function CategoriesScreen({ navigation }) {
               <AppText style={styles.categoryText}>
                 {capitalize(category.name)}
               </AppText>
-              <View
-                style={[
-                  styles.categoryColor,
-                  { backgroundColor: category.color },
-                ]}
+              <MaterialCommunityIcons
+                name={category.iconName || 'shape'}
+                size={20}
+                color={category.color}
               />
             </View>
             <Menu>
