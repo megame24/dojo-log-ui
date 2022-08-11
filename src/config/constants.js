@@ -14,4 +14,5 @@ export default Object.freeze({
   SETTINGS_TAB: 'Settings',
   UNEXPECTED_ERROR: 'An unexpected error occurred, please try again',
   SESSION_EXPIRED_ERROR: 'Your session has expired, please login to continue',
+  INVALID_TOKEN: 'invalid token',
 });
