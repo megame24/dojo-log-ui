@@ -1,5 +1,11 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
@@ -7,6 +13,7 @@ import AppText from './AppText';
 import InfoModalContext from '../context/infoModalContext';
 
 function InfoModal() {
+  const [showModal, setShowModal] = useState(false);
   const {
     infoModalVisible,
     setInfoModalVisible,
@@ -15,17 +22,51 @@ function InfoModal() {
   } = useContext(InfoModalContext);
 
   const closeModal = () => {
+    setShowModal(false);
     setInfoModalVisible(false);
     setInfoModalContent({});
   };
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (infoModalVisible) {
+      setShowModal(true);
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        easing: Easing.ease,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        easing: Easing.ease,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(({ finished }) => {
+        if (finished) closeModal();
+      });
+    }
+  }, [infoModalVisible]);
 
   return (
     <>
-      {infoModalVisible ? (
+      {showModal ? (
         <>
-          <Pressable style={styles.modalUnderlay} onPress={closeModal} />
-          <View style={styles.modal}>
-            <TouchableOpacity onPress={closeModal}>
+          <Animated.View
+            style={[
+              styles.fullscreen,
+              styles.modalUnderlay,
+              { opacity: fadeAnim },
+            ]}
+          >
+            <Pressable
+              style={styles.fullscreen}
+              onPress={() => setInfoModalVisible(false)}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.modal, { opacity: fadeAnim }]}>
+            <TouchableOpacity onPress={() => setInfoModalVisible(false)}>
               <MaterialCommunityIcons
                 style={styles.close}
                 name="close"
@@ -37,7 +78,7 @@ function InfoModal() {
               {infoModalContent.header}
             </AppText>
             <AppText>{infoModalContent.text}</AppText>
-          </View>
+          </Animated.View>
         </>
       ) : null}
     </>
@@ -67,10 +108,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   modalUnderlay: {
-    width: '100%',
-    height: '100%',
     backgroundColor: colors.borderGray,
     position: 'absolute',
+  },
+  fullscreen: {
+    width: '100%',
+    height: '100%',
   },
   modalHeader: {
     fontWeight: 'bold',
