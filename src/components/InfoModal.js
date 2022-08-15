@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import AppText from './AppText';
@@ -67,10 +67,10 @@ function InfoModal() {
           </Animated.View>
           <Animated.View style={[styles.modal, { opacity: fadeAnim }]}>
             <TouchableOpacity onPress={() => setInfoModalVisible(false)}>
-              <MaterialCommunityIcons
+              <Ionicons
                 style={styles.close}
-                name="close"
-                size={20}
+                name="close-outline"
+                size={25}
                 color={colors.lightGray}
               />
             </TouchableOpacity>

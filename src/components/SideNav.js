@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Pressable } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import useAuth from '../hooks/useAuth';
@@ -19,7 +19,7 @@ function SideNav() {
         </View>
         <View>
           <Pressable onPress={logout}>
-            <MaterialIcons name="logout" size={20} color={colors.red} />
+            <Ionicons name="log-out-outline" size={20} color={colors.red} />
             <AppText style={styles.logout}>Logout</AppText>
           </Pressable>
           <AppText>Version {APP_VERSION}</AppText>
