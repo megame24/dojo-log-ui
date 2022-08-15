@@ -3,11 +3,12 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import AppText from '../components/AppText';
 import Screen from '../components/Screen';
-import { Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import useAuth from '../hooks/useAuth';
 import AuthContext from '../context/authContext';
 import AdminNavigator from './AdminNavigator';
 import constants from '../config/constants';
+import SideNav from '../components/SideNav';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +27,10 @@ function AppNavigator() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false }}>
+    <Drawer.Navigator
+      drawerContent={({ navigation }) => <SideNav navigation={navigation} />}
+      screenOptions={{ headerShown: false }}
+    >
       {user.role.toLowerCase() === 'admin' ? (
         <Drawer.Screen
           name={constants.ADMIN_SCREEN}
