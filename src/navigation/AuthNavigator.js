@@ -12,13 +12,9 @@ import ExpiredSessionContext from '../context/expiredSessionContext';
 const Stack = createNativeStackNavigator();
 
 function AuthNavigator() {
-  const { sessionExpired } = useContext(ExpiredSessionContext);
-
   return (
     <Stack.Navigator
-      initialRouteName={
-        sessionExpired ? constants.LOGIN_SCREEN : constants.SIGNUP_SCREEN
-      }
+      initialRouteName={constants.LOGIN_SCREEN}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name={constants.SIGNUP_SCREEN} component={SignupScreen} />
