@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 
@@ -21,7 +21,7 @@ function FloatingButton({
       {Icon ? (
         <Icon />
       ) : (
-        <MaterialCommunityIcons name="plus" size={25} color={colors.white} />
+        <Ionicons name="add-outline" size={30} color={colors.white} />
       )}
     </TouchableOpacity>
   );

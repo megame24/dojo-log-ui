@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import CategoriesNavigator from './CategoriesNavigator';
@@ -17,14 +17,12 @@ function AdminNavigator() {
           let iconName;
 
           if (route.name === 'Categories') {
-            iconName = 'format-list-bulleted';
+            iconName = 'list-outline';
           } else if (route.name === 'Settings') {
-            iconName = 'cog';
+            iconName = 'settings-outline';
           }
 
-          return (
-            <MaterialCommunityIcons name={iconName} size={size} color={color} />
-          );
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.lightGray,

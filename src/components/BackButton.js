@@ -1,5 +1,5 @@
 import React from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
 import colors from '../config/colors';
@@ -7,9 +7,9 @@ import colors from '../config/colors';
 function BackButton({ onPress, size }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <MaterialCommunityIcons
-        name="chevron-left"
-        size={size || 40}
+      <Ionicons
+        name="chevron-back-outline"
+        size={size || 30}
         color={colors.darkGray}
       />
     </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFormikContext } from 'formik';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 import AppText from '../AppText';
 import AppTextInput from '../AppTextInput';
@@ -35,10 +35,10 @@ function FormField({
         <AppText style={styles.label}>{label}</AppText>
         {infoIcon && (
           <TouchableOpacity onPress={() => infoIconPress(infoIconContent)}>
-            <MaterialCommunityIcons
+            <Ionicons
               style={styles.close}
               name="help-circle-outline"
-              size={15}
+              size={16}
               color={colors.lightGray}
             />
           </TouchableOpacity>

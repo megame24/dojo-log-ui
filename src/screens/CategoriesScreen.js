@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Menu, {
   MenuTrigger,
   MenuOptions,
@@ -69,7 +69,7 @@ function CategoriesScreen({ navigation }) {
               <AppText style={styles.categoryText}>
                 {capitalize(category.name)}
               </AppText>
-              <MaterialCommunityIcons
+              <Ionicons
                 name={category.iconName || 'shape'}
                 size={20}
                 color={category.color}
@@ -77,8 +77,8 @@ function CategoriesScreen({ navigation }) {
             </View>
             <Menu>
               <MenuTrigger>
-                <MaterialCommunityIcons
-                  name="dots-vertical"
+                <Ionicons
+                  name="ellipsis-vertical"
                   size={20}
                   color={colors.darkGray}
                 />
