@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import AppText from '../components/AppText';
 import Screen from '../components/Screen';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable } from 'react-native';
 import useAuth from '../hooks/useAuth';
 import AuthContext from '../context/authContext';
 import AdminNavigator from './AdminNavigator';
@@ -18,6 +18,16 @@ function HomeScreen() {
     <Screen>
       <Pressable onPress={logout}>
         <AppText>Logout</AppText>
+      </Pressable>
+    </Screen>
+  );
+}
+
+function BackScreen({ navigation }) {
+  return (
+    <Screen>
+      <Pressable onPress={() => navigation.goBack()}>
+        <AppText>Back</AppText>
       </Pressable>
     </Screen>
   );
@@ -42,6 +52,7 @@ function AppNavigator() {
           component={HomeScreen}
         />
       )}
+      <Drawer.Screen name={constants.DUMMY_SCREEN} component={BackScreen} />
     </Drawer.Navigator>
   );
 }

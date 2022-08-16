@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import CategoriesNavigator from './CategoriesNavigator';
 import SettingsNavigator from './SettingsNavigator';
 import constants from '../config/constants';
+import Icon from '../components/Icon';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ function AdminNavigator() {
             iconName = 'settings-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.lightGray,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import Menu, {
   MenuTrigger,
   MenuOptions,
@@ -20,6 +19,7 @@ import { capitalize } from '../utility/utilityFunctions';
 import ActivityIndicator from '../components/ActivityIndicator';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import colors from '../config/colors';
+import Icon from '../components/Icon';
 
 function CategoriesScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
@@ -69,19 +69,14 @@ function CategoriesScreen({ navigation }) {
               <AppText style={styles.categoryText}>
                 {capitalize(category.name)}
               </AppText>
-              <Ionicons
+              <Icon
                 name={category.iconName || 'shape'}
-                size={20}
                 color={category.color}
               />
             </View>
             <Menu>
               <MenuTrigger>
-                <Ionicons
-                  name="ellipsis-vertical"
-                  size={20}
-                  color={colors.darkGray}
-                />
+                <Icon name="ellipsis-vertical" />
               </MenuTrigger>
               <MenuOptions
                 customStyles={{ optionsContainer: styles.popupMenuOptions }}

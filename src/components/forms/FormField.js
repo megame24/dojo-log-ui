@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFormikContext } from 'formik';
-import { Ionicons } from '@expo/vector-icons';
 
 import AppText from '../AppText';
 import AppTextInput from '../AppTextInput';
 import ErrorMessage from './ErrorMessage';
 import colors from '../../config/colors';
 import InfoModalContext from '../../context/infoModalContext';
+import Icon from '../Icon';
 
 function FormField({
   label,
@@ -35,8 +35,7 @@ function FormField({
         <AppText style={styles.label}>{label}</AppText>
         {infoIcon && (
           <TouchableOpacity onPress={() => infoIconPress(infoIconContent)}>
-            <Ionicons
-              style={styles.close}
+            <Icon
               name="help-circle-outline"
               size={16}
               color={colors.lightGray}
