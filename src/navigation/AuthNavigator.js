@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignupScreen from '../screens/SignupScreen';
@@ -7,7 +7,6 @@ import constants from '../config/constants';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import VerifyScreen from '../screens/VerifyScreen';
-import ExpiredSessionContext from '../context/expiredSessionContext';
 
 const Stack = createNativeStackNavigator();
 

@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import AppText from './AppText';
 import InfoModalContext from '../context/infoModalContext';
+import Icon from './Icon';
 
 function InfoModal() {
   const [showModal, setShowModal] = useState(false);
@@ -66,13 +66,11 @@ function InfoModal() {
             />
           </Animated.View>
           <Animated.View style={[styles.modal, { opacity: fadeAnim }]}>
-            <TouchableOpacity onPress={() => setInfoModalVisible(false)}>
-              <Ionicons
-                style={styles.close}
-                name="close-outline"
-                size={25}
-                color={colors.lightGray}
-              />
+            <TouchableOpacity
+              style={styles.close}
+              onPress={() => setInfoModalVisible(false)}
+            >
+              <Icon name="close-outline" size={25} color={colors.lightGray} />
             </TouchableOpacity>
             <AppText style={styles.modalHeader}>
               {infoModalContent.header}
@@ -88,8 +86,9 @@ function InfoModal() {
 const styles = StyleSheet.create({
   close: {
     position: 'absolute',
-    top: -10,
-    right: -10,
+    top: 10,
+    right: 10,
+    zIndex: 2,
   },
   modal: {
     position: 'absolute',

@@ -1,12 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import colors from '../config/colors';
+
+import Icon from './Icon';
 
 function HeaderMenu({ onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Ionicons name="menu-outline" size={30} color={colors.darkGray} />
+      <Icon name="menu-outline" size={30} />
     </TouchableOpacity>
   );
 }

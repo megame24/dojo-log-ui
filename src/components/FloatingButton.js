@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
+import Icon from './Icon';
 
 function FloatingButton({
-  Icon,
+  Icon: passedIcon,
   onPress,
   color = colors.secondary,
   size = 50,
@@ -18,10 +18,10 @@ function FloatingButton({
         { backgroundColor: color, width: size, height: size },
       ]}
     >
-      {Icon ? (
-        <Icon />
+      {passedIcon ? (
+        <passedIcon />
       ) : (
-        <Ionicons name="add-outline" size={30} color={colors.white} />
+        <Icon name="add-outline" size={30} color={colors.white} />
       )}
     </TouchableOpacity>
   );
