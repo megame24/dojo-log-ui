@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingHorizontal: 20,
     marginBottom: 20,
   },
 });

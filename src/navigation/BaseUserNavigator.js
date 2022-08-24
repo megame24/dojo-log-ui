@@ -2,22 +2,26 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import colors from '../config/colors';
-import CategoriesNavigator from './CategoriesNavigator';
 import SettingsNavigator from './SettingsNavigator';
 import constants from '../config/constants';
 import Icon from '../components/Icon';
+import LogbooksNavigator from './LogbooksNavigator';
+import RewardsNavigator from './RewardsNavigator';
 
 const Tab = createBottomTabNavigator();
 
-function AdminNavigator() {
+function BaseUserNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        // REFACTOR!!!
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === constants.CATEGORIES_TAB) {
+          if (route.name === constants.LOGBOOKS_TAB) {
             iconName = 'list-outline';
+          } else if (route.name === constants.REWARDS_TAB) {
+            iconName = 'gift-outline';
           } else if (route.name === constants.SETTINGS_TAB) {
             iconName = 'settings-outline';
           }
@@ -29,13 +33,11 @@ function AdminNavigator() {
         headerShown: false,
       })}
     >
-      <Tab.Screen
-        name={constants.CATEGORIES_TAB}
-        component={CategoriesNavigator}
-      />
+      <Tab.Screen name={constants.LOGBOOKS_TAB} component={LogbooksNavigator} />
+      <Tab.Screen name={constants.REWARDS_TAB} component={RewardsNavigator} />
       <Tab.Screen name={constants.SETTINGS_TAB} component={SettingsNavigator} />
     </Tab.Navigator>
   );
 }
 
-export default AdminNavigator;
+export default BaseUserNavigator;

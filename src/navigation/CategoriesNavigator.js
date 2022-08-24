@@ -16,11 +16,11 @@ function CategoriesNavigator() {
         component={CategoriesScreen}
       />
       <Stack.Screen
-        name={constants.CREATE_CATEGORIES_SCREEN}
+        name={constants.CREATE_CATEGORY_SCREEN}
         component={CreateCategoryScreen}
       />
       <Stack.Screen
-        name={constants.UPDATE_CATEGORIES_SCREEN}
+        name={constants.UPDATE_CATEGORY_SCREEN}
         component={UpdateCategoryScreen}
       />
     </Stack.Navigator>

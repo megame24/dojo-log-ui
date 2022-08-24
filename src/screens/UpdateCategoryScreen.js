@@ -42,7 +42,7 @@ function UpdateCategoryScreen({ navigation, route }) {
   return (
     <>
       <ScreenHeader
-        header={constants.UPDATE_CATEGORIES_SCREEN}
+        header={constants.UPDATE_CATEGORY_SCREEN}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={updateCategoryApi.loading} />
