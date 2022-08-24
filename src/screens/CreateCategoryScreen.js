@@ -40,7 +40,7 @@ function CreateCategoryScreen({ navigation }) {
   return (
     <>
       <ScreenHeader
-        header={constants.CREATE_CATEGORIES_SCREEN}
+        header={constants.CREATE_CATEGORY_SCREEN}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={createCategoryApi.loading} />

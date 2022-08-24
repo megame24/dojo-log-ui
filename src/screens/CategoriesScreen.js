@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import Menu, {
-  MenuTrigger,
-  MenuOptions,
-  MenuOption,
-} from 'react-native-popup-menu';
 
 import Screen from '../components/Screen';
 import ScreenHeader from '../components/ScreenHeader';
@@ -14,12 +9,9 @@ import HeaderMenu from '../components/HeaderMenu';
 import constants from '../config/constants';
 import categoryApi from '../api/category';
 import useApi from '../hooks/useApi';
-import AppText from '../components/AppText';
-import { capitalize } from '../utility/utilityFunctions';
 import ActivityIndicator from '../components/ActivityIndicator';
 import ErrorMessage from '../components/forms/ErrorMessage';
-import colors from '../config/colors';
-import Icon from '../components/Icon';
+import CategoryItem from '../components/CategoryItem';
 
 function CategoriesScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
@@ -58,94 +50,38 @@ function CategoriesScreen({ navigation }) {
       <ActivityIndicator
         visible={getCategoriesApi.loading || deleteCategoryApi.loading}
       />
-      <Screen screenHeaderPresent scrollable floatingButtonRoom={80}>
+      <Screen style={styles.screen} screenHeaderPresent>
         <ErrorMessage
           error={getCategoriesApi.error || deleteCategoryApi.error}
-          visible={!!getCategoriesApi.error || deleteCategoryApi.error}
+          visible={!!(getCategoriesApi.error || deleteCategoryApi.error)}
         />
-        {categories.map((category, index) => (
-          <View style={styles.categoryContainer} key={index}>
-            <View style={styles.categoryTextColor}>
-              <AppText style={styles.categoryText}>
-                {capitalize(category.name)}
-              </AppText>
-              <Icon
-                name={category.iconName || 'shape'}
-                color={category.color}
-              />
-            </View>
-            <Menu>
-              <MenuTrigger>
-                <Icon name="ellipsis-vertical" />
-              </MenuTrigger>
-              <MenuOptions
-                customStyles={{ optionsContainer: styles.popupMenuOptions }}
-              >
-                <MenuOption
-                  onSelect={() =>
-                    navigation.navigate(constants.UPDATE_CATEGORIES_SCREEN, {
-                      category,
-                    })
-                  }
-                  style={styles.popupMenuOption}
-                >
-                  <AppText>Edit</AppText>
-                </MenuOption>
-                <MenuOption
-                  onSelect={() => deleteCategory(category.id)}
-                  style={styles.popupMenuOption}
-                >
-                  <AppText>Delete</AppText>
-                </MenuOption>
-              </MenuOptions>
-            </Menu>
-          </View>
-        ))}
+        <FlatList
+          data={categories}
+          contentContainerStyle={styles.flatListContentContainer}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <CategoryItem
+              item={item}
+              navigation={navigation}
+              deleteCategory={deleteCategory}
+            />
+          )}
+        />
       </Screen>
       <FloatingButton
-        onPress={() => navigation.navigate(constants.CREATE_CATEGORIES_SCREEN)}
+        onPress={() => navigation.navigate(constants.CREATE_CATEGORY_SCREEN)}
       />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  categoryContainer: {
-    padding: 10,
-    marginTop: 20,
-    borderRadius: 5,
-    borderColor: colors.borderPrimary,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  screen: {
+    paddingHorizontal: 0,
   },
-  categoryText: {
-    fontWeight: '500',
-    marginRight: 10,
-  },
-  categoryColor: {
-    width: 15,
-    height: 15,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.borderPrimary,
-  },
-  categoryTextColor: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  popupMenuOptions: {
-    width: 120,
-    borderRadius: 5,
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  popupMenuOption: {
-    padding: 8,
+  flatListContentContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 80,
   },
 });
 
