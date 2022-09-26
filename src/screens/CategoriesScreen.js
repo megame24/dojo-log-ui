@@ -25,7 +25,7 @@ function CategoriesScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getCategoriesAsync();
+    if (isFocused) getCategoriesAsync();
   }, [isFocused]);
 
   const deleteCategory = async (categoryId) => {

@@ -3,7 +3,6 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFormikContext } from 'formik';
 
 import AppText from '../AppText';
-import AppTextInput from '../AppTextInput';
 import ErrorMessage from './ErrorMessage';
 import colors from '../../config/colors';
 import InfoModalContext from '../../context/infoModalContext';

@@ -8,5 +8,10 @@ export default {
   red: '#E74C3C',
   borderGray: 'rgba(0,0,0,0.1)',
   borderPrimary: 'rgba(41, 128, 185, 0.1)',
+  primary25Per: 'rgba(41, 128, 185, 0.25)',
+  primary50Per: 'rgba(41, 128, 185, 0.5)',
+  primary75Per: 'rgba(41, 128, 185, 0.75)',
   black: '#000000',
+  gold: '#F1C40F',
+  trophyGray: '#B8B8B8',
 };
