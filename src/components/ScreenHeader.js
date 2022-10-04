@@ -5,9 +5,9 @@ import Constants from 'expo-constants';
 import colors from '../config/colors';
 import AppText from './AppText';
 
-function ScreenHeader({ header, LeftIcon, RightIcon }) {
+function ScreenHeader({ header, style, LeftIcon, RightIcon }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.leftIconContainer}>{LeftIcon && <LeftIcon />}</View>
       <View style={styles.headerContainer}>
         <AppText numberOfLines={1} style={styles.header}>
@@ -34,10 +34,12 @@ const styles = StyleSheet.create({
   },
   leftIconContainer: {
     width: '20%',
-    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   rightIconContainer: {
     width: '20%',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
   headerContainer: {

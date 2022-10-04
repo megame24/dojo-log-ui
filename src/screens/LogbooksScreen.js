@@ -31,7 +31,7 @@ function LogbooksScreen({ navigation }) {
   const [filteredLogbooks, setFilteredLogbooks] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const extractCategories = (logbooks) => {
+  const extractCategories = (logbooks = []) => {
     const categoriesTracker = {};
     const categoriesTemp = [favouritesCategory];
     logbooks.forEach((logbook) => {
@@ -52,8 +52,8 @@ function LogbooksScreen({ navigation }) {
     if (ok) {
       setLogbooks(data);
       setFilteredLogbooks(data);
+      extractCategories(data);
     }
-    extractCategories(data);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function LogbooksScreen({ navigation }) {
 
   const filterLogbooks = (category) => {
     category.active = !category.active; // treat favourites filter differently
-    const filteredLogbooksTemp = logbooks.filter((logbook) => {
+    let filteredLogbooksTemp = logbooks.filter((logbook) => {
       let include = true;
       for (let i = 1; i < categories.length; i++) {
         if (logbook.category.id === categories[i].id && !categories[i].active) {
@@ -74,6 +74,7 @@ function LogbooksScreen({ navigation }) {
       }
       return include;
     });
+    if (!filteredLogbooksTemp.length) filteredLogbooksTemp = [...logbooks];
     setFilteredLogbooks(filteredLogbooksTemp);
   };
 
@@ -92,7 +93,7 @@ function LogbooksScreen({ navigation }) {
           visible={!!getLogbooksApi.error}
         />
         <View>
-          <View style={{ paddingVertical: 15 }}>
+          <View style={{ paddingBottom: 15 }}>
             <FlatList
               data={categories}
               contentContainerStyle={styles.categoriesFlatListContentContainer}
@@ -124,6 +125,7 @@ function LogbooksScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 0,
+    paddingTop: 15,
   },
   logbooksFlatListContentContainer: {
     paddingHorizontal: 20,

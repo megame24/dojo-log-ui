@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import constants from '../config/constants';
 import LogbooksScreen from '../screens/LogbooksScreen';
 import CreateLogbookScreen from '../screens/CreateLogbookScreen';
+import LogbookScreen from '../screens/LogbookScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ function LogbooksNavigator() {
         name={constants.CREATE_LOGBOOK_SCREEN}
         component={CreateLogbookScreen}
       />
+      <Stack.Screen name={constants.LOGBOOK_SCREEN} component={LogbookScreen} />
     </Stack.Navigator>
   );
 }

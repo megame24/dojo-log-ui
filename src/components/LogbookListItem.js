@@ -10,7 +10,9 @@ function LogbookListItem({ item, navigation }) {
   return (
     <View style={styles.logbookContainer}>
       <TouchableOpacity
-        onPress={() => navigation.navigate(constants.CREATE_LOGBOOK_SCREEN)}
+        onPress={() =>
+          navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId: item.id })
+        }
       >
         <AppText style={styles.logbookName}>{item.name}</AppText>
       </TouchableOpacity>
