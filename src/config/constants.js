@@ -21,4 +21,5 @@ export default Object.freeze({
   LOGBOOKS_SCREEN: 'Logbooks screen',
   CREATE_LOGBOOK_SCREEN: 'Create logbook',
   VISIBILITY_PUBLIC: 'public',
+  LOGBOOK_SCREEN: 'Logbook screen',
 });

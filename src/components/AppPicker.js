@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderGray,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   placeholder: {
     color: colors.lightGray,
