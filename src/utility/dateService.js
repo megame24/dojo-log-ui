@@ -35,6 +35,11 @@ const getEndOfYear = (year) => {
   return dayjs().set('year', year).endOf('year').toISOString();
 };
 
+const getDateInUTC = (date) => {
+  date = convertDateStringToDate(date);
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
 export default {
   getDayOfYear,
   getDateFromDayOfYear,
@@ -42,4 +47,5 @@ export default {
   getEndOfMonth,
   getStartOfYear,
   getEndOfYear,
+  getDateInUTC,
 };

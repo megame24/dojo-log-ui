@@ -17,6 +17,7 @@ import logbookApi from '../api/logbook';
 import categoryApi from '../api/category';
 import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
+import storageService from '../utility/storageService';
 
 const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -49,6 +50,7 @@ function CreateLogbookScreen({ navigation }) {
 
     if (!ok) return;
 
+    storageService.removeItem(constants.LOGBOOK_DATA_CACHE);
     navigation.navigate(constants.LOGBOOKS_SCREEN);
   };
   return (
