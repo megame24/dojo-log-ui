@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import BackButton from '../components/BackButton';
 import FloatingButton from '../components/FloatingButton';
-import HeaderMenu from '../components/HeaderMenu';
 import Icon from '../components/Icon';
 import Screen from '../components/Screen';
 import ScreenHeader from '../components/ScreenHeader';
@@ -13,7 +12,6 @@ import { useIsFocused } from '@react-navigation/native';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
 import AppText from '../components/AppText';
-import DropdownFormField from '../components/forms/DropdownFormField';
 import Dropdown from '../components/Dropdown';
 import storageService from '../utility/storageService';
 import MonthToDateHeatMap from '../components/MonthToDateHeatMap';
@@ -63,7 +61,9 @@ function LogbookScreen({ navigation, route }) {
   };
 
   const generateYearOptions = async (earliestLogbookYear) => {
-    let yearOptionsTemp = await storageService.getItem('yearOptions');
+    let yearOptionsTemp = await storageService.getItem(
+      constants.YEAR_OPTIONS_CACHE
+    );
     if (yearOptionsTemp) {
       yearOptionsTemp = JSON.parse(yearOptionsTemp);
       setYearOptions(yearOptionsTemp);
@@ -79,7 +79,7 @@ function LogbookScreen({ navigation, route }) {
       setYearOptions(yearOptionsTemp);
       yearOptionsTemp = JSON.stringify(yearOptionsTemp);
       await storageService.storeItem({
-        key: 'yearOptions',
+        key: constants.YEAR_OPTIONS_CACHE,
         value: yearOptionsTemp,
       });
     }

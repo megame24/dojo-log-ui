@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  TouchableHighlight,
-} from 'react-native';
+import { StyleSheet, Pressable, View, TouchableHighlight } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import Menu, {
-  MenuTrigger,
-  MenuOptions,
-  MenuOption,
-} from 'react-native-popup-menu';
 import colors from '../config/colors';
 
 import AppText from './AppText';
@@ -103,7 +91,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderGray,
     position: 'absolute',
-    // flex: 1,
     top: 39,
     maxHeight: 150,
     padding: 0,

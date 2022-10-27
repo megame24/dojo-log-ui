@@ -72,7 +72,6 @@ function MonthToDateHeatMap({ heatMapData, month, year }) {
       }
     });
     setHeatMap(heatMapTemp);
-    console.log(heatMapTemp);
   }, [month, year]);
 
   return (

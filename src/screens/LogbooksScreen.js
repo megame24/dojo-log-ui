@@ -14,6 +14,8 @@ import ErrorMessage from '../components/forms/ErrorMessage';
 import colors from '../config/colors';
 import LogbookListItem from '../components/LogbookListItem';
 import CategoryListItem from '../components/CategoryListItem';
+import storageService from '../utility/storageService';
+import dateService from '../utility/dateService';
 
 const favouritesCategory = {
   name: 'favourites',
@@ -46,13 +48,38 @@ function LogbooksScreen({ navigation }) {
   };
 
   const getLogbooksAsync = async () => {
-    setFilteredLogbooks([]);
-    setCategories([]);
-    const { data, ok } = await getLogbooksApi.request(user.id);
-    if (ok) {
-      setLogbooks(data);
-      setFilteredLogbooks(data);
-      extractCategories(data);
+    const todaysDateInUTC = dateService.getDateInUTC(new Date());
+    let cachedLogbooksData = await storageService.getItem(
+      constants.LOGBOOK_DATA_CACHE
+    );
+    let cachedLogbooksDataValid = false;
+    if (cachedLogbooksData) {
+      cachedLogbooksData = JSON.parse(cachedLogbooksData);
+      if (cachedLogbooksData.date === todaysDateInUTC)
+        cachedLogbooksDataValid = true;
+    }
+    if (cachedLogbooksDataValid) {
+      const cachedLogbooks = cachedLogbooksData.logbooks;
+      setLogbooks(cachedLogbooks);
+      setFilteredLogbooks(cachedLogbooks);
+      extractCategories(cachedLogbooks);
+    } else {
+      setFilteredLogbooks([]);
+      setCategories([]);
+      const { data, ok } = await getLogbooksApi.request(user.id);
+      if (ok) {
+        setLogbooks(data);
+        setFilteredLogbooks(data);
+        extractCategories(data);
+        const cacheData = {
+          logbooks: data,
+          date: todaysDateInUTC,
+        };
+        await storageService.storeItem({
+          key: constants.LOGBOOK_DATA_CACHE,
+          value: JSON.stringify(cacheData),
+        });
+      }
     }
   };
 
