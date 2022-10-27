@@ -19,7 +19,27 @@ const convertDateStringToDate = (date) => {
   return date;
 };
 
+const getStartOfMonth = (month) => {
+  return dayjs().set('month', month).startOf('month').toISOString();
+};
+
+const getEndOfMonth = (month) => {
+  return dayjs().set('month', month).endOf('month').toISOString();
+};
+
+const getStartOfYear = (year) => {
+  return dayjs().set('year', year).startOf('year').toISOString();
+};
+
+const getEndOfYear = (year) => {
+  return dayjs().set('year', year).endOf('year').toISOString();
+};
+
 export default {
   getDayOfYear,
   getDateFromDayOfYear,
+  getStartOfMonth,
+  getEndOfMonth,
+  getStartOfYear,
+  getEndOfYear,
 };

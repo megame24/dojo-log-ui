@@ -14,4 +14,5 @@ export default {
   black: '#000000',
   gold: '#F1C40F',
   trophyGray: '#B8B8B8',
+  floatingButtonGray: '#999999',
 };

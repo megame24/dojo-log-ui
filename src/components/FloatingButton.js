@@ -5,10 +5,11 @@ import colors from '../config/colors';
 import Icon from './Icon';
 
 function FloatingButton({
-  Icon: passedIcon,
+  Icon: PassedIcon,
   onPress,
   color = colors.secondary,
   size = 50,
+  style,
 }) {
   return (
     <TouchableOpacity
@@ -16,10 +17,11 @@ function FloatingButton({
       style={[
         styles.container,
         { backgroundColor: color, width: size, height: size },
+        style,
       ]}
     >
-      {passedIcon ? (
-        <passedIcon />
+      {PassedIcon ? (
+        <PassedIcon />
       ) : (
         <Icon name="add-outline" size={30} color={colors.white} />
       )}

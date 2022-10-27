@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import colors from '../config/colors';
+import constants from '../config/constants';
 import dateService from '../utility/dateService';
 import AppText from './AppText';
 import Icon from './Icon';
 
+export const getHeatMapCellColorFromDuration = (duration) => {
+  if (!duration) return colors.borderGray;
+  const durationSplit = duration.split(' ');
+  const hours = durationSplit[0] ? durationSplit[0].split('h')[0] : 0;
+  const minutes = durationSplit[1] ? durationSplit[1].split('m')[0] : 0;
+  const totalHours = +hours + +minutes / 60;
+  let color = colors.primary25Per;
+  if (totalHours >= 2) color = colors.primary50Per;
+  if (totalHours >= 6) color = colors.primary75Per;
+  if (totalHours >= 12) color = colors.primary;
+  return color;
+};
+
 function WeekToDateHeatMap({ heatMapData }) {
   const [heatMap, setHeatMap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  const days = constants.days;
 
-  const getHeatMapCellColorFromDuration = (duration) => {
-    if (!duration) return colors.borderGray;
-    const durationSplit = duration.split(' ');
-    const hours = durationSplit[0] ? durationSplit[0].split('h')[0] : 0;
-    const minutes = durationSplit[1] ? durationSplit[1].split('m')[0] : 0;
-    const totalHours = +hours + +minutes / 60;
-    let color = colors.primary25Per;
-    if (totalHours >= 2) color = colors.primary50Per;
-    if (totalHours >= 6) color = colors.primary75Per;
-    if (totalHours >= 12) color = colors.primary;
-    return color;
-  };
-
+  // THERE'S A MEMORY LEAK HERE, REFACTOR THIS CODE TO INCLUDE CLEAN UP IF NECESSARY!!!!
+  // Update, it's a 12am time bug!!!
   useEffect(() => {
     const today = new Date();
     const dayOfYear = dateService.getDayOfYear(today);
