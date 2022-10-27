@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Pressable, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+  View,
+  ScrollView,
+  TouchableHighlight,
+} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import Menu, {
   MenuTrigger,
   MenuOptions,
@@ -11,6 +19,7 @@ import AppText from './AppText';
 import Icon from './Icon';
 
 const Dropdown = ({
+  topLevelContainerStyle,
   inputContainerStyle,
   inputContentStyle,
   onBlur,
@@ -18,66 +27,59 @@ const Dropdown = ({
   placeholder,
   options,
   value,
+  disabled,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
-  console.log(value);
   return (
-    <View style={[inputContainerStyle, { alignItems: 'center' }]}>
-      {/* <Menu>
-        <MenuTrigger>
-          <View
-            style={[styles.container, inputContainerStyle]}
-            // onPress={() => setShowOptions(!showOptions)}
-          >
-            {value?.label ? (
-              <AppText>{value.label}</AppText>
-            ) : (
-              <AppText style={styles.placeholder}>{placeholder}</AppText>
-            )}
-            <Icon name="caret-down" />
-          </View>
-        </MenuTrigger>
-        <MenuOptions
-          // customStyles={{ optionsContainer: styles.popupMenuOptions }}
-        >
-          {options.map((option) => (
-            <MenuOption
-              key={option.value}
-              onSelect={() => onSelectItem(option)}
-            >
-              <AppText>{option.label}</AppText>
-            </MenuOption>
-          ))}
-        </MenuOptions>
-      </Menu> */}
-
+    <View
+      style={[
+        topLevelContainerStyle,
+        inputContainerStyle,
+        { alignItems: 'center' },
+      ]}
+    >
       <Pressable
         style={[styles.container, inputContainerStyle]}
-        onPress={() => setShowOptions(!showOptions)}
+        onPress={!disabled ? () => setShowOptions(!showOptions) : null}
       >
         {value?.label ? (
-          <AppText style={inputContentStyle}>{value.label}</AppText>
+          <AppText
+            style={[
+              inputContentStyle,
+              { color: disabled ? colors.lightGray : colors.black },
+            ]}
+          >
+            {value.label}
+          </AppText>
         ) : (
           <AppText style={[styles.placeholder, inputContentStyle]}>
             {placeholder}
           </AppText>
         )}
-        <Icon name="caret-down" />
+        <Icon
+          style={{ color: disabled ? colors.lightGray : colors.black }}
+          name="caret-down"
+        />
       </Pressable>
       {showOptions && (
-        <View style={[inputContainerStyle, styles.optionsContainer]}>
-          {options.map((option) => (
-            <TouchableOpacity
-              key={option.value}
+        <FlatList
+          data={options}
+          style={[inputContainerStyle, styles.optionsContainer]}
+          keyExtractor={(item) => item.value}
+          renderItem={({ item }) => (
+            <TouchableHighlight
+              underlayColor={colors.borderGray}
+              style={styles.option}
+              key={item.value}
               onPress={() => {
                 setShowOptions(false);
-                onSelectItem(option);
+                onSelectItem(item);
               }}
             >
-              <AppText style={inputContentStyle}>{option.label}</AppText>
-            </TouchableOpacity>
-          ))}
-        </View>
+              <AppText style={inputContentStyle}>{item.label}</AppText>
+            </TouchableHighlight>
+          )}
+        />
       )}
     </View>
   );
@@ -86,8 +88,7 @@ const Dropdown = ({
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    // marginTop: 5,
-    borderRadius: 10,
+    borderRadius: 5,
     borderWidth: 1,
     borderColor: colors.borderGray,
     flexDirection: 'row',
@@ -102,9 +103,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderGray,
     position: 'absolute',
+    // flex: 1,
     top: 39,
-    // right: 0,
-    zIndex: 2,
+    maxHeight: 150,
+    padding: 0,
+    paddingVertical: 5,
+  },
+  option: {
+    padding: 5,
   },
 });
 
