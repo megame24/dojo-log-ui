@@ -6,7 +6,7 @@ import dateService from '../utility/dateService';
 import AppText from './AppText';
 import Icon from './Icon';
 
-export const getHeatMapCellColorFromDuration = (duration) => {
+export const getHeatmapCellColorFromDuration = (duration) => {
   if (!duration) return colors.borderGray;
   const durationSplit = duration.split(' ');
   const hours = durationSplit[0] ? durationSplit[0].split('h')[0] : 0;
@@ -19,8 +19,8 @@ export const getHeatMapCellColorFromDuration = (duration) => {
   return color;
 };
 
-function WeekToDateHeatMap({ heatMapData }) {
-  const [heatMap, setHeatMap] = useState({});
+function WeekToDateHeatmap({ heatmapData }) {
+  const [heatmap, setHeatmap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
   const days = constants.days;
 
@@ -33,63 +33,63 @@ function WeekToDateHeatMap({ heatMapData }) {
 
     for (let i = 6; i >= 0; i--) {
       const currentDayOfYear = dayOfYear - i;
-      heatMap[currentDayOfYear] = {};
+      heatmap[currentDayOfYear] = {};
       if (i % 2 === 0) {
-        heatMap[currentDayOfYear].day =
+        heatmap[currentDayOfYear].day =
           days[
             new Date(
               dateService.getDateFromDayOfYear(currentDayOfYear)
             ).getDay()
           ];
       }
-      if (i === 0) heatMap[currentDayOfYear].day = 'Today';
+      if (i === 0) heatmap[currentDayOfYear].day = 'Today';
       daysArr.push(currentDayOfYear);
     }
     setDaysOfYear(daysArr);
 
-    Object.keys(heatMapData).forEach((key) => {
-      const heatMapElement = heatMapData[key];
-      if (heatMapElement.goal) {
-        heatMap[key].hasGoal = true;
-        heatMap[key].goalAchieved = heatMapElement.goal.achieved;
+    Object.keys(heatmapData).forEach((key) => {
+      const heatmapElement = heatmapData[key];
+      if (heatmapElement.goal) {
+        heatmap[key].hasGoal = true;
+        heatmap[key].goalAchieved = heatmapElement.goal.achieved;
       }
-      if (heatMapElement.logs) {
-        heatMap[key].color = getHeatMapCellColorFromDuration(
-          heatMapElement.logs.totalDurationOfWork
+      if (heatmapElement.logs) {
+        heatmap[key].color = getHeatmapCellColorFromDuration(
+          heatmapElement.logs.totalDurationOfWork
         );
       }
     });
-    setHeatMap(heatMap);
+    setHeatmap(heatmap);
   }, []);
 
   return (
     <View style={styles.container}>
       {daysOfYear.map((day) => (
-        <View style={styles.heatMapContainer} key={day}>
-          {!heatMap[day].hasGoal && (
+        <View style={styles.heatmapContainer} key={day}>
+          {!heatmap[day].hasGoal && (
             <View
               style={[
-                styles.heatMapCell,
+                styles.heatmapCell,
                 {
-                  backgroundColor: heatMap[day].color
-                    ? heatMap[day].color
+                  backgroundColor: heatmap[day].color
+                    ? heatmap[day].color
                     : colors.borderGray,
                 },
               ]}
             />
           )}
-          {heatMap[day].hasGoal && (
-            <View style={styles.heatMapCell}>
+          {heatmap[day].hasGoal && (
+            <View style={styles.heatmapCell}>
               <Icon
                 size={25}
                 name="trophy-sharp"
                 color={
-                  heatMap[day].goalAchieved ? colors.gold : colors.trophyGray
+                  heatmap[day].goalAchieved ? colors.gold : colors.trophyGray
                 }
               />
             </View>
           )}
-          <AppText style={styles.day}>{heatMap[day].day}</AppText>
+          <AppText style={styles.day}>{heatmap[day].day}</AppText>
         </View>
       ))}
     </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  heatMapCell: {
+  heatmapCell: {
     width: 25,
     height: 25,
     borderRadius: 5,
@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginRight: 8,
   },
-  heatMapContainer: {
+  heatmapContainer: {
     alignItems: 'center',
   },
 });
 
-export default WeekToDateHeatMap;
+export default WeekToDateHeatmap;

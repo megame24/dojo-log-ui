@@ -14,10 +14,10 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import AppText from '../components/AppText';
 import Dropdown from '../components/Dropdown';
 import storageService from '../utility/storageService';
-import MonthToDateHeatMap from '../components/MonthToDateHeatMap';
+import MonthToDateHeatmap from '../components/MonthToDateHeatmap';
 import dateService from '../utility/dateService';
 import colors from '../config/colors';
-import HeatMapIntensitySample from '../components/HeatMapIntensitySample';
+import HeatmapIntensitySample from '../components/HeatmapIntensitySample';
 
 function LogbookScreen({ navigation, route }) {
   const defaultDuration = { label: 'Monthly', value: 'Monthly' };
@@ -40,6 +40,7 @@ function LogbookScreen({ navigation, route }) {
   const [yearOption, setYearOption] = useState(defaultYearOption);
   const [monthOption, setMonthOption] = useState(defaultMonthOption);
   const [monthOptionDisabled, setMonthOptionDisabled] = useState(false);
+  const [heatmapReady, setHeatmapReady] = useState(false);
   const isFocused = useIsFocused();
 
   months.forEach((month, i) => {
@@ -50,7 +51,7 @@ function LogbookScreen({ navigation, route }) {
   });
 
   const getLogbookAsync = async (startDate = '', endDate = '') => {
-    // for start, fetch just for the month, then next time they touch controls, fetch for the year!!
+    setHeatmapReady(false);
     setLogbook({});
     const { data, ok } = await getLogbookApi.request(
       logbookId,
@@ -61,6 +62,23 @@ function LogbookScreen({ navigation, route }) {
   };
 
   const generateYearOptions = async (earliestLogbookYear) => {
+    let yearOptionsTemp = [];
+    const finalYear = currentYear + 5;
+    for (let i = earliestLogbookYear; i <= finalYear; i++) {
+      yearOptionsTemp.push({
+        label: i,
+        value: i,
+      });
+    }
+    setYearOptions(yearOptionsTemp);
+    yearOptionsTemp = JSON.stringify(yearOptionsTemp);
+    await storageService.storeItem({
+      key: constants.YEAR_OPTIONS_CACHE,
+      value: yearOptionsTemp,
+    });
+  };
+
+  const getEarliestLogbookYearAsync = async () => {
     let yearOptionsTemp = await storageService.getItem(
       constants.YEAR_OPTIONS_CACHE
     );
@@ -68,34 +86,19 @@ function LogbookScreen({ navigation, route }) {
       yearOptionsTemp = JSON.parse(yearOptionsTemp);
       setYearOptions(yearOptionsTemp);
     } else {
-      yearOptionsTemp = [];
-      const finalYear = currentYear + 5;
-      for (let i = earliestLogbookYear; i <= finalYear; i++) {
-        yearOptionsTemp.push({
-          label: i,
-          value: i,
-        });
-      }
-      setYearOptions(yearOptionsTemp);
-      yearOptionsTemp = JSON.stringify(yearOptionsTemp);
-      await storageService.storeItem({
-        key: constants.YEAR_OPTIONS_CACHE,
-        value: yearOptionsTemp,
-      });
+      const { data, ok } = await getEarliestLogbookYearApi.request();
+      if (ok) await generateYearOptions(data);
     }
-  };
-
-  const getEarliestLogbookYearAsync = async () => {
-    const { data, ok } = await getEarliestLogbookYearApi.request();
-    if (ok) await generateYearOptions(data);
   };
 
   useEffect(() => {
     if (isFocused) {
-      getLogbookAsync();
+      const startDate = dateService.getStartOfYear(yearOption.value);
+      const endDate = dateService.getEndOfYear(yearOption.value);
+      getLogbookAsync(startDate, endDate);
       getEarliestLogbookYearAsync();
     }
-  }, [isFocused]);
+  }, [yearOption.value]);
 
   const selectDuration = (durationOption) => {
     setDuration(durationOption);
@@ -104,11 +107,8 @@ function LogbookScreen({ navigation, route }) {
     else setMonthOptionDisabled(true);
   };
 
-  const selectYear = (yearOption) => {
-    setYearOption(yearOption);
-    const startDate = dateService.getStartOfYear(yearOption.value);
-    const endDate = dateService.getEndOfYear(yearOption.value);
-    getLogbookAsync(startDate, endDate);
+  const selectYear = (option) => {
+    setYearOption(option);
   };
 
   return (
@@ -123,16 +123,16 @@ function LogbookScreen({ navigation, route }) {
           />
         )}
       />
-      <ActivityIndicator visible={getLogbookApi.loading} />
+      <ActivityIndicator visible={getLogbookApi.loading || !heatmapReady} />
       {/*when loading show nothing here */}
       <Screen style={styles.screen} screenHeaderPresent>
         <ErrorMessage
           error={getLogbookApi.error}
           visible={!!getLogbookApi.error}
         />
-        <AppText>{logbook.description}</AppText>
-        <View style={{ alignItems: 'center' }}>
-          <View style={{ alignItems: 'flex-end', marginRight: 22 }}>
+        <View style={styles.container}>
+          <AppText>{logbook.description}</AppText>
+          <View style={styles.optionsHeatmapContainer}>
             <View style={styles.optionsContainer}>
               <Dropdown
                 onSelectItem={(option) => selectDuration(option)}
@@ -144,7 +144,7 @@ function LogbookScreen({ navigation, route }) {
                 value={duration}
                 topLevelContainerStyle={{ marginRight: 8 }}
                 inputContainerStyle={{ width: 80, padding: 5 }}
-                inputContentStyle={{ fontSize: 12 }}
+                inputContentStyle={styles.optionInputContentStyle}
               />
               <Dropdown
                 disabled={monthOptionDisabled}
@@ -154,7 +154,7 @@ function LogbookScreen({ navigation, route }) {
                 value={monthOption}
                 topLevelContainerStyle={{ marginRight: 8 }}
                 inputContainerStyle={{ width: 60, padding: 5 }}
-                inputContentStyle={{ fontSize: 12 }}
+                inputContentStyle={styles.optionInputContentStyle}
               />
               <Dropdown
                 onSelectItem={(option) => selectYear(option)}
@@ -163,25 +163,24 @@ function LogbookScreen({ navigation, route }) {
                 value={yearOption}
                 topLevelContainerStyle={{ marginRight: 4 }}
                 inputContainerStyle={{ width: 65, padding: 5 }}
-                inputContentStyle={{ fontSize: 12 }}
+                inputContentStyle={styles.optionInputContentStyle}
               />
             </View>
             {logbook?.heatmap && (
               // use factory pattern here!!! for week, month and year
-              <MonthToDateHeatMap
-                heatMapData={logbook.heatmap}
+              <MonthToDateHeatmap
+                heatmapData={logbook.heatmap}
                 month={monthOption.value}
                 year={yearOption.value}
+                setHeatmapReady={setHeatmapReady}
               />
             )}
-            <HeatMapIntensitySample
-              style={{ alignSelf: 'flex-start', marginLeft: 35 }}
-            />
+            <HeatmapIntensitySample style={styles.heatmapIntensitySample} />
           </View>
         </View>
       </Screen>
       <FloatingButton
-        style={{ bottom: 95, right: 40 }}
+        style={styles.editButton}
         size={35}
         color={colors.floatingButtonGray}
         onPress={() => navigation.navigate(constants.CREATE_LOGBOOK_SCREEN)}
@@ -197,8 +196,26 @@ function LogbookScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  heatmapIntensitySample: {
+    alignSelf: 'flex-start',
+    marginLeft: 35,
+  },
+  editButton: {
+    bottom: 95,
+    right: 40,
+  },
+  optionInputContentStyle: {
+    fontSize: 12,
+  },
+  container: {
+    alignItems: 'center',
+  },
   screen: {
     paddingTop: 15,
+  },
+  optionsHeatmapContainer: {
+    alignItems: 'flex-end',
+    marginRight: 22,
   },
   optionsContainer: {
     flexDirection: 'row',

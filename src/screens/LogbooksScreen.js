@@ -50,7 +50,7 @@ function LogbooksScreen({ navigation }) {
   const getLogbooksAsync = async () => {
     const todaysDateInUTC = dateService.getDateInUTC(new Date());
     let cachedLogbooksData = await storageService.getItem(
-      constants.LOGBOOK_DATA_CACHE
+      constants.LOGBOOKS_DATA_CACHE
     );
     let cachedLogbooksDataValid = false;
     if (cachedLogbooksData) {
@@ -76,7 +76,7 @@ function LogbooksScreen({ navigation }) {
           date: todaysDateInUTC,
         };
         await storageService.storeItem({
-          key: constants.LOGBOOK_DATA_CACHE,
+          key: constants.LOGBOOKS_DATA_CACHE,
           value: JSON.stringify(cacheData),
         });
       }
@@ -86,8 +86,6 @@ function LogbooksScreen({ navigation }) {
   useEffect(() => {
     if (isFocused) getLogbooksAsync();
   }, [isFocused]);
-
-  // update logbook anytime a log is created!!!!
 
   const filterLogbooks = (category) => {
     category.active = !category.active; // treat favourites filter differently
@@ -120,7 +118,7 @@ function LogbooksScreen({ navigation }) {
           visible={!!getLogbooksApi.error}
         />
         <View>
-          <View style={{ paddingBottom: 15 }}>
+          <View style={styles.filterListContainer}>
             <FlatList
               data={categories}
               contentContainerStyle={styles.categoriesFlatListContentContainer}
@@ -161,6 +159,7 @@ const styles = StyleSheet.create({
   categoriesFlatListContentContainer: {
     paddingHorizontal: 20,
   },
+  filterListContainer: { paddingBottom: 15 },
 });
 
 export default LogbooksScreen;
