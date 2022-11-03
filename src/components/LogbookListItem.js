@@ -4,7 +4,7 @@ import colors from '../config/colors';
 import constants from '../config/constants';
 import AppText from './AppText';
 import Icon from './Icon';
-import WeekToDateHeatMap from './WeekToDateHeatMap';
+import WeekToDateHeatmap from './WeekToDateHeatmap';
 
 function LogbookListItem({ item, navigation }) {
   return (
@@ -19,8 +19,8 @@ function LogbookListItem({ item, navigation }) {
       <AppText style={styles.logbookDesc} numberOfLines={1}>
         {item.description}
       </AppText>
-      <View style={styles.heatMapIconContainer}>
-        <WeekToDateHeatMap heatMapData={item.heatMap} />
+      <View style={styles.heatmapIconContainer}>
+        <WeekToDateHeatmap heatmapData={item.heatmap} />
         <Icon
           size={25}
           name={item.category?.iconName || 'shape'}
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   logbookDesc: {
     marginBottom: 15,
   },
-  heatMapIconContainer: {
+  heatmapIconContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

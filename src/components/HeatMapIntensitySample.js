@@ -3,13 +3,13 @@ import { View, StyleSheet } from 'react-native';
 import colors from '../config/colors';
 import AppText from './AppText';
 
-function HeatMapIntensitySample({ style }) {
+function HeatmapIntensitySample({ style }) {
   return (
     <View style={[styles.container, style]}>
       <AppText style={styles.text}>Less</AppText>
       <View
         style={[
-          styles.heatMapCell,
+          styles.heatmapCell,
           {
             backgroundColor: colors.borderGray,
           },
@@ -17,7 +17,7 @@ function HeatMapIntensitySample({ style }) {
       />
       <View
         style={[
-          styles.heatMapCell,
+          styles.heatmapCell,
           {
             backgroundColor: colors.primary25Per,
           },
@@ -25,7 +25,7 @@ function HeatMapIntensitySample({ style }) {
       />
       <View
         style={[
-          styles.heatMapCell,
+          styles.heatmapCell,
           {
             backgroundColor: colors.primary50Per,
           },
@@ -33,7 +33,7 @@ function HeatMapIntensitySample({ style }) {
       />
       <View
         style={[
-          styles.heatMapCell,
+          styles.heatmapCell,
           {
             backgroundColor: colors.primary75Per,
           },
@@ -41,7 +41,7 @@ function HeatMapIntensitySample({ style }) {
       />
       <View
         style={[
-          styles.heatMapCell,
+          styles.heatmapCell,
           {
             backgroundColor: colors.primary,
             marginRight: 10,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginRight: 10,
   },
-  heatMapCell: {
+  heatmapCell: {
     width: 15,
     height: 15,
     borderRadius: 3,
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeatMapIntensitySample;
+export default HeatmapIntensitySample;

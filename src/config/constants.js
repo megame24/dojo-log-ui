@@ -37,6 +37,7 @@ export default Object.freeze({
     'Nov',
     'Dec',
   ],
-  LOGBOOK_DATA_CACHE: 'logbooksData',
+  LOGBOOKS_DATA_CACHE: 'logbooksData',
+  LOGBOOK_DATA_CACHE: 'logbookData',
   YEAR_OPTIONS_CACHE: 'yearOptions',
 });

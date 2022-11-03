@@ -50,7 +50,7 @@ function CreateLogbookScreen({ navigation }) {
 
     if (!ok) return;
 
-    storageService.removeItem(constants.LOGBOOK_DATA_CACHE);
+    storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
     navigation.navigate(constants.LOGBOOKS_SCREEN);
   };
   return (
