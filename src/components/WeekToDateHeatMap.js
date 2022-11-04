@@ -38,7 +38,10 @@ function WeekToDateHeatmap({ heatmapData }) {
         heatmap[currentDayOfYear].day =
           days[
             new Date(
-              dateService.getDateFromDayOfYear(currentDayOfYear)
+              dateService.getDateFromDayOfYear(
+                today.getFullYear(),
+                currentDayOfYear
+              )
             ).getDay()
           ];
       }
@@ -47,8 +50,9 @@ function WeekToDateHeatmap({ heatmapData }) {
     }
     setDaysOfYear(daysArr);
 
-    Object.keys(heatmapData).forEach((key) => {
+    Object.keys(heatmap).forEach((key) => {
       const heatmapElement = heatmapData[key];
+      if (!heatmapElement) return;
       if (heatmapElement.goal) {
         heatmap[key].hasGoal = true;
         heatmap[key].goalAchieved = heatmapElement.goal.achieved;

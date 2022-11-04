@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import BackButton from '../components/BackButton';
 import FloatingButton from '../components/FloatingButton';
 import Icon from '../components/Icon';
@@ -14,10 +14,13 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import AppText from '../components/AppText';
 import Dropdown from '../components/Dropdown';
 import storageService from '../utility/storageService';
-import MonthToDateHeatmap from '../components/MonthToDateHeatmap';
+import MonthlyHeatmap from '../components/MonthlyHeatmap';
 import dateService from '../utility/dateService';
 import colors from '../config/colors';
 import HeatmapIntensitySample from '../components/HeatmapIntensitySample';
+import YearlyHeatmap from '../components/YearlyHeatmap';
+
+// ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 
 function LogbookScreen({ navigation, route }) {
   const defaultDuration = { label: 'Monthly', value: 'Monthly' };
@@ -125,60 +128,80 @@ function LogbookScreen({ navigation, route }) {
       />
       <ActivityIndicator visible={getLogbookApi.loading || !heatmapReady} />
       {/*when loading show nothing here */}
-      <Screen style={styles.screen} screenHeaderPresent>
-        <ErrorMessage
-          error={getLogbookApi.error}
-          visible={!!getLogbookApi.error}
-        />
-        <View style={styles.container}>
-          <AppText>{logbook.description}</AppText>
-          <View style={styles.optionsHeatmapContainer}>
-            <View style={styles.optionsContainer}>
-              <Dropdown
-                onSelectItem={(option) => selectDuration(option)}
-                options={[
-                  defaultDuration,
-                  { label: 'Yearly', value: 'Yearly' },
-                ]}
-                placeholder="Duration"
-                value={duration}
-                topLevelContainerStyle={{ marginRight: 8 }}
-                inputContainerStyle={{ width: 80, padding: 5 }}
-                inputContentStyle={styles.optionInputContentStyle}
-              />
-              <Dropdown
-                disabled={monthOptionDisabled}
-                onSelectItem={(option) => setMonthOption(option)}
-                options={monthsOptions}
-                placeholder="Month"
-                value={monthOption}
-                topLevelContainerStyle={{ marginRight: 8 }}
-                inputContainerStyle={{ width: 60, padding: 5 }}
-                inputContentStyle={styles.optionInputContentStyle}
-              />
-              <Dropdown
-                onSelectItem={(option) => selectYear(option)}
-                options={yearOptions}
-                placeholder="Year"
-                value={yearOption}
-                topLevelContainerStyle={{ marginRight: 4 }}
-                inputContainerStyle={{ width: 65, padding: 5 }}
-                inputContentStyle={styles.optionInputContentStyle}
-              />
+      <FlatList
+        style={{ flexGrow: 1 }}
+        nestedScrollEnabled
+        data={[{ key: 1 }]}
+        keyExtractor={(item) => item.key}
+        renderItem={({ item }) => (
+          <Screen
+            style={styles.screen}
+            screenHeaderPresent
+            floatingButtonRoom={120}
+          >
+            <ErrorMessage
+              error={getLogbookApi.error}
+              visible={!!getLogbookApi.error}
+            />
+            <AppText>{logbook.description}</AppText>
+            <View style={styles.container}>
+              <View style={styles.optionsHeatmapContainer}>
+                <View style={styles.optionsContainer}>
+                  <Dropdown
+                    onSelectItem={(option) => selectDuration(option)}
+                    options={[
+                      defaultDuration,
+                      { label: 'Yearly', value: 'Yearly' },
+                    ]}
+                    placeholder="Duration"
+                    value={duration}
+                    topLevelContainerStyle={{ marginRight: 8 }}
+                    inputContainerStyle={{ width: 80, padding: 5 }}
+                    inputContentStyle={styles.optionInputContentStyle}
+                  />
+                  <Dropdown
+                    disabled={monthOptionDisabled}
+                    onSelectItem={(option) => setMonthOption(option)}
+                    options={monthsOptions}
+                    placeholder="Month"
+                    value={monthOption}
+                    topLevelContainerStyle={{ marginRight: 8 }}
+                    inputContainerStyle={{ width: 60, padding: 5 }}
+                    inputContentStyle={styles.optionInputContentStyle}
+                  />
+                  <Dropdown
+                    onSelectItem={(option) => selectYear(option)}
+                    options={yearOptions}
+                    placeholder="Year"
+                    value={yearOption}
+                    topLevelContainerStyle={{ marginRight: 4 }}
+                    inputContainerStyle={{ width: 65, padding: 5 }}
+                    inputContentStyle={styles.optionInputContentStyle}
+                  />
+                </View>
+                {logbook?.heatmap && duration.value === defaultDuration.value && (
+                  // use factory pattern here!!! for week, month and year
+                  <MonthlyHeatmap
+                    heatmapData={logbook.heatmap}
+                    month={monthOption.value}
+                    year={yearOption.value}
+                    setHeatmapReady={setHeatmapReady}
+                  />
+                )}
+                {logbook?.heatmap &&
+                  duration.value !== defaultDuration.value && (
+                    <YearlyHeatmap
+                      heatmapData={logbook.heatmap}
+                      year={yearOption.value}
+                      setHeatmapReady={setHeatmapReady}
+                    />
+                  )}
+                <HeatmapIntensitySample style={styles.heatmapIntensitySample} />
+              </View>
             </View>
-            {logbook?.heatmap && (
-              // use factory pattern here!!! for week, month and year
-              <MonthToDateHeatmap
-                heatmapData={logbook.heatmap}
-                month={monthOption.value}
-                year={yearOption.value}
-                setHeatmapReady={setHeatmapReady}
-              />
-            )}
-            <HeatmapIntensitySample style={styles.heatmapIntensitySample} />
-          </View>
-        </View>
-      </Screen>
+          </Screen>
+        )}
+      />
       <FloatingButton
         style={styles.editButton}
         size={35}
