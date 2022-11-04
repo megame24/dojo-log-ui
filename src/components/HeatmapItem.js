@@ -3,7 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import colors from '../config/colors';
 import Icon from './Icon';
 
-function HeatmapItemData({ heatmapItemData, heatmapCellStyle }) {
+function HeatmapItemData({
+  heatmapItemData,
+  trophySize = 25,
+  todayMarkSize = 35,
+  heatmapCellStyle,
+}) {
   return (
     <View style={styles.container}>
       {!heatmapItemData.inactive && !heatmapItemData.hasGoal && (
@@ -21,7 +26,7 @@ function HeatmapItemData({ heatmapItemData, heatmapCellStyle }) {
       {!heatmapItemData.inactive && heatmapItemData.hasGoal && (
         <View style={heatmapCellStyle}>
           <Icon
-            size={25}
+            size={trophySize}
             name="trophy-sharp"
             color={
               heatmapItemData.goalAchieved ? colors.gold : colors.trophyGray
@@ -32,7 +37,7 @@ function HeatmapItemData({ heatmapItemData, heatmapCellStyle }) {
       {!heatmapItemData.inactive && heatmapItemData.isToday && (
         <Icon
           style={{ position: 'absolute' }}
-          size={35}
+          size={todayMarkSize}
           name="scan-outline"
           color={colors.mediumGray}
         />

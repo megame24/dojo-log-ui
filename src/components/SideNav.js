@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../config/colors';
 import constants from '../config/constants';
 import useAuth from '../hooks/useAuth';
+import storageService from '../utility/storageService';
 import AppText from './AppText';
 import Screen from './Screen';
 import SideNavItem from './SideNavItem';
@@ -66,7 +67,11 @@ function SideNav({ navigation }) {
             iconColor={colors.red}
             text="Logout"
             iconName="log-out-outline"
-            onPress={logout}
+            onPress={() => {
+              logout();
+              // convert to clear cache!!!
+              storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
+            }}
           />
           <AppText style={styles.version}>Version {APP_VERSION}</AppText>
         </View>

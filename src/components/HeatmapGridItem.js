@@ -9,14 +9,23 @@ import colors from '../config/colors';
 import AppText from './AppText';
 import HeatmapItem from './HeatmapItem';
 
-function HeatmapGridItem({ heatmapItemData, allowMenu = false }) {
+function HeatmapGridItem({
+  heatmapItemData,
+  monthStyle,
+  dayStyle,
+  heatmapCellStyle,
+  allowMenu = false,
+  trophySize,
+  todayMarkSize,
+}) {
   return (
     <View style={styles.heatmapParentContainer}>
       {heatmapItemData.month && (
         <AppText
           style={[
             styles.month,
-            { opacity: heatmapItemData.monthVisible ? 1 : 0 },
+            monthStyle,
+            { opacity: heatmapItemData.monthVisible ? 1 : 0, width: 25 },
           ]}
         >
           {heatmapItemData.month}
@@ -24,15 +33,19 @@ function HeatmapGridItem({ heatmapItemData, allowMenu = false }) {
       )}
       <View style={styles.heatmapContainer}>
         {heatmapItemData.day && (
-          <AppText style={styles.day}>{heatmapItemData.day}</AppText>
+          <AppText style={[styles.day, dayStyle]}>
+            {heatmapItemData.day}
+          </AppText>
         )}
-        {heatmapItemData.inactive && <View style={styles.heatmapCell} />}
+        {heatmapItemData.inactive && (
+          <View style={[styles.heatmapCell, heatmapCellStyle]} />
+        )}
         {allowMenu ? (
           <Menu>
             <MenuTrigger>
               <HeatmapItem
                 heatmapItemData={heatmapItemData}
-                heatmapCellStyle={styles.heatmapCell}
+                heatmapCellStyle={[styles.heatmapCell, heatmapCellStyle]}
               />
             </MenuTrigger>
             <MenuOptions
@@ -75,7 +88,9 @@ function HeatmapGridItem({ heatmapItemData, allowMenu = false }) {
         ) : (
           <HeatmapItem
             heatmapItemData={heatmapItemData}
-            heatmapCellStyle={styles.heatmapCell}
+            heatmapCellStyle={[styles.heatmapCell, heatmapCellStyle]}
+            trophySize={trophySize}
+            todayMarkSize={todayMarkSize}
           />
         )}
       </View>
@@ -105,7 +120,7 @@ const styles = StyleSheet.create({
   },
   month: {
     fontSize: 12,
-    marginRight: 10,
+    marginRight: 5,
   },
   popupMenuOptions: {
     width: 'auto',

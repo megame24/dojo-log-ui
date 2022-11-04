@@ -11,6 +11,7 @@ const AppTextInput = React.forwardRef(
         ref={ref}
         {...otherProps}
         style={[defaultStyle.text, inputStyle]}
+        underlineColorAndroid="transparent"
       />
     </View>
   )

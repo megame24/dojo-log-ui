@@ -10,8 +10,8 @@ const getDayOfYear = (date) => {
   return dayOfYear;
 };
 
-const getDateFromDayOfYear = (dayOfYear) => {
-  return dayjs().dayOfYear(dayOfYear);
+const getDateFromDayOfYear = (year, dayOfYear) => {
+  return dayjs().set('year', year).dayOfYear(dayOfYear);
 };
 
 const convertDateStringToDate = (date) => {
@@ -19,12 +19,20 @@ const convertDateStringToDate = (date) => {
   return date;
 };
 
-const getStartOfMonth = (month) => {
-  return dayjs().set('month', month).startOf('month').toISOString();
+const getStartOfMonth = (year, month) => {
+  return dayjs()
+    .set('year', year)
+    .set('month', month)
+    .startOf('month')
+    .toISOString();
 };
 
-const getEndOfMonth = (month) => {
-  return dayjs().set('month', month).endOf('month').toISOString();
+const getEndOfMonth = (year, month) => {
+  return dayjs()
+    .set('year', year)
+    .set('month', month)
+    .endOf('month')
+    .toISOString();
 };
 
 const getStartOfYear = (year) => {

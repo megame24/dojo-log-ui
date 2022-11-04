@@ -53,7 +53,8 @@ const Dropdown = ({
         <FlatList
           data={options}
           style={[inputContainerStyle, styles.optionsContainer]}
-          keyExtractor={(item) => item.value}
+          listKey={(item, index) => `_key${index.toString()}`}
+          keyExtractor={(item, index) => `_key${index.toString()}`}
           renderItem={({ item }) => (
             <TouchableHighlight
               underlayColor={colors.borderGray}

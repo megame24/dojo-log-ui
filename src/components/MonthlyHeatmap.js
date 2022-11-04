@@ -10,13 +10,13 @@ function MonthToDateHeatmap({ heatmapData, month, year, setHeatmapReady }) {
   const [daysOfYear, setDaysOfYear] = useState([]);
 
   useEffect(() => {
-    const startOfMonth = dateService.getStartOfMonth(month);
+    const startOfMonth = dateService.getStartOfMonth(year, month);
     const startOfMonthDayValue = new Date(startOfMonth).getDay();
     const startOfMonthDayOfYear = dateService.getDayOfYear(startOfMonth);
     const startOfCalendarMonthDayOfYear =
-      startOfMonthDayOfYear - startOfMonthDayValue;
+      startOfMonthDayOfYear - startOfMonthDayValue; // offset the days that comes before the start of month to get the month calendar visual
 
-    const endOfMonth = dateService.getEndOfMonth(month);
+    const endOfMonth = dateService.getEndOfMonth(year, month);
     const endOfMonthDayOfYear = dateService.getDayOfYear(endOfMonth);
 
     const today = new Date();
@@ -30,7 +30,9 @@ function MonthToDateHeatmap({ heatmapData, month, year, setHeatmapReady }) {
       daysArr.push(i);
       heatmapTemp[i] = {};
       const day =
-        constants.days[new Date(dateService.getDateFromDayOfYear(i)).getDay()];
+        constants.days[
+          new Date(dateService.getDateFromDayOfYear(year, i)).getDay()
+        ];
       if (day === constants.days[0]) {
         heatmapTemp[i].month = constants.months[month];
         if (monthTracker === 2) heatmapTemp[i].monthVisible = true;
