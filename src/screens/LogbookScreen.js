@@ -101,7 +101,7 @@ function LogbookScreen({ navigation, route }) {
       getLogbookAsync(startDate, endDate);
       getEarliestLogbookYearAsync();
     }
-  }, [yearOption.value]);
+  }, [yearOption.value, isFocused]);
 
   const selectDuration = (durationOption) => {
     setDuration(durationOption);
@@ -206,7 +206,16 @@ function LogbookScreen({ navigation, route }) {
         style={styles.editButton}
         size={35}
         color={colors.floatingButtonGray}
-        onPress={() => navigation.navigate(constants.CREATE_LOGBOOK_SCREEN)}
+        onPress={() =>
+          navigation.navigate(constants.UPDATE_LOGBOOK_SCREEN, {
+            logbook: {
+              id: logbook.id,
+              name: logbook.name,
+              category: logbook.category,
+              description: logbook.description,
+            },
+          })
+        }
         Icon={() => (
           <Icon name="pen" isFontAwesome size={15} color={colors.white} />
         )}
