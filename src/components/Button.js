@@ -6,6 +6,7 @@ function Button({
   children,
   style,
   color = colors.primary,
+  outline = false,
   onPress,
   ...otherProps
 }) {
@@ -14,12 +15,19 @@ function Button({
       {...otherProps}
       style={[
         styles.container,
-        { backgroundColor: color, opacity: otherProps.disabled ? 0.5 : 1 },
+        {
+          backgroundColor: outline ? colors.white : color,
+          borderWidth: 1,
+          borderColor: color,
+          opacity: otherProps.disabled ? 0.5 : 1,
+        },
         style,
       ]}
       onPress={onPress}
     >
-      <Text style={styles.text}>{children}</Text>
+      <Text style={[styles.text, { color: outline ? color : colors.white }]}>
+        {children}
+      </Text>
     </TouchableOpacity>
   );
 }

@@ -19,7 +19,7 @@ import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import storageService from '../utility/storageService';
 
-const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
   category: Yup.object().required().nullable().label('Category'),
   description: Yup.string().max(500).label('Description'),
@@ -39,19 +39,21 @@ function CreateLogbookScreen({ navigation }) {
     getCategoriesAsync();
   }, []);
 
-  const handleSubmit = async (categoryDetails) => {
-    const category = {
-      name: categoryDetails.name,
-      categoryId: categoryDetails.category.id,
+  const handleSubmit = async (logbookDetails) => {
+    const logbook = {
+      name: logbookDetails.name,
+      categoryId: logbookDetails.category.id,
       visibility: constants.VISIBILITY_PUBLIC, // default to public for now
-      description: categoryDetails.description,
+      description: logbookDetails.description,
     };
-    const { ok } = await createLogbookApi.request(category);
+    const { ok, data } = await createLogbookApi.request(logbook);
 
     if (!ok) return;
 
     storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
-    navigation.navigate(constants.LOGBOOKS_SCREEN);
+    navigation.navigate(constants.LOGBOOK_SCREEN, {
+      logbookId: data.logbookId,
+    });
   };
   return (
     <>
@@ -59,7 +61,9 @@ function CreateLogbookScreen({ navigation }) {
         header={constants.CREATE_LOGBOOK_SCREEN}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
-      <ActivityIndicator visible={createLogbookApi.loading} />
+      <ActivityIndicator
+        visible={createLogbookApi.loading || getCategoriesApi.loading}
+      />
       <Screen screenHeaderPresent scrollable>
         <Form
           initialValues={{
