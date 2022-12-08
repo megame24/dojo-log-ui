@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import useApi from '../hooks/useApi';
@@ -20,9 +20,7 @@ import storageService from '../utility/storageService';
 import Icon from '../components/Icon';
 import colors from '../config/colors';
 import AppText from '../components/AppText';
-import InfoModalContext from '../context/infoModalContext';
 import CustomModal from '../components/CustomModal';
-import glossary from '../config/glossary';
 import Button from '../components/Button';
 
 function UpdateLogbookScreen({ navigation, route }) {

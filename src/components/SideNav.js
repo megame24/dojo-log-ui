@@ -17,7 +17,8 @@ function SideNav({ navigation }) {
 
   useEffect(() => {
     const splitName = user.name.split(' ');
-    setInitials(`${splitName[0][0]}${splitName[1][0]}`.toLocaleUpperCase());
+    const initials = splitName[0][0] + (splitName[1] ? splitName[1][0] : '');
+    setInitials(initials.toLocaleUpperCase());
   }, [user.name]);
 
   return (

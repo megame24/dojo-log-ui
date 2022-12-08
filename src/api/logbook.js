@@ -15,6 +15,9 @@ const getEarliestLogbookYear = () => api.get('/logbooks/earliestLogbookYear');
 
 const deleteLogbook = (logbookId) => api.delete(`/logbooks/${logbookId}`);
 
+const createLog = (logbookId, log) =>
+  api.post(`/logbooks/${logbookId}/logs`, log);
+
 export default {
   create,
   getLogbooks,
@@ -22,4 +25,5 @@ export default {
   getEarliestLogbookYear,
   update,
   deleteLogbook,
+  createLog,
 };

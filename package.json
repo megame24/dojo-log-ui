@@ -45,7 +45,9 @@
     "react-native-screens": "~3.11.1",
     "react-native-web": "0.17.7",
     "validate-color": "^2.2.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-document-picker": "~10.2.1",
+    "expo-file-system": "~14.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

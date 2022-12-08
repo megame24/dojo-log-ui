@@ -19,6 +19,9 @@ import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import storageService from '../utility/storageService';
 
+// add a disabled dropdown with "public" pre-selected with info explaining that private logbooks
+// are coming soon to a town near you
+
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
   category: Yup.object().required().nullable().label('Category'),

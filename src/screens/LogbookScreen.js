@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+
 import BackButton from '../components/BackButton';
 import FloatingButton from '../components/FloatingButton';
 import Icon from '../components/Icon';
@@ -19,6 +20,7 @@ import dateService from '../utility/dateService';
 import colors from '../config/colors';
 import HeatmapIntensitySample from '../components/HeatmapIntensitySample';
 import YearlyHeatmap from '../components/YearlyHeatmap';
+import LogbookAddOptionsOverlay from '../components/LogbookAddOptionsOverlay';
 
 // ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 
@@ -44,6 +46,7 @@ function LogbookScreen({ navigation, route }) {
   const [monthOption, setMonthOption] = useState(defaultMonthOption);
   const [monthOptionDisabled, setMonthOptionDisabled] = useState(false);
   const [heatmapReady, setHeatmapReady] = useState(false);
+  const [showAddOptions, setShowAddOptions] = useState(false);
   const isFocused = useIsFocused();
 
   months.forEach((month, i) => {
@@ -202,26 +205,34 @@ function LogbookScreen({ navigation, route }) {
           </Screen>
         )}
       />
-      <FloatingButton
-        style={styles.editButton}
-        size={35}
-        color={colors.floatingButtonGray}
-        onPress={() =>
-          navigation.navigate(constants.UPDATE_LOGBOOK_SCREEN, {
-            logbook: {
-              id: logbook.id,
-              name: logbook.name,
-              category: logbook.category,
-              description: logbook.description,
-            },
-          })
-        }
-        Icon={() => (
-          <Icon name="pen" isFontAwesome size={15} color={colors.white} />
-        )}
-      />
-      <FloatingButton
-        onPress={() => navigation.navigate(constants.CREATE_LOGBOOK_SCREEN)}
+      {!showAddOptions && (
+        <>
+          <FloatingButton
+            style={styles.editButton}
+            size={35}
+            color={colors.floatingButtonGray}
+            onPress={() =>
+              navigation.navigate(constants.UPDATE_LOGBOOK_SCREEN, {
+                logbook: {
+                  id: logbook.id,
+                  name: logbook.name,
+                  category: logbook.category,
+                  description: logbook.description,
+                },
+              })
+            }
+            Icon={() => (
+              <Icon name="pen" isFontAwesome size={15} color={colors.white} />
+            )}
+          />
+          <FloatingButton onPress={() => setShowAddOptions(true)} />
+        </>
+      )}
+      <LogbookAddOptionsOverlay
+        showAddOptions={showAddOptions}
+        setShowAddOptions={setShowAddOptions}
+        navigation={navigation}
+        logbookId={logbookId}
       />
     </>
   );
