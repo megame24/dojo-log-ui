@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Animated,
   Pressable,
   TouchableOpacity,
-  Easing,
 } from 'react-native';
 
 import colors from '../config/colors';
+import useFadeAnimation from '../hooks/useFadeAnimation';
 import Icon from './Icon';
 
 function CustomModal({
@@ -16,39 +16,16 @@ function CustomModal({
   setInfoModalContent = () => {},
   children,
 }) {
-  const [showModal, setShowModal] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
   const closeModal = () => {
-    setShowModal(false);
     setModalVisible(false);
     setInfoModalContent({});
   };
 
-  useEffect(() => {
-    if (modalVisible) {
-      setShowModal(true);
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        easing: Easing.ease,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        easing: Easing.ease,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(({ finished }) => {
-        if (finished) closeModal();
-      });
-    }
-  }, [modalVisible]);
+  const { fadeAnim, showElement } = useFadeAnimation(modalVisible, closeModal);
 
   return (
     <>
-      {showModal ? (
+      {showElement ? (
         <>
           <Animated.View
             style={[

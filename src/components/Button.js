@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import colors from '../config/colors';
 
 function Button({
@@ -8,6 +8,8 @@ function Button({
   color = colors.primary,
   outline = false,
   onPress,
+  subText,
+  Icon,
   ...otherProps
 }) {
   return (
@@ -25,9 +27,23 @@ function Button({
       ]}
       onPress={onPress}
     >
-      <Text style={[styles.text, { color: outline ? color : colors.white }]}>
-        {children}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {Icon && (
+          <View style={{ marginRight: 10 }}>
+            <Icon />
+          </View>
+        )}
+        <Text style={[styles.text, { color: outline ? color : colors.white }]}>
+          {children}
+        </Text>
+      </View>
+      {subText && (
+        <Text
+          style={[styles.subText, { color: outline ? color : colors.white }]}
+        >
+          {subText}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }
@@ -45,6 +61,10 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  subText: {
+    color: colors.white,
+    fontSize: 14,
   },
 });
 

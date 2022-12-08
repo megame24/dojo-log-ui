@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import colors from '../config/colors';
+import AppText from './AppText';
 import Icon from './Icon';
 
 function FloatingButton({
@@ -10,22 +11,29 @@ function FloatingButton({
   color = colors.secondary,
   size = 50,
   style,
+  label,
 }) {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        styles.container,
-        { backgroundColor: color, width: size, height: size },
-        style,
-      ]}
-    >
-      {PassedIcon ? (
-        <PassedIcon />
-      ) : (
-        <Icon name="add-outline" size={30} color={colors.white} />
+    <View style={[styles.container, style]}>
+      {label && (
+        <View style={styles.labelContainer}>
+          <AppText style={{ color: colors.white }}>{label}</AppText>
+        </View>
       )}
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[
+          styles.buttonContainer,
+          { backgroundColor: color, width: size, height: size },
+        ]}
+      >
+        {PassedIcon ? (
+          <PassedIcon />
+        ) : (
+          <Icon name="add-outline" size={30} color={colors.white} />
+        )}
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -34,7 +42,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
-    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 25,
@@ -43,6 +54,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 4,
+  },
+  labelContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    backgroundColor: colors.mediumGray,
+    marginRight: 20,
+    borderRadius: 5,
   },
 });
 

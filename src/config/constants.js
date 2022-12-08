@@ -41,4 +41,5 @@ export default Object.freeze({
   LOGBOOK_DATA_CACHE: 'logbookData',
   YEAR_OPTIONS_CACHE: 'yearOptions',
   UPDATE_LOGBOOK_SCREEN: 'Update logbook',
+  CREATE_LOG_SCREEN: 'Create log',
 });
