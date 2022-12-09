@@ -51,7 +51,7 @@ function UpdateLogbookScreen({ navigation, route }) {
 
     if (!ok) return;
 
-    storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
+    await storageService.clearCache();
     navigation.navigate(constants.LOGBOOK_SCREEN, {
       logbookId: logbook.id,
     });
@@ -62,7 +62,7 @@ function UpdateLogbookScreen({ navigation, route }) {
 
     if (!ok) return;
 
-    storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
+    await storageService.clearCache();
     navigation.navigate(constants.LOGBOOKS_SCREEN);
   };
 

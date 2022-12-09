@@ -14,6 +14,7 @@ import DurationOfWorkFormField from '../components/forms/DurationOfWorkFormField
 import logbookApi from '../api/logbook';
 import useApi from '../hooks/useApi';
 import ProofOfWorkFormField from '../components/forms/ProofOfWorkFormField';
+import storageService from '../utility/storageService';
 
 const validationSchema = Yup.object().shape({
   message: Yup.string().max(500).required().label('Message'),
@@ -47,7 +48,12 @@ function CreateLogScreen({ route, navigation }) {
     const { ok } = await createLogApi.request(logbookId, logFormData);
 
     if (!ok) return;
-
+    await storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${
+        constants.LOGBOOK_DATA_CACHE
+      }_${logbookId}_${new Date().getFullYear()}`,
+    ]);
     navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
   };
 

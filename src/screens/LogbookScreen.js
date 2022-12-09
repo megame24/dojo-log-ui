@@ -57,14 +57,39 @@ function LogbookScreen({ navigation, route }) {
   });
 
   const getLogbookAsync = async (startDate = '', endDate = '') => {
-    setHeatmapReady(false);
-    setLogbook({});
-    const { data, ok } = await getLogbookApi.request(
-      logbookId,
-      startDate,
-      endDate
-    );
-    if (ok) setLogbook(data);
+    const todaysDateInUTC = dateService.getDateInUTC(new Date());
+    const cacheKey = `${constants.LOGBOOK_DATA_CACHE}_${logbookId}_${yearOption.value}`;
+    let cachedLogbookData = await storageService.getItem(cacheKey);
+    let cachedLogbookDataValid = false;
+    if (cachedLogbookData) {
+      cachedLogbookData = JSON.parse(cachedLogbookData);
+      if (cachedLogbookData.date === todaysDateInUTC)
+        cachedLogbookDataValid = true;
+    }
+    if (cachedLogbookDataValid) {
+      const cachedLogbooks = cachedLogbookData.logbook;
+      setLogbook({});
+      setLogbook(cachedLogbooks);
+    } else {
+      setHeatmapReady(false);
+      setLogbook({});
+      const { data, ok } = await getLogbookApi.request(
+        logbookId,
+        startDate,
+        endDate
+      );
+      if (ok) {
+        setLogbook(data);
+        const cacheData = {
+          logbook: data,
+          date: todaysDateInUTC,
+        };
+        await storageService.storeItem({
+          key: cacheKey,
+          value: JSON.stringify(cacheData),
+        });
+      }
+    }
   };
 
   const generateYearOptions = async (earliestLogbookYear) => {
@@ -136,7 +161,7 @@ function LogbookScreen({ navigation, route }) {
         nestedScrollEnabled
         data={[{ key: 1 }]}
         keyExtractor={(item) => item.key}
-        renderItem={({ item }) => (
+        renderItem={() => (
           <Screen
             style={styles.screen}
             screenHeaderPresent
