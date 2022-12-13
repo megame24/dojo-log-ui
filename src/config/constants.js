@@ -42,4 +42,6 @@ export default Object.freeze({
   YEAR_OPTIONS_CACHE: 'yearOptions',
   UPDATE_LOGBOOK_SCREEN: 'Update logbook',
   CREATE_LOG_SCREEN: 'Create log',
+  REWARDS_SCREEN: 'Rewards screen',
+  CREATE_REWARD_SCREEN: 'Create reward',
 });

@@ -68,6 +68,7 @@ function LogbookScreen({ navigation, route }) {
     }
     if (cachedLogbookDataValid) {
       const cachedLogbooks = cachedLogbookData.logbook;
+      setHeatmapReady(false);
       setLogbook({});
       setLogbook(cachedLogbooks);
     } else {
