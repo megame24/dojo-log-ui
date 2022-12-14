@@ -208,15 +208,16 @@ function LogbookScreen({ navigation, route }) {
                     inputContentStyle={styles.optionInputContentStyle}
                   />
                 </View>
-                {logbook?.heatmap && duration.value === defaultDuration.value && (
-                  // use factory pattern here!!! for week, month and year
-                  <MonthlyHeatmap
-                    heatmapData={logbook.heatmap}
-                    month={monthOption.value}
-                    year={yearOption.value}
-                    setHeatmapReady={setHeatmapReady}
-                  />
-                )}
+                {logbook?.heatmap &&
+                  duration.value === defaultDuration.value && (
+                    // use factory pattern here!!! for week, month and year
+                    <MonthlyHeatmap
+                      heatmapData={logbook.heatmap}
+                      month={monthOption.value}
+                      year={yearOption.value}
+                      setHeatmapReady={setHeatmapReady}
+                    />
+                  )}
                 {logbook?.heatmap &&
                   duration.value !== defaultDuration.value && (
                     <YearlyHeatmap

@@ -33,7 +33,6 @@ const validationSchema = Yup.object().shape({
 });
 
 function CreateLogScreen({ route, navigation }) {
-  const [fileData, setFileData] = useState({});
   const [file, setFile] = useState(null);
   const createLogApi = useApi(logbookApi.createLog);
 
@@ -43,7 +42,16 @@ function CreateLogScreen({ route, navigation }) {
     const logFormData = new FormData();
     logFormData.append('message', logDetails.message);
     logFormData.append('durationOfWork', logDetails.durationOfWork);
-    logFormData.append('file', file, fileData.name);
+    if (file)
+      logFormData.append(
+        'file',
+        {
+          uri: file.uri,
+          name: file.name,
+          type: file.mimeType,
+        },
+        file.name
+      );
 
     const { ok } = await createLogApi.request(logbookId, logFormData);
 
@@ -58,7 +66,6 @@ function CreateLogScreen({ route, navigation }) {
   };
 
   const deleteFile = () => {
-    setFileData({});
     setFile(null);
   };
 
@@ -88,8 +95,7 @@ function CreateLogScreen({ route, navigation }) {
           <FormField name="message" label="Message" autoCorrect />
           <DurationOfWorkFormField />
           <ProofOfWorkFormField
-            fileData={fileData}
-            setFileData={setFileData}
+            file={file}
             setFile={setFile}
             deleteFile={deleteFile}
           />

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
 import Constants from 'expo-constants';
 
 import AppText from './AppText';
@@ -10,9 +9,8 @@ import ErrorMessage from './forms/ErrorMessage';
 import Icon from './Icon';
 import colors from '../config/colors';
 
-function ImageUpload({ style, fileData, setFileData, setFile, deleteFile }) {
+function ImageUpload({ style, imageData, setImageData, deleteImage }) {
   const [fileSizeLimitError, setFileSizeLimitError] = useState('');
-  const [imageUri, setImageUri] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -38,24 +36,23 @@ function ImageUpload({ style, fileData, setFileData, setFile, deleteFile }) {
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 0.5,
+        quality: 0.2,
       });
-      console.log(result);
+      const asset = result.assets[0];
 
-      if (!result.cancelled) {
-        // setFileData(result);
-        setImageUri(result.uri);
+      if (!result.canceled) {
+        if (asset.fileSize > 5000000) {
+          setFileSizeLimitError('File size limit exceeded');
+          return;
+        }
+        if (!asset.fileName) {
+          const imageUriArr = asset.uri.split('/');
+          asset.fileName = imageUriArr[imageUriArr.length - 1];
 
-        // investigate how to make this work!!!
-        // const response = await fetch(result.uri);
-        // const blob = await response.blob();
-        // console.log(blob)
-
-        // I don't think this works as expected
-        // const content = await FileSystem.readAsStringAsync(result.uri, {
-        //   encoding: 'base64',
-        // });
-        // setFile(content);
+          const imageNameArr = asset.fileName.split('.');
+          asset.mimeType = imageNameArr[imageNameArr.length - 1];
+        }
+        setImageData(asset);
       }
     } catch (error) {
       console.log(error); // handle better
@@ -64,24 +61,24 @@ function ImageUpload({ style, fileData, setFileData, setFile, deleteFile }) {
 
   return (
     <View style={style}>
-      {/* {fileData?.name && (
+      {imageData && (
         <View style={styles.fileContainer}>
           <View style={styles.fileNameIcon}>
-            <Icon name="document" color={colors.primary} />
+            <Image
+              source={{ uri: imageData.uri }}
+              style={{ width: 40, height: 40 }}
+            />
             <AppText style={styles.fileName} numberOfLines={1}>
-              {fileData.name}
+              {imageData.fileName}
             </AppText>
           </View>
           <TouchableOpacity
-            onPress={deleteFile}
+            onPress={deleteImage}
             style={styles.fileDeleteContainer}
           >
             <AppText style={styles.fileDelete}>Delete</AppText>
           </TouchableOpacity>
         </View>
-      )} */}
-      {!!imageUri && (
-        <Image source={{ uri: imageUri }} style={{ width: 50, height: 50 }} />
       )}
       <Button
         outline
@@ -108,8 +105,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  fileNameIcon: { width: '80%', flexDirection: 'row' },
+  fileNameIcon: { width: '80%', flexDirection: 'row', alignItems: 'center' },
   fileName: { marginLeft: 10, width: '85%' },
   fileDelete: { color: colors.primary, textAlign: 'right' },
   fileDeleteContainer: { width: '20%' },

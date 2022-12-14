@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
 
 import AppText from './AppText';
 import Button from './Button';
@@ -9,7 +8,7 @@ import ErrorMessage from './forms/ErrorMessage';
 import Icon from './Icon';
 import colors from '../config/colors';
 
-function FileUpload({ style, fileData, setFileData, setFile, deleteFile }) {
+function FileUpload({ style, file, setFile, deleteFile }) {
   const [fileSizeLimitError, setFileSizeLimitError] = useState('');
 
   const pickDocument = async () => {
@@ -25,17 +24,7 @@ function FileUpload({ style, fileData, setFileData, setFile, deleteFile }) {
           setFileSizeLimitError('File size limit exceeded');
           return;
         }
-        setFileData(result);
-
-        // investigate how to make this work!!!
-        // const response = await fetch(result.uri);
-        // const blob = await response.blob();
-
-        // I don't think this works as expected
-        const content = await FileSystem.readAsStringAsync(result.uri, {
-          encoding: 'base64',
-        });
-        setFile(content);
+        setFile(result);
       }
     } catch (error) {
       console.log(error); // handle better
@@ -44,12 +33,12 @@ function FileUpload({ style, fileData, setFileData, setFile, deleteFile }) {
 
   return (
     <View style={style}>
-      {fileData?.name && (
+      {file?.name && (
         <View style={styles.fileContainer}>
           <View style={styles.fileNameIcon}>
             <Icon name="document" color={colors.primary} />
             <AppText style={styles.fileName} numberOfLines={1}>
-              {fileData.name}
+              {file.name}
             </AppText>
           </View>
           <TouchableOpacity
