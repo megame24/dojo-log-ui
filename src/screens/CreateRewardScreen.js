@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 
@@ -14,7 +14,7 @@ import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
-import ImageUpload from '../components/ImageUpload';
+import ImageUploadFormField from '../components/forms/ImageUploadFormField';
 
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -22,18 +22,34 @@ export const validationSchema = Yup.object().shape({
 });
 
 function CreateRewardScreen({ navigation }) {
+  const [imageData, setImageData] = useState(null);
   const createRewardApi = useApi(rewardApi.create);
 
   const handleSubmit = async (rewardDetails) => {
-    const logbook = {
-      name: rewardDetails.name,
-      description: rewardDetails.description,
-    };
-    const { ok } = await createRewardApi.request(logbook);
+    const rewardFormData = new FormData();
+    rewardFormData.append('name', rewardDetails.name);
+    rewardFormData.append('description', rewardDetails.description);
+    if (imageData) {
+      rewardFormData.append(
+        'image',
+        {
+          uri: imageData.uri,
+          name: imageData.fileName,
+          type: `image/${imageData.mimeType}`,
+        },
+        imageData.filename
+      );
+    }
+
+    const { ok } = await createRewardApi.request(rewardFormData);
 
     if (!ok) return;
 
     navigation.navigate(constants.REWARDS_SCREEN);
+  };
+
+  const deleteImage = () => {
+    setImageData(null);
   };
 
   return (
@@ -65,7 +81,11 @@ function CreateRewardScreen({ navigation }) {
             multiline
             autoCorrect
           />
-          <ImageUpload />
+          <ImageUploadFormField
+            imageData={imageData}
+            setImageData={setImageData}
+            deleteImage={deleteImage}
+          />
           <SubmitButton title="Create" />
         </Form>
       </Screen>

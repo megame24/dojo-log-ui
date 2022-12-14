@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
 import ErrorMessage from '../components/forms/ErrorMessage';

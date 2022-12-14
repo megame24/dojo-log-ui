@@ -7,7 +7,7 @@ import AppText from '../AppText';
 import FileUpload from '../FileUpload';
 import Icon from '../Icon';
 
-function ProofOfWorkFormField({ fileData, setFileData, setFile, deleteFile }) {
+function ProofOfWorkFormField({ file, setFile, deleteFile }) {
   const { setInfoModalVisible, setInfoModalContent } =
     useContext(InfoModalContext);
 
@@ -25,12 +25,7 @@ function ProofOfWorkFormField({ fileData, setFileData, setFile, deleteFile }) {
           <Icon name="help-circle-outline" size={16} color={colors.lightGray} />
         </TouchableOpacity>
       </View>
-      <FileUpload
-        fileData={fileData}
-        setFileData={setFileData}
-        setFile={setFile}
-        deleteFile={deleteFile}
-      />
+      <FileUpload file={file} setFile={setFile} deleteFile={deleteFile} />
     </View>
   );
 }
