@@ -5,7 +5,7 @@ import AppText from './AppText';
 import DeleteAndEditSideMenu from './DeleteAndEditSideMenu';
 import Icon from './Icon';
 
-function RewardItem({ item, index }) {
+function RewardItem({ item, index, deleteReward }) {
   return (
     <View style={[styles.container, { marginTop: index === 0 ? 10 : 20 }]}>
       <View style={styles.imageText}>
@@ -22,7 +22,7 @@ function RewardItem({ item, index }) {
         </View>
       </View>
       <DeleteAndEditSideMenu
-        onDelete={() => console.log('lll')}
+        onDelete={() => deleteReward(item.id)}
         onEdit={() => console.log('lll1')}
       />
     </View>
