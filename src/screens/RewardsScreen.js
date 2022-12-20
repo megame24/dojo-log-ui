@@ -17,6 +17,7 @@ function RewardsScreen({ navigation }) {
   const [rewards, setRewards] = useState([]);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const isFocused = useIsFocused();
+  const deleteRewardApi = useApi(rewardApi.deleteReward);
 
   const getRewards = async () => {
     const { ok, data } = await getRewardsApi.request();
@@ -32,6 +33,12 @@ function RewardsScreen({ navigation }) {
     }
   }, [isFocused]);
 
+  const deleteReward = async (rewardId) => {
+    const { ok } = await deleteRewardApi.request(rewardId);
+
+    if (ok) getRewards();
+  };
+
   return (
     <>
       <ScreenHeader
@@ -40,9 +47,14 @@ function RewardsScreen({ navigation }) {
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}
       />
-      <ActivityIndicator visible={getRewardsApi.loading} />
+      <ActivityIndicator
+        visible={getRewardsApi.loading || deleteRewardApi.loading}
+      />
       <Screen style={styles.screen} screenHeaderPresent>
-        <ErrorMessage error={{}} visible={!!getRewardsApi.error} />
+        <ErrorMessage
+          error={getRewardsApi.error || deleteRewardApi.error}
+          visible={!!(getRewardsApi.error || deleteRewardApi.error)}
+        />
         <AppText>
           {/** Include an info icon to the header (right icon) explaining what the rewards are. Also have the empty state explain it */}
         </AppText>
@@ -51,7 +63,7 @@ function RewardsScreen({ navigation }) {
           contentContainerStyle={styles.flatListContentContainer}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
-            <RewardItem item={item} index={index} />
+            <RewardItem item={item} index={index} deleteReward={deleteReward} />
           )}
         />
       </Screen>
