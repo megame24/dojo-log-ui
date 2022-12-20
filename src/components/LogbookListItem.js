@@ -23,7 +23,7 @@ function LogbookListItem({ item, navigation }) {
         <WeekToDateHeatmap heatmapData={item.heatmap} />
         <Icon
           size={25}
-          name={item.category?.iconName || 'shape'}
+          name={item.category?.iconName}
           color={item.category?.color}
         />
       </View>
