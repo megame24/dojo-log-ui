@@ -17,7 +17,7 @@ function Icon({ name, color, size, isFontAwesome, ...otherProps }) {
       {!isFontAwesome && (
         <Ionicons
           {...otherProps}
-          name={name}
+          name={name || 'ellipse'}
           size={size || 20}
           color={color || colors.darkGray}
         />
