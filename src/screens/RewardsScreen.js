@@ -63,7 +63,12 @@ function RewardsScreen({ navigation }) {
           contentContainerStyle={styles.flatListContentContainer}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
-            <RewardItem item={item} index={index} deleteReward={deleteReward} />
+            <RewardItem
+              navigation={navigation}
+              item={item}
+              index={index}
+              deleteReward={deleteReward}
+            />
           )}
         />
       </Screen>
