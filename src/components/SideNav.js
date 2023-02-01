@@ -42,7 +42,7 @@ function SideNav({ navigation }) {
             </View>
           </TouchableOpacity>
           <SideNavItem
-            text="Donate"
+            text="Thanks"
             iconName="cash-outline"
             onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
           />

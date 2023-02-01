@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import constants from '../config/constants';
 import RewardsScreen from '../screens/RewardsScreen';
 import CreateRewardScreen from '../screens/CreateRewardScreen';
+import UpdateRewardScreen from '../screens/UpdateRewardScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,10 @@ function RewardsNavigator() {
       <Stack.Screen
         name={constants.CREATE_REWARD_SCREEN}
         component={CreateRewardScreen}
+      />
+      <Stack.Screen
+        name={constants.UPDATE_REWARD_SCREEN}
+        component={UpdateRewardScreen}
       />
     </Stack.Navigator>
   );
