@@ -35,7 +35,7 @@ function LogbookAddOptionsOverlay({
             size={35}
             color={colors.primary}
             onPress={() => {
-              navigation.navigate(constants.CREATE_LOGBOOK_SCREEN, {
+              navigation.navigate(constants.CREATE_GOAL_SCREEN, {
                 logbookId,
               });
               setShowAddOptions(false);

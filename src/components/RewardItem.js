@@ -10,15 +10,19 @@ function RewardItem({ item, index, deleteReward, navigation }) {
   return (
     <View style={[styles.container, { marginTop: index === 0 ? 10 : 20 }]}>
       <View style={styles.imageText}>
-        {item.imageUrl ? (
-          <Image style={styles.image} source={{ uri: item.imageUrl }} />
+        {item.image ? (
+          <Image style={styles.image} source={{ uri: item.image.url }} />
         ) : (
           <Icon size={70} color={colors.primary} name="gift-sharp" />
         )}
-        <View style={{ marginLeft: 15 }}>
-          <AppText style={{ fontWeight: 'bold' }}>{item.name}</AppText>
+        <View style={{ marginLeft: 15, maxWidth: 200 }}>
+          <AppText numberOfLines={1} style={{ fontWeight: 'bold' }}>
+            {item.name}
+          </AppText>
           {!!item.description && (
-            <AppText style={{ marginTop: 5 }}>{item.description}</AppText>
+            <AppText numberOfLines={3} style={{ marginTop: 5 }}>
+              {item.description}
+            </AppText>
           )}
         </View>
       </View>
@@ -44,6 +48,7 @@ const styles = StyleSheet.create({
   image: {
     width: 70,
     height: 70,
+    borderRadius: 35,
   },
 });
 

@@ -1,8 +1,14 @@
 // REFACTOR !!!!?
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 
+dayjs.extend(localizedFormat);
 dayjs.extend(dayOfYear);
+
+const formatDate = (date, format = 'L') => {
+  return dayjs(date).format(format);
+};
 
 const getDayOfYear = (date) => {
   date = convertDateStringToDate(date);
@@ -56,4 +62,5 @@ export default {
   getStartOfYear,
   getEndOfYear,
   getDateInUTC,
+  formatDate,
 };

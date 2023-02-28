@@ -45,4 +45,5 @@ export default Object.freeze({
   REWARDS_SCREEN: 'Rewards screen',
   CREATE_REWARD_SCREEN: 'Create reward',
   UPDATE_REWARD_SCREEN: 'Update reward',
+  CREATE_GOAL_SCREEN: 'Create goal',
 });
