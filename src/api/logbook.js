@@ -18,6 +18,9 @@ const deleteLogbook = (logbookId) => api.delete(`/logbooks/${logbookId}`);
 const createLog = (logbookId, log) =>
   api.post(`/logbooks/${logbookId}/logs`, log);
 
+const createGoal = (logbookId, goal) =>
+  api.post(`/logbooks/${logbookId}/goals`, goal);
+
 export default {
   create,
   getLogbooks,
@@ -26,4 +29,5 @@ export default {
   update,
   deleteLogbook,
   createLog,
+  createGoal,
 };

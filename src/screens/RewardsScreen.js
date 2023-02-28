@@ -13,6 +13,8 @@ import { useIsFocused } from '@react-navigation/native';
 import AppText from '../components/AppText';
 import RewardItem from '../components/RewardItem';
 
+// CACHE REWARDS!!!
+
 function RewardsScreen({ navigation }) {
   const [rewards, setRewards] = useState([]);
   const getRewardsApi = useApi(rewardApi.getRewards);
