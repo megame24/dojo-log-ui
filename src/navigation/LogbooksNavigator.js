@@ -8,6 +8,7 @@ import LogbookScreen from '../screens/LogbookScreen';
 import UpdateLogbookScreen from '../screens/UpdateLogbookScreen';
 import CreateLogScreen from '../screens/CreateLogScreen';
 import CreateGoalScreen from '../screens/CreateGoalScreen';
+import LogsScreen from '../screens/LogsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ function LogbooksNavigator() {
         component={CreateGoalScreen}
       />
       <Stack.Screen name={constants.LOGBOOK_SCREEN} component={LogbookScreen} />
+      <Stack.Screen name={constants.LOGS_SCREEN} component={LogsScreen} />
     </Stack.Navigator>
   );
 }

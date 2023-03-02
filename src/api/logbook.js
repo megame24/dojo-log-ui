@@ -21,6 +21,9 @@ const createLog = (logbookId, log) =>
 const createGoal = (logbookId, goal) =>
   api.post(`/logbooks/${logbookId}/goals`, goal);
 
+const getLogs = (logbookId, date) =>
+  api.get(`/logbooks/${logbookId}/logs?date=${date}`);
+
 export default {
   create,
   getLogbooks,
@@ -30,4 +33,5 @@ export default {
   deleteLogbook,
   createLog,
   createGoal,
+  getLogs,
 };

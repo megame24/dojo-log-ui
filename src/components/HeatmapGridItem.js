@@ -6,6 +6,7 @@ import Menu, {
   MenuOption,
 } from 'react-native-popup-menu';
 import colors from '../config/colors';
+import constants from '../config/constants';
 import AppText from './AppText';
 import HeatmapItem from './HeatmapItem';
 
@@ -17,6 +18,8 @@ function HeatmapGridItem({
   allowMenu = false,
   trophySize,
   todayMarkSize,
+  navigation,
+  logbookId,
 }) {
   return (
     <View style={styles.heatmapParentContainer}>
@@ -53,7 +56,12 @@ function HeatmapGridItem({
             >
               <MenuOption
                 disabled={!heatmapItemData.color}
-                onSelect={() => console.log('hola')}
+                onSelect={() =>
+                  navigation.navigate(constants.LOGS_SCREEN, {
+                    date: heatmapItemData.date,
+                    logbookId,
+                  })
+                }
                 style={styles.popupMenuOption}
               >
                 <AppText
