@@ -5,7 +5,14 @@ import dateService from '../utility/dateService';
 import { getHeatmapCellColorFromDuration } from './WeekToDateHeatmap';
 import HeatmapGridItem from './HeatmapGridItem';
 
-function MonthToDateHeatmap({ heatmapData, month, year, setHeatmapReady }) {
+function MonthToDateHeatmap({
+  heatmapData,
+  month,
+  year,
+  setHeatmapReady,
+  navigation,
+  logbookId,
+}) {
   const [heatmap, setHeatmap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
 
@@ -60,6 +67,7 @@ function MonthToDateHeatmap({ heatmapData, month, year, setHeatmapReady }) {
         heatmapTemp[key].color = getHeatmapCellColorFromDuration(
           heatmapElement.logs.totalDurationOfWork
         );
+        heatmapTemp[key].date = heatmapElement.logs.date;
       }
     });
     setHeatmap(heatmapTemp);
@@ -73,7 +81,12 @@ function MonthToDateHeatmap({ heatmapData, month, year, setHeatmapReady }) {
       numColumns={7}
       keyExtractor={(item) => item}
       renderItem={({ item }) => (
-        <HeatmapGridItem heatmapItemData={heatmap[item]} allowMenu />
+        <HeatmapGridItem
+          navigation={navigation}
+          heatmapItemData={heatmap[item]}
+          allowMenu
+          logbookId={logbookId}
+        />
       )}
     />
   );

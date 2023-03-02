@@ -216,6 +216,8 @@ function LogbookScreen({ navigation, route }) {
                       month={monthOption.value}
                       year={yearOption.value}
                       setHeatmapReady={setHeatmapReady}
+                      navigation={navigation}
+                      logbookId={logbookId}
                     />
                   )}
                 {logbook?.heatmap &&
