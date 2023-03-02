@@ -8,9 +8,12 @@ import useApi from '../hooks/useApi';
 import logbookApi from '../api/logbook';
 import { FlatList } from 'react-native-gesture-handler';
 import LogListItem from '../components/LogListItem';
+import storageService from '../utility/storageService';
+import constants from '../config/constants';
 
 function LogsScreen({ route, navigation }) {
   const getLogsApi = useApi(logbookApi.getLogs);
+  const deleteLogApi = useApi(logbookApi.deleteLog);
   const [logs, setLogs] = useState([]);
 
   const { date, logbookId } = route.params;
@@ -24,8 +27,18 @@ function LogsScreen({ route, navigation }) {
     getLogsAsync();
   }, []);
 
-  const deleteLog = (logId) => {
-    console.log(logId);
+  const deleteLog = async (logId) => {
+    const { ok } = await deleteLogApi.request(logbookId, logId);
+
+    if (!ok) return;
+    const tempLogs = logs.filter((log) => log.id !== logId);
+    setLogs(tempLogs);
+    storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${
+        constants.LOGBOOK_DATA_CACHE
+      }_${logbookId}_${new Date().getFullYear()}`,
+    ]);
   };
 
   return (
@@ -34,9 +47,12 @@ function LogsScreen({ route, navigation }) {
         header={`${new Date(date).toDateString()} logs`}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
-      <ActivityIndicator visible={getLogsApi.loading} />
+      <ActivityIndicator visible={getLogsApi.loading || deleteLogApi.loading} />
       <Screen screenHeaderPresent>
-        <ErrorMessage error={getLogsApi.error} visible={!!getLogsApi.error} />
+        <ErrorMessage
+          error={getLogsApi.error || deleteLogApi.error}
+          visible={!!(getLogsApi.error || deleteLogApi.error)}
+        />
         <FlatList
           data={logs}
           keyExtractor={(item) => item.id}
