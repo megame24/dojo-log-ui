@@ -69,7 +69,7 @@ function YearlyHeatmap({ heatmapData, year, setHeatmapReady }) {
       }
       if (heatmapElement.logs) {
         heatmapTemp[key].color = getHeatmapCellColorFromDuration(
-          heatmapElement.logs.totalDurationOfWork
+          heatmapElement.logs.totalDurationOfWorkInMinutes
         );
       }
     });

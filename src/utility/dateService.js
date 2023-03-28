@@ -2,7 +2,11 @@
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 dayjs.extend(dayOfYear);
 
@@ -54,6 +58,14 @@ const getDateInUTC = (date) => {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
+const getTimezone = () => {
+  return dayjs.tz.guess();
+};
+
+const now = () => {
+  return dayjs('2023-03-24 00:54').format();
+};
+
 export default {
   getDayOfYear,
   getDateFromDayOfYear,
@@ -63,4 +75,6 @@ export default {
   getEndOfYear,
   getDateInUTC,
   formatDate,
+  getTimezone,
+  now,
 };

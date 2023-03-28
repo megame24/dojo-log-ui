@@ -49,7 +49,9 @@ function MonthToDateHeatmap({
         heatmapTemp[i].day = ' ';
         if (weekTracker % 2 === 0) heatmapTemp[i].day = day;
       }
-      if (i === todayDayOfYear) heatmapTemp[i].isToday = true;
+      if (i === todayDayOfYear) {
+        heatmapTemp[i].isToday = true;
+      }
       if (i < startOfMonthDayOfYear) heatmapTemp[i].inactive = true;
       weekTracker++;
     }
@@ -57,6 +59,7 @@ function MonthToDateHeatmap({
 
     Object.keys(heatmapTemp).forEach((key) => {
       const heatmapElement = heatmapData[key];
+      console.log(heatmapElement);
       if (!heatmapElement) return;
       if (heatmapElement.goal) {
         heatmapTemp[key].goalId = heatmapElement.goal.id;
@@ -65,7 +68,7 @@ function MonthToDateHeatmap({
       }
       if (heatmapElement.logs) {
         heatmapTemp[key].color = getHeatmapCellColorFromDuration(
-          heatmapElement.logs.totalDurationOfWork
+          heatmapElement.logs.totalDurationOfWorkInMinutes
         );
         heatmapTemp[key].date = heatmapElement.logs.date;
       }
