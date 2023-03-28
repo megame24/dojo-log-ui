@@ -6,12 +6,9 @@ import dateService from '../utility/dateService';
 import AppText from './AppText';
 import Icon from './Icon';
 
-export const getHeatmapCellColorFromDuration = (duration) => {
-  if (!duration) return colors.borderGray;
-  const durationSplit = duration.split(' ');
-  const hours = durationSplit[0] ? durationSplit[0].split('h')[0] : 0;
-  const minutes = durationSplit[1] ? durationSplit[1].split('m')[0] : 0;
-  const totalHours = +hours + +minutes / 60;
+export const getHeatmapCellColorFromDuration = (durationInMinutes) => {
+  if (!durationInMinutes) return colors.borderGray;
+  const totalHours = durationInMinutes / 60;
   let color = colors.primary25Per;
   if (totalHours >= 2) color = colors.primary50Per;
   if (totalHours >= 6) color = colors.primary75Per;
@@ -59,7 +56,7 @@ function WeekToDateHeatmap({ heatmapData }) {
       }
       if (heatmapElement.logs) {
         heatmap[key].color = getHeatmapCellColorFromDuration(
-          heatmapElement.logs.totalDurationOfWork
+          heatmapElement.logs.totalDurationOfWorkInMinutes
         );
       }
     });

@@ -15,21 +15,13 @@ import logbookApi from '../api/logbook';
 import useApi from '../hooks/useApi';
 import ProofOfWorkFormField from '../components/forms/ProofOfWorkFormField';
 import storageService from '../utility/storageService';
+import dateService from '../utility/dateService';
 
-const validationSchema = Yup.object().shape({
+// REWORK DURATION OF WORK... CONVERT EVERYTHING TO MINUTES AND SAVE AS AN INTEGER
+
+export const validationSchema = Yup.object().shape({
   message: Yup.string().max(500).required().label('Message'),
-  durationOfWork: Yup.string()
-    .required()
-    .test(
-      'validDurationOfWork',
-      'Invalid duration of work, must be in format "(0 - 23)h (0 - 59)m", e.g: 3h 55m',
-      (value) => {
-        return /^(2[0-3][h]|[0-1]?[0-9][h])$|^((([0]?|[1-5]{1})[0-9])[m])$|^((2[0-3][h]|[0-1]?[0-9][h])\s((([0]?|[1-5]{1})[0-9])[m]))$/.test(
-          value
-        );
-      }
-    )
-    .label('Duration of work'),
+  durationOfWork: Yup.number().required().label('Duration of work'),
 });
 
 function CreateLogScreen({ route, navigation }) {
@@ -41,7 +33,8 @@ function CreateLogScreen({ route, navigation }) {
   const handleSubmit = async (logDetails) => {
     const logFormData = new FormData();
     logFormData.append('message', logDetails.message);
-    logFormData.append('durationOfWork', logDetails.durationOfWork);
+    logFormData.append('durationOfWorkInMinutes', logDetails.durationOfWork);
+    logFormData.append('date', dateService.now());
     if (file)
       logFormData.append(
         'file',
@@ -80,9 +73,9 @@ function CreateLogScreen({ route, navigation }) {
         <Form
           initialValues={{
             message: '',
-            hours: '',
-            minutes: '',
-            durationOfWork: '',
+            hours: null,
+            minutes: null,
+            durationOfWork: 0,
           }}
           values
           onSubmit={handleSubmit}

@@ -22,7 +22,11 @@ function DurationOfWorkFormField({
   const [minutes, setMinutes] = useState(values.minutes);
 
   useEffect(() => {
-    if (hours || minutes) setFieldValue(name, `${hours}h ${minutes}m`);
+    let value = 0;
+    if (hours) value += +hours * 60;
+    if (minutes) value += +minutes;
+    console.log(value);
+    setFieldValue(name, value);
   }, [hours, minutes]);
 
   const onTextChange = (text, fieldName, setFunction) => {

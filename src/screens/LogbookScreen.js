@@ -61,36 +61,36 @@ function LogbookScreen({ navigation, route }) {
     const cacheKey = `${constants.LOGBOOK_DATA_CACHE}_${logbookId}_${yearOption.value}`;
     let cachedLogbookData = await storageService.getItem(cacheKey);
     let cachedLogbookDataValid = false;
-    if (cachedLogbookData) {
-      cachedLogbookData = JSON.parse(cachedLogbookData);
-      if (cachedLogbookData.date === todaysDateInUTC)
-        cachedLogbookDataValid = true;
+    // if (cachedLogbookData) {
+    //   cachedLogbookData = JSON.parse(cachedLogbookData);
+    //   if (cachedLogbookData.date === todaysDateInUTC)
+    //     cachedLogbookDataValid = true;
+    // }
+    // if (cachedLogbookDataValid) {
+    //   const cachedLogbooks = cachedLogbookData.logbook;
+    //   setHeatmapReady(false);
+    //   setLogbook({});
+    //   setLogbook(cachedLogbooks);
+    // } else {
+    setHeatmapReady(false);
+    setLogbook({});
+    const { data, ok } = await getLogbookApi.request(
+      logbookId,
+      startDate,
+      endDate
+    );
+    if (ok) {
+      setLogbook(data);
+      const cacheData = {
+        logbook: data,
+        date: todaysDateInUTC,
+      };
+      await storageService.storeItem({
+        key: cacheKey,
+        value: JSON.stringify(cacheData),
+      });
     }
-    if (cachedLogbookDataValid) {
-      const cachedLogbooks = cachedLogbookData.logbook;
-      setHeatmapReady(false);
-      setLogbook({});
-      setLogbook(cachedLogbooks);
-    } else {
-      setHeatmapReady(false);
-      setLogbook({});
-      const { data, ok } = await getLogbookApi.request(
-        logbookId,
-        startDate,
-        endDate
-      );
-      if (ok) {
-        setLogbook(data);
-        const cacheData = {
-          logbook: data,
-          date: todaysDateInUTC,
-        };
-        await storageService.storeItem({
-          key: cacheKey,
-          value: JSON.stringify(cacheData),
-        });
-      }
-    }
+    // }
   };
 
   const generateYearOptions = async (earliestLogbookYear) => {
@@ -210,7 +210,7 @@ function LogbookScreen({ navigation, route }) {
                 </View>
                 {logbook?.heatmap &&
                   duration.value === defaultDuration.value && (
-                    // use factory pattern here!!! for week, month and year
+                    // use factory[strategy not factory] pattern here!!! for week, month and year
                     <MonthlyHeatmap
                       heatmapData={logbook.heatmap}
                       month={monthOption.value}

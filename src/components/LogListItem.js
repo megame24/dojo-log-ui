@@ -16,7 +16,7 @@ function LogListItem({ item, navigation, deleteLog }) {
           dateService.getDateInUTC(new Date()) && (
           <DeleteAndEditSideMenu
             onEdit={() =>
-              navigation.navigate(constants.CREATE_LOG_SCREEN, {
+              navigation.navigate(constants.UPDATE_LOG_SCREEN, {
                 log: item,
               })
             }
@@ -25,7 +25,7 @@ function LogListItem({ item, navigation, deleteLog }) {
         )}
       </View>
       <AppText style={[styles.marginTopTen, { fontSize: 14 }]}>
-        Duration: {item.durationOfWork}
+        Duration: {item.durationOfWorkInMinutes}
       </AppText>
       {item?.proofOfWork && (
         <TouchableOpacity
@@ -39,7 +39,7 @@ function LogListItem({ item, navigation, deleteLog }) {
         </TouchableOpacity>
       )}
       <AppText style={styles.date}>
-        {new Date(item.date).toLocaleTimeString()}
+        {new Date(item.date).toTimeString()}
       </AppText>
     </View>
   );
