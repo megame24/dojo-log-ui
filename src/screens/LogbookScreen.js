@@ -56,41 +56,41 @@ function LogbookScreen({ navigation, route }) {
     });
   });
 
-  const getLogbookAsync = async (startDate = '', endDate = '') => {
-    const todaysDateInUTC = dateService.getDateInUTC(new Date());
+  const getLogbookAsync = async (startDate, endDate) => {
+    const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
     const cacheKey = `${constants.LOGBOOK_DATA_CACHE}_${logbookId}_${yearOption.value}`;
     let cachedLogbookData = await storageService.getItem(cacheKey);
     let cachedLogbookDataValid = false;
-    // if (cachedLogbookData) {
-    //   cachedLogbookData = JSON.parse(cachedLogbookData);
-    //   if (cachedLogbookData.date === todaysDateInUTC)
-    //     cachedLogbookDataValid = true;
-    // }
-    // if (cachedLogbookDataValid) {
-    //   const cachedLogbooks = cachedLogbookData.logbook;
-    //   setHeatmapReady(false);
-    //   setLogbook({});
-    //   setLogbook(cachedLogbooks);
-    // } else {
-    setHeatmapReady(false);
-    setLogbook({});
-    const { data, ok } = await getLogbookApi.request(
-      logbookId,
-      startDate,
-      endDate
-    );
-    if (ok) {
-      setLogbook(data);
-      const cacheData = {
-        logbook: data,
-        date: todaysDateInUTC,
-      };
-      await storageService.storeItem({
-        key: cacheKey,
-        value: JSON.stringify(cacheData),
-      });
+    if (cachedLogbookData) {
+      cachedLogbookData = JSON.parse(cachedLogbookData);
+      if (cachedLogbookData.date === todaysDateInUTC)
+        cachedLogbookDataValid = true;
     }
-    // }
+    if (cachedLogbookDataValid) {
+      const cachedLogbooks = cachedLogbookData.logbook;
+      setHeatmapReady(false);
+      setLogbook({});
+      setLogbook(cachedLogbooks);
+    } else {
+      setHeatmapReady(false);
+      setLogbook({});
+      const { data, ok } = await getLogbookApi.request(
+        logbookId,
+        startDate,
+        endDate
+      );
+      if (ok) {
+        setLogbook(data);
+        const cacheData = {
+          logbook: data,
+          date: todaysDateInUTC,
+        };
+        await storageService.storeItem({
+          key: cacheKey,
+          value: JSON.stringify(cacheData),
+        });
+      }
+    }
   };
 
   const generateYearOptions = async (earliestLogbookYear) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
 import DurationOfWorkFormField from '../components/forms/DurationOfWorkFormField';
@@ -20,8 +20,6 @@ function UpdateLogScreen({ route, navigation }) {
   const { durationOfWorkInMinutes } = outdatedLog;
   const defaultHours = Math.floor(durationOfWorkInMinutes / 60);
   const defaultMinutes = durationOfWorkInMinutes % 60;
-
-  console.log(hours, minutes);
 
   const [file, setFile] = useState(null);
   const [hours] = useState(defaultHours);

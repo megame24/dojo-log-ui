@@ -17,8 +17,6 @@ import ProofOfWorkFormField from '../components/forms/ProofOfWorkFormField';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
 
-// REWORK DURATION OF WORK... CONVERT EVERYTHING TO MINUTES AND SAVE AS AN INTEGER
-
 export const validationSchema = Yup.object().shape({
   message: Yup.string().max(500).required().label('Message'),
   durationOfWork: Yup.number().required().label('Duration of work'),

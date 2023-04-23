@@ -58,7 +58,8 @@ function HeatmapGridItem({
                 disabled={!heatmapItemData.color}
                 onSelect={() =>
                   navigation.navigate(constants.LOGS_SCREEN, {
-                    date: heatmapItemData.date,
+                    startDate: heatmapItemData.startDate,
+                    endDate: heatmapItemData.endDate,
                     logbookId,
                   })
                 }

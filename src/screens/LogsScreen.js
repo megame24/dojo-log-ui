@@ -16,10 +16,14 @@ function LogsScreen({ route, navigation }) {
   const deleteLogApi = useApi(logbookApi.deleteLog);
   const [logs, setLogs] = useState([]);
 
-  const { date, logbookId } = route.params;
+  const { startDate, endDate, logbookId } = route.params;
 
   const getLogsAsync = async () => {
-    const { data, ok } = await getLogsApi.request(logbookId, date);
+    const { data, ok } = await getLogsApi.request(
+      logbookId,
+      startDate,
+      endDate
+    );
     if (ok) setLogs(data);
   };
 
@@ -44,7 +48,7 @@ function LogsScreen({ route, navigation }) {
   return (
     <>
       <ScreenHeader
-        header={`${new Date(date).toDateString()} logs`}
+        header={`${new Date(startDate).toDateString()} logs`}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={getLogsApi.loading || deleteLogApi.loading} />
