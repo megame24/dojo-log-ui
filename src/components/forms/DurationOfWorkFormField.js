@@ -25,7 +25,6 @@ function DurationOfWorkFormField({
     let value = 0;
     if (hours) value += +hours * 60;
     if (minutes) value += +minutes;
-    console.log(value);
     setFieldValue(name, value);
   }, [hours, minutes]);
 

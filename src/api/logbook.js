@@ -4,7 +4,10 @@ const create = (logbook) => api.post('/logbooks', logbook);
 
 const update = (logbook) => api.put(`/logbooks/${logbook.id}`, logbook);
 
-const getLogbooks = (userId) => api.get(`/logbooks?userId=${userId}`);
+const getLogbooks = (userId, startDate, endDate) =>
+  api.get(
+    `/logbooks?userId=${userId}&startDateString=${startDate}&endDateString=${endDate}`
+  );
 
 const getLogbook = (logbookId, startDate, endDate) =>
   api.get(
@@ -21,8 +24,10 @@ const createLog = (logbookId, log) =>
 const createGoal = (logbookId, goal) =>
   api.post(`/logbooks/${logbookId}/goals`, goal);
 
-const getLogs = (logbookId, date) =>
-  api.get(`/logbooks/${logbookId}/logs?date=${date}`);
+const getLogs = (logbookId, startDate, endDate) =>
+  api.get(
+    `/logbooks/${logbookId}/logs?startDate=${startDate}&endDate=${endDate}`
+  );
 
 const deleteLog = (logbookId, logId) =>
   api.delete(`/logbooks/${logbookId}/logs/${logId}`);

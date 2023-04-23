@@ -12,8 +12,8 @@ function LogListItem({ item, navigation, deleteLog }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <AppText style={styles.message}>{item.message}</AppText>
-        {dateService.getDateInUTC(item.date) ===
-          dateService.getDateInUTC(new Date()) && (
+        {dateService.getTimelessTimestamp(item.date) ===
+          dateService.getTimelessTimestamp(new Date()) && (
           <DeleteAndEditSideMenu
             onEdit={() =>
               navigation.navigate(constants.UPDATE_LOG_SCREEN, {
@@ -39,7 +39,7 @@ function LogListItem({ item, navigation, deleteLog }) {
         </TouchableOpacity>
       )}
       <AppText style={styles.date}>
-        {new Date(item.date).toTimeString()}
+        {dateService.formatDate(item.date, 'LT')}
       </AppText>
     </View>
   );

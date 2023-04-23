@@ -25,8 +25,7 @@ const getDateFromDayOfYear = (year, dayOfYear) => {
 };
 
 const convertDateStringToDate = (date) => {
-  if (typeof date === 'string') return new Date(date);
-  return date;
+  return new Date(date);
 };
 
 const getStartOfMonth = (year, month) => {
@@ -53,17 +52,25 @@ const getEndOfYear = (year) => {
   return dayjs().set('year', year).endOf('year').toISOString();
 };
 
-const getDateInUTC = (date) => {
+const getTimelessTimestamp = (date) => {
   date = convertDateStringToDate(date);
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+};
+
+const getStartOfDay = (date) => {
+  return dayjs(date).startOf('day').toISOString();
 };
 
 const getTimezone = () => {
   return dayjs.tz.guess();
 };
 
+const subtractTimeFromDate = (date, timeValue, timeMetric) => {
+  return dayjs(date).subtract(timeValue, timeMetric).toDate();
+};
+
 const now = () => {
-  return dayjs('2023-03-24 00:54').format();
+  return dayjs().toISOString();
 };
 
 export default {
@@ -73,8 +80,10 @@ export default {
   getEndOfMonth,
   getStartOfYear,
   getEndOfYear,
-  getDateInUTC,
+  getTimelessTimestamp,
   formatDate,
   getTimezone,
   now,
+  subtractTimeFromDate,
+  getStartOfDay,
 };

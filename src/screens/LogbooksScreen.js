@@ -47,8 +47,8 @@ function LogbooksScreen({ navigation }) {
     setCategories(categoriesTemp);
   };
 
-  const getLogbooksAsync = async () => {
-    const todaysDateInUTC = dateService.getDateInUTC(new Date());
+  const getLogbooksAsync = async (startDate, endDate) => {
+    const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
     let cachedLogbooksData = await storageService.getItem(
       constants.LOGBOOKS_DATA_CACHE
     );
@@ -66,7 +66,11 @@ function LogbooksScreen({ navigation }) {
     } else {
       setFilteredLogbooks([]);
       setCategories([]);
-      const { data, ok } = await getLogbooksApi.request(user.id);
+      const { data, ok } = await getLogbooksApi.request(
+        user.id,
+        startDate,
+        endDate
+      );
       if (ok) {
         setLogbooks(data);
         setFilteredLogbooks(data);
@@ -84,7 +88,13 @@ function LogbooksScreen({ navigation }) {
   };
 
   useEffect(() => {
-    if (isFocused) getLogbooksAsync();
+    if (isFocused) {
+      const endDate = new Date();
+      const startDate = dateService.getStartOfDay(
+        dateService.subtractTimeFromDate(endDate, 6, 'd')
+      );
+      getLogbooksAsync(startDate, endDate);
+    }
   }, [isFocused]);
 
   const filterLogbooks = (category) => {

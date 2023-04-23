@@ -21,7 +21,7 @@ function MonthToDateHeatmap({
     const startOfMonthDayValue = new Date(startOfMonth).getDay();
     const startOfMonthDayOfYear = dateService.getDayOfYear(startOfMonth);
     const startOfCalendarMonthDayOfYear =
-      startOfMonthDayOfYear - startOfMonthDayValue; // offset the days that comes before the start of month to get the month calendar visual
+      startOfMonthDayOfYear - startOfMonthDayValue; // NOTE: offset the days that comes before the start of month to get the month calendar visual
 
     const endOfMonth = dateService.getEndOfMonth(year, month);
     const endOfMonthDayOfYear = dateService.getDayOfYear(endOfMonth);
@@ -59,7 +59,6 @@ function MonthToDateHeatmap({
 
     Object.keys(heatmapTemp).forEach((key) => {
       const heatmapElement = heatmapData[key];
-      console.log(heatmapElement);
       if (!heatmapElement) return;
       if (heatmapElement.goal) {
         heatmapTemp[key].goalId = heatmapElement.goal.id;
@@ -70,7 +69,8 @@ function MonthToDateHeatmap({
         heatmapTemp[key].color = getHeatmapCellColorFromDuration(
           heatmapElement.logs.totalDurationOfWorkInMinutes
         );
-        heatmapTemp[key].date = heatmapElement.logs.date;
+        heatmapTemp[key].startDate = heatmapElement.logs.startDate;
+        heatmapTemp[key].endDate = heatmapElement.logs.endDate;
       }
     });
     setHeatmap(heatmapTemp);
