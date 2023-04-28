@@ -32,8 +32,8 @@ const getLogs = (logbookId, startDate, endDate) =>
 const deleteLog = (logbookId, logId) =>
   api.delete(`/logbooks/${logbookId}/logs/${logId}`);
 
-const updateLog = (logbookId, log) =>
-  api.put(`/logbooks/${logbookId}/logs/${log.id}`, log);
+const updateLog = (logbookId, logId, log) =>
+  api.put(`/logbooks/${logbookId}/logs/${logId}`, log);
 
 export default {
   create,

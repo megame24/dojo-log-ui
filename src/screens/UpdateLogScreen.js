@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
 import DurationOfWorkFormField from '../components/forms/DurationOfWorkFormField';
@@ -13,26 +12,53 @@ import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
 import { validationSchema } from './CreateLogScreen';
 import logbookApi from '../api/logbook';
+import fileApi from '../api/file';
 import useApi from '../hooks/useApi';
+import storageService from '../utility/storageService';
 
 function UpdateLogScreen({ route, navigation }) {
   const { log: outdatedLog } = route.params;
   const { durationOfWorkInMinutes } = outdatedLog;
-  const defaultHours = Math.floor(durationOfWorkInMinutes / 60);
-  const defaultMinutes = durationOfWorkInMinutes % 60;
+  const defaultFile = outdatedLog.proofOfWork || null;
 
-  const [file, setFile] = useState(null);
-  const [hours] = useState(defaultHours);
-  const [minutes] = useState(defaultMinutes);
+  const [file, setFile] = useState(defaultFile);
   const updateLogApi = useApi(logbookApi.updateLog);
+  const deleteFileApi = useApi(fileApi.deleteFile);
 
   useEffect(() => {}, []);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (logDetails) => {
+    const logFormData = new FormData();
+    const logbookId = outdatedLog.logbookId;
+    const logId = outdatedLog.id;
+    logFormData.append('message', logDetails.message);
+    logFormData.append('durationOfWorkInMinutes', logDetails.durationOfWork);
+    if (file && !file.id)
+      logFormData.append(
+        'file',
+        {
+          uri: file.uri,
+          name: file.name,
+          type: file.mimeType,
+        },
+        file.name
+      );
 
-  const deleteFile = () => {
+    const { ok } = await updateLogApi.request(logbookId, logId, logFormData);
+
+    if (!ok) return;
+    await storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${
+        constants.LOGBOOK_DATA_CACHE
+      }_${logbookId}_${new Date().getFullYear()}`,
+    ]);
+    navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
+  };
+
+  const deleteFile = async () => {
     setFile(null);
-    // make call to delete on api
+    if (file.id) await deleteFileApi.request(file.id);
   };
 
   return (
@@ -41,7 +67,9 @@ function UpdateLogScreen({ route, navigation }) {
         header={constants.UPDATE_LOG_SCREEN}
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
-      <ActivityIndicator visible={updateLogApi.loading} />
+      <ActivityIndicator
+        visible={updateLogApi.loading || deleteFileApi.loading}
+      />
       <Screen screenHeaderPresent scrollable>
         <Form
           initialValues={{
@@ -55,8 +83,8 @@ function UpdateLogScreen({ route, navigation }) {
           validationSchema={validationSchema}
         >
           <ErrorMessage
-            error={updateLogApi.error}
-            visible={!!updateLogApi.error}
+            error={updateLogApi.error || deleteFileApi.error}
+            visible={!!(updateLogApi.error || deleteFileApi.error)}
           />
           <FormField name="message" label="Message" autoCorrect />
           <DurationOfWorkFormField />
@@ -71,9 +99,5 @@ function UpdateLogScreen({ route, navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});
 
 export default UpdateLogScreen;
