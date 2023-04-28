@@ -18,6 +18,7 @@ import logbookApi from '../api/logbook';
 import MultiPickerFormField from '../components/forms/MultiPickerFormField';
 import RewardPickerItem from '../components/RewardPickerItem';
 import storageService from '../utility/storageService';
+import dateService from '../utility/dateService';
 
 const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -44,7 +45,7 @@ function CreateGoalScreen({ route, navigation }) {
     const goal = {
       name: goalDetails.name,
       achievementCriteria: goalDetails.achievementCriteria,
-      dueDate: goalDetails.dueDate,
+      dueDate: dateService.getEndOfDay(goalDetails.dueDate), // NOTE: set to end of day for easy comparison
       rewards: JSON.stringify(goalDetails?.rewards?.value),
     };
     const { ok } = await createGoalApi.request(logbookId, goal);

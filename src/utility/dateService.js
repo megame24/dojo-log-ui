@@ -61,6 +61,10 @@ const getStartOfDay = (date) => {
   return dayjs(date).startOf('day').toISOString();
 };
 
+const getEndOfDay = (date) => {
+  return dayjs(date).endOf('day').toISOString();
+};
+
 const getTimezone = () => {
   return dayjs.tz.guess();
 };
@@ -86,4 +90,5 @@ export default {
   now,
   subtractTimeFromDate,
   getStartOfDay,
+  getEndOfDay,
 };
