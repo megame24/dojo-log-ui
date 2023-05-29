@@ -48,4 +48,5 @@ export default Object.freeze({
   CREATE_GOAL_SCREEN: 'Create goal',
   LOGS_SCREEN: 'Logs screen',
   UPDATE_LOG_SCREEN: 'Update log',
+  GOAL_SCREEN: 'Goal screen',
 });

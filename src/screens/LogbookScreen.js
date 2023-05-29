@@ -22,7 +22,8 @@ import HeatmapIntensitySample from '../components/HeatmapIntensitySample';
 import YearlyHeatmap from '../components/YearlyHeatmap';
 import LogbookAddOptionsOverlay from '../components/LogbookAddOptionsOverlay';
 
-// ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
+// TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
+// TODO: Implement pull down to refresh
 
 function LogbookScreen({ navigation, route }) {
   const defaultDuration = { label: 'Monthly', value: 'Monthly' };

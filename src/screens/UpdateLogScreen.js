@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
 import DurationOfWorkFormField from '../components/forms/DurationOfWorkFormField';
@@ -24,8 +24,6 @@ function UpdateLogScreen({ route, navigation }) {
   const [file, setFile] = useState(defaultFile);
   const updateLogApi = useApi(logbookApi.updateLog);
   const deleteFileApi = useApi(fileApi.deleteFile);
-
-  useEffect(() => {}, []);
 
   const handleSubmit = async (logDetails) => {
     const logFormData = new FormData();

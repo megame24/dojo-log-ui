@@ -78,7 +78,12 @@ function HeatmapGridItem({
               </MenuOption>
               {heatmapItemData.hasGoal && (
                 <MenuOption
-                  onSelect={() => console.log(heatmapItemData.goalId)}
+                  onSelect={() =>
+                    navigation.navigate(constants.GOAL_SCREEN, {
+                      goalId: heatmapItemData.goalId,
+                      logbookId,
+                    })
+                  }
                   style={styles.popupMenuOption}
                 >
                   <AppText style={{ fontSize: 14 }}>View goal</AppText>
