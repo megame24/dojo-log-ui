@@ -20,7 +20,9 @@ import RewardPickerItem from '../components/RewardPickerItem';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
 
-const validationSchema = Yup.object().shape({
+// TODO: move all validations into the validationSchemaObject!!
+
+export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
   dueDate: Yup.date()
     .required()
