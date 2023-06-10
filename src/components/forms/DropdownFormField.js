@@ -49,7 +49,12 @@ function DropdownFormField({
         onBlur={() => setFieldTouched(name)}
         onSelectItem={(item) => setFieldValue(name, item)}
         value={values[name]}
-        inputContainerStyle={inputContainerStyle}
+        topLevelContainerStyle={{ marginTop: 5 }}
+        inputContainerStyle={[
+          { width: '100%', borderRadius: 10 },
+          inputContainerStyle,
+        ]}
+        optionsContainerStyle={{ top: 43 }}
         inputStyle={inputStyle}
         placeholder={placeholder}
         options={options}
@@ -67,6 +72,7 @@ function DropdownFormField({
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
+    zIndex: 2,
   },
   label: {
     fontWeight: '600',

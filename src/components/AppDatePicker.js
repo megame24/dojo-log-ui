@@ -15,7 +15,7 @@ const AppDatePicker = ({
   value,
   disabled,
 }) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(value ? new Date(value) : new Date());
   const [show, setShow] = useState(false);
   const [clicked, setClicked] = useState(false);
 

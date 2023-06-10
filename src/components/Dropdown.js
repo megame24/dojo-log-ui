@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Pressable, View, TouchableHighlight } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {
+  StyleSheet,
+  Pressable,
+  View,
+  TouchableHighlight,
+  ScrollView,
+} from 'react-native';
 import colors from '../config/colors';
 
 import AppText from './AppText';
@@ -10,6 +15,7 @@ const Dropdown = ({
   topLevelContainerStyle,
   inputContainerStyle,
   inputContentStyle,
+  optionsContainerStyle,
   onBlur,
   onSelectItem,
   placeholder,
@@ -50,16 +56,18 @@ const Dropdown = ({
         />
       </Pressable>
       {showOptions && (
-        <FlatList
-          data={options}
-          style={[inputContainerStyle, styles.optionsContainer]}
-          listKey={(item, index) => `_key${index.toString()}`}
-          keyExtractor={(item, index) => `_key${index.toString()}`}
-          renderItem={({ item }) => (
+        <ScrollView
+          style={[
+            inputContainerStyle,
+            styles.optionsContainer,
+            optionsContainerStyle,
+          ]}
+        >
+          {options.map((item, i) => (
             <TouchableHighlight
               underlayColor={colors.borderGray}
               style={styles.option}
-              key={item.value}
+              key={i}
               onPress={() => {
                 setShowOptions(false);
                 onSelectItem(item);
@@ -67,8 +75,8 @@ const Dropdown = ({
             >
               <AppText style={inputContentStyle}>{item.label}</AppText>
             </TouchableHighlight>
-          )}
-        />
+          ))}
+        </ScrollView>
       )}
     </View>
   );

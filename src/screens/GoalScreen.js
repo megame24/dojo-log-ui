@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
 import ScreenHeader from '../components/ScreenHeader';
 import BackButton from '../components/BackButton';
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -14,11 +16,13 @@ import AppText from '../components/AppText';
 import LabelAndContent from '../components/LabelAndContent';
 import dateService from '../utility/dateService';
 import GoalRewardItem from '../components/GoalRewardItem';
+import constants from '../config/constants';
 
 function GoalScreen({ route, navigation }) {
   const getGoalApi = useApi(logbookApi.getGoal);
   const [goal, setGoal] = useState({});
   const { goalId, logbookId } = route.params;
+  const isFocused = useIsFocused();
 
   const getGoalAsync = async () => {
     const { data, ok } = await getGoalApi.request(logbookId, goalId);
@@ -26,8 +30,8 @@ function GoalScreen({ route, navigation }) {
   };
 
   useEffect(() => {
-    getGoalAsync();
-  }, []);
+    if (isFocused) getGoalAsync();
+  }, [isFocused]);
 
   return (
     <>
@@ -76,7 +80,9 @@ function GoalScreen({ route, navigation }) {
       <FloatingButton
         size={35}
         color={colors.floatingButtonGray}
-        onPress={() => console.log('lol2')}
+        onPress={() =>
+          navigation.navigate(constants.UPDATE_GOAL_SCREEN, { goal })
+        }
         Icon={() => (
           <Icon name="pen" isFontAwesome size={15} color={colors.white} />
         )}

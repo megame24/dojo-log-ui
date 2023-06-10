@@ -1,0 +1,167 @@
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { View, StyleSheet } from 'react-native';
+import ScreenHeader from '../components/ScreenHeader';
+import constants from '../config/constants';
+import BackButton from '../components/BackButton';
+import ActivityIndicator from '../components/ActivityIndicator';
+import Screen from '../components/Screen';
+import Form from '../components/forms/Form';
+import ErrorMessage from '../components/forms/ErrorMessage';
+import FormField from '../components/forms/FormField';
+import DatePickerFormField from '../components/forms/DatePickerFormField';
+import MultiPickerFormField from '../components/forms/MultiPickerFormField';
+import SubmitButton from '../components/forms/SubmitButton';
+import useApi from '../hooks/useApi';
+import rewardApi from '../api/reward';
+import logbookApi from '../api/logbook';
+import RewardPickerItem from '../components/RewardPickerItem';
+import { validationSchema } from './CreateGoalScreen';
+import DropdownFormField from '../components/forms/DropdownFormField';
+import storageService from '../utility/storageService';
+
+function UpdateGoalScreen({ route, navigation }) {
+  const { goal: outdatedGoal } = route.params;
+  const [rewards, setRewards] = useState([]);
+  const getRewardsApi = useApi(rewardApi.getRewards);
+  const updateGoalApi = useApi(logbookApi.updateGoal);
+
+  const formatRewardsAndRewardsDefaultValue = (selectedRewards, rewards) => {
+    const formattedRewards = rewards;
+
+    const defaultValue = {
+      label: '',
+      value: selectedRewards,
+    };
+
+    const selectedRewardIdMap = {};
+
+    selectedRewards.forEach((selectedReward, i) => {
+      selectedRewardIdMap[selectedReward.id] = true;
+      defaultValue.label += selectedReward.name;
+      if (i !== selectedRewards.length - 1) defaultValue.label += ', ';
+    });
+
+    formattedRewards.forEach((reward) => {
+      if (selectedRewardIdMap[reward.id]) reward.isSelected = true;
+    });
+
+    return {
+      defaultValue,
+      formattedRewards,
+    };
+  };
+
+  const getRewardsAsync = async () => {
+    const { data, ok } = await getRewardsApi.request();
+    if (ok) setRewards(data);
+  };
+
+  useEffect(() => {
+    getRewardsAsync();
+  }, []);
+
+  const handleSubmit = async (goalDetails) => {
+    const goal = {
+      name: goalDetails.name,
+      achievementCriteria: goalDetails.achievementCriteria,
+      rewardIds: JSON.stringify(
+        goalDetails?.rewards?.value.map((reward) => reward.id)
+      ),
+      achieved: JSON.stringify(goalDetails.achieved.value),
+    };
+    const { ok } = await updateGoalApi.request(
+      outdatedGoal.logbookId,
+      outdatedGoal.id,
+      goal
+    );
+
+    if (!ok) return;
+    await storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${constants.LOGBOOK_DATA_CACHE}_${
+        outdatedGoal.logbookId
+      }_${new Date().getFullYear()}`,
+    ]);
+    navigation.navigate(constants.GOAL_SCREEN, {
+      goalId: outdatedGoal.id,
+    });
+  };
+
+  return (
+    <>
+      <ScreenHeader
+        header={constants.UPDATE_GOAL_SCREEN}
+        LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
+      />
+      <ActivityIndicator
+        visible={updateGoalApi.loading || getRewardsApi.loading}
+      />
+      <Screen screenHeaderPresent scrollable>
+        <Form
+          initialValues={{
+            name: outdatedGoal.name,
+            dueDate: outdatedGoal.date,
+            achievementCriteria: outdatedGoal.achievementCriteria,
+            rewards: formatRewardsAndRewardsDefaultValue(
+              outdatedGoal.rewards,
+              rewards
+            ).defaultValue,
+            achieved: {
+              label: outdatedGoal.achieved ? 'Yes' : 'No',
+              value: outdatedGoal.achieved,
+            },
+          }}
+          values
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+        >
+          <ErrorMessage
+            error={updateGoalApi.error || getRewardsApi.error}
+            visible={!!(updateGoalApi.error || getRewardsApi.error)}
+          />
+          <FormField name="name" label="Name" autoCorrect />
+          <DatePickerFormField
+            name="dueDate"
+            label="Due date"
+            placeholder="Select a date"
+            disabled
+          />
+          <FormField
+            name="achievementCriteria"
+            label="Achievement criteria"
+            inputContainerStyle={styles.descriptionInputContainerStyle}
+            multiline
+            autoCorrect
+          />
+          <MultiPickerFormField
+            name="rewards"
+            label="Reward(s)"
+            placeholder="Select rewards"
+            options={
+              formatRewardsAndRewardsDefaultValue(outdatedGoal.rewards, rewards)
+                .formattedRewards
+            }
+            PickerItem={RewardPickerItem}
+            numberOfColumns={3}
+          />
+          <DropdownFormField
+            name="achieved"
+            label="Achieved"
+            options={[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false },
+            ]}
+          />
+          <SubmitButton title="Save" />
+        </Form>
+      </Screen>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  descriptionInputContainerStyle: { minHeight: 100 },
+});
+
+export default UpdateGoalScreen;

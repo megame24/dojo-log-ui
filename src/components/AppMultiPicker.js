@@ -19,7 +19,7 @@ function AppMultiPicker({
   maxSelection = 5,
 }) {
   const [showOptions, setShowOptions] = useState(false);
-  let [selectedItems, setSelectedItems] = useState([]);
+  let [selectedItems, setSelectedItems] = useState(value?.value || []);
   const [selectionLimitReached, setSelectionLimitReached] = useState(false);
   let pickerLabel = '';
 

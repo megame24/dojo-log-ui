@@ -38,6 +38,9 @@ const updateLog = (logbookId, logId, log) =>
 const getGoal = (logbookId, goalId) =>
   api.get(`/logbooks/${logbookId}/goals/${goalId}`);
 
+const updateGoal = (logbookId, goalId, goal) =>
+  api.put(`/logbooks/${logbookId}/goals/${goalId}`, goal);
+
 export default {
   create,
   getLogbooks,
@@ -51,4 +54,5 @@ export default {
   deleteLog,
   updateLog,
   getGoal,
+  updateGoal,
 };
