@@ -39,6 +39,7 @@ function LogbookScreen({ navigation, route }) {
   };
   const { logbookId } = route.params;
   const getLogbookApi = useApi(logbookApi.getLogbook);
+  const updateGoalApi = useApi(logbookApi.updateGoal);
   const getEarliestLogbookYearApi = useApi(logbookApi.getEarliestLogbookYear);
   const [yearOptions, setYearOptions] = useState([]);
   const [logbook, setLogbook] = useState({});
@@ -144,6 +145,21 @@ function LogbookScreen({ navigation, route }) {
     setYearOption(option);
   };
 
+  const updateGoal = async (goalDetails, goalId) => {
+    const { ok } = await updateGoalApi.request(logbookId, goalId, goalDetails);
+
+    if (!ok) return;
+    await storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${
+        constants.LOGBOOK_DATA_CACHE
+      }_${logbookId}_${new Date().getFullYear()}`,
+    ]);
+    const startDate = dateService.getStartOfYear(yearOption.value);
+    const endDate = dateService.getEndOfYear(yearOption.value);
+    getLogbookAsync(startDate, endDate);
+  };
+
   return (
     <>
       <ScreenHeader
@@ -156,7 +172,11 @@ function LogbookScreen({ navigation, route }) {
           />
         )}
       />
-      <ActivityIndicator visible={getLogbookApi.loading || !heatmapReady} />
+      <ActivityIndicator
+        visible={
+          getLogbookApi.loading || !heatmapReady || updateGoalApi.loading
+        }
+      />
       {/*when loading show nothing here */}
       <FlatList
         style={{ flexGrow: 1 }}
@@ -170,8 +190,8 @@ function LogbookScreen({ navigation, route }) {
             floatingButtonRoom={120}
           >
             <ErrorMessage
-              error={getLogbookApi.error}
-              visible={!!getLogbookApi.error}
+              error={getLogbookApi.error || updateGoalApi.error}
+              visible={!!(getLogbookApi.error || updateGoalApi.error)}
             />
             <AppText>{logbook.description}</AppText>
             <View style={styles.container}>
@@ -219,6 +239,7 @@ function LogbookScreen({ navigation, route }) {
                       setHeatmapReady={setHeatmapReady}
                       navigation={navigation}
                       logbookId={logbookId}
+                      updateGoal={updateGoal}
                     />
                   )}
                 {logbook?.heatmap &&

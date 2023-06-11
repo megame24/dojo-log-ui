@@ -12,6 +12,7 @@ function MonthToDateHeatmap({
   setHeatmapReady,
   navigation,
   logbookId,
+  updateGoal,
 }) {
   const [heatmap, setHeatmap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
@@ -62,6 +63,7 @@ function MonthToDateHeatmap({
       if (!heatmapElement) return;
       if (heatmapElement.goal) {
         heatmapTemp[key].goalId = heatmapElement.goal.id;
+        heatmapTemp[key].goalName = heatmapElement.goal.name;
         heatmapTemp[key].hasGoal = true;
         heatmapTemp[key].goalAchieved = heatmapElement.goal.achieved;
       }
@@ -89,6 +91,7 @@ function MonthToDateHeatmap({
           heatmapItemData={heatmap[item]}
           allowMenu
           logbookId={logbookId}
+          updateGoal={updateGoal}
         />
       )}
     />
