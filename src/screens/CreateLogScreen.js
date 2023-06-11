@@ -19,7 +19,10 @@ import dateService from '../utility/dateService';
 
 export const validationSchema = Yup.object().shape({
   message: Yup.string().max(500).required().label('Message'),
-  durationOfWork: Yup.number().required().label('Duration of work'),
+  durationOfWork: Yup.number()
+    .min(1, 'Duration of work must be greater than or equal to 1 minute')
+    .required()
+    .label('Duration of work'),
 });
 
 function CreateLogScreen({ route, navigation }) {

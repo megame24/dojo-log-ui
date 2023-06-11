@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
 import BackButton from '../components/BackButton';

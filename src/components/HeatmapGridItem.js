@@ -20,6 +20,7 @@ function HeatmapGridItem({
   todayMarkSize,
   navigation,
   logbookId,
+  updateGoal,
 }) {
   return (
     <View style={styles.heatmapParentContainer}>
@@ -78,6 +79,19 @@ function HeatmapGridItem({
               </MenuOption>
               {heatmapItemData.hasGoal && (
                 <MenuOption
+                  disableTouchable
+                  style={[
+                    styles.popupMenuOption,
+                    { backgroundColor: colors.borderPrimary },
+                  ]}
+                >
+                  <AppText numberOfLines={1} style={{ fontSize: 14 }}>
+                    {heatmapItemData.goalName}
+                  </AppText>
+                </MenuOption>
+              )}
+              {heatmapItemData.hasGoal && (
+                <MenuOption
                   onSelect={() =>
                     navigation.navigate(constants.GOAL_SCREEN, {
                       goalId: heatmapItemData.goalId,
@@ -91,7 +105,9 @@ function HeatmapGridItem({
               )}
               {heatmapItemData.hasGoal && !heatmapItemData.goalAchieved && (
                 <MenuOption
-                  onSelect={() => console.log(heatmapItemData.goalId)}
+                  onSelect={() =>
+                    updateGoal({ achieved: true }, heatmapItemData.goalId)
+                  }
                   style={styles.popupMenuOption}
                 >
                   <AppText style={{ fontSize: 14 }}>Set to achieved</AppText>
@@ -137,7 +153,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   popupMenuOptions: {
-    width: 'auto',
+    width: 150,
     borderRadius: 5,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
