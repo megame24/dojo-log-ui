@@ -2,11 +2,9 @@
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import * as Localization from 'expo-localization';
+
 dayjs.extend(localizedFormat);
 dayjs.extend(dayOfYear);
 
@@ -66,7 +64,7 @@ const getEndOfDay = (date) => {
 };
 
 const getTimezone = () => {
-  return dayjs.tz.guess();
+  return Localization.timezone;
 };
 
 const subtractTimeFromDate = (date, timeValue, timeMetric) => {

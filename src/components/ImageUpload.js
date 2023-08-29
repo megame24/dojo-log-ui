@@ -42,7 +42,9 @@ function ImageUpload({ style, imageData, setImageData, deleteImage }) {
 
       if (!result.canceled) {
         if (asset.fileSize > 5000000) {
-          setFileSizeLimitError('File size limit exceeded');
+          setFileSizeLimitError(
+            'File size limit exceeded, file must be 5mb or less'
+          );
           return;
         }
         if (!asset.fileName) {

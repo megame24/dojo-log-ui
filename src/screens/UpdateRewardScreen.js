@@ -26,6 +26,7 @@ function UpdateRewardScreen({ navigation, route }) {
     };
   }
   const [imageData, setImageData] = useState(defaultImageData);
+  const [imageWasDeleted, setImageWasDeleted] = useState(false);
   const updateRewardApi = useApi(rewardApi.update);
   const deleteFileApi = useApi(fileApi.deleteFile);
 
@@ -33,7 +34,10 @@ function UpdateRewardScreen({ navigation, route }) {
     const rewardFormData = new FormData();
     rewardFormData.append('name', rewardDetails.name);
     rewardFormData.append('description', rewardDetails.description);
-    if (imageData) {
+    if (
+      imageData &&
+      (imageData.fileName !== defaultImageData?.fileName || imageWasDeleted)
+    ) {
       rewardFormData.append(
         'image',
         {
@@ -57,6 +61,7 @@ function UpdateRewardScreen({ navigation, route }) {
 
   const deleteImage = async () => {
     setImageData(null);
+    setImageWasDeleted(true);
 
     if (outdatedReward.image) {
       await deleteFileApi.request(outdatedReward.image.id);

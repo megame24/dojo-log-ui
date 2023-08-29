@@ -7,7 +7,7 @@ import AppText from './AppText';
 import DeleteAndEditSideMenu from './DeleteAndEditSideMenu';
 import Icon from './Icon';
 
-function LogListItem({ item, navigation, deleteLog }) {
+function LogListItem({ item, navigation, deleteLog, downloadFile }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -29,7 +29,7 @@ function LogListItem({ item, navigation, deleteLog }) {
       </AppText>
       {item?.proofOfWork && (
         <TouchableOpacity
-          onPress={() => console.log('Implement me when cloud storage is up')}
+          onPress={() => downloadFile(item.proofOfWork)}
           style={[styles.fileNameIcon, styles.marginTopTen]}
         >
           <Icon name="document" color={colors.primary} />

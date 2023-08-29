@@ -5,6 +5,6 @@ export default Object.freeze({
   },
   PROOF_OF_WORK: {
     header: 'Proof of work',
-    text: 'A file that proves work has been done, usually a screenshot or a pdf.',
+    text: 'A screenshot that proves work has been done.',
   },
 });
