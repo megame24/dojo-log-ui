@@ -19,9 +19,6 @@ import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import storageService from '../utility/storageService';
 
-// add a disabled dropdown with "public" pre-selected with info explaining that private logbooks
-// are coming soon to a town near you
-
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
   category: Yup.object().required().nullable().label('Category'),
@@ -46,7 +43,7 @@ function CreateLogbookScreen({ navigation }) {
     const logbook = {
       name: logbookDetails.name,
       categoryId: logbookDetails.category.id,
-      visibility: constants.VISIBILITY_PUBLIC, // default to public for now
+      visibility: constants.VISIBILITY_PRIVATE, // default to private for now
       description: logbookDetails.description,
     };
     const { ok, data } = await createLogbookApi.request(logbook);

@@ -41,10 +41,10 @@ function CreateLogScreen({ route, navigation }) {
         'file',
         {
           uri: file.uri,
-          name: file.name,
-          type: file.mimeType,
+          name: file.fileName,
+          type: `image/${file.mimeType}`,
         },
-        file.name
+        file.fileName
       );
 
     const { ok } = await createLogApi.request(logbookId, logFormData);

@@ -20,7 +20,7 @@ export default Object.freeze({
   REWARDS_TAB: 'Rewards',
   LOGBOOKS_SCREEN: 'Logbooks screen',
   CREATE_LOGBOOK_SCREEN: 'Create logbook',
-  VISIBILITY_PUBLIC: 'public',
+  VISIBILITY_PRIVATE: 'private',
   LOGBOOK_SCREEN: 'Logbook screen',
   days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
   months: [

@@ -4,8 +4,8 @@ import colors from '../../config/colors';
 import glossary from '../../config/glossary';
 import InfoModalContext from '../../context/infoModalContext';
 import AppText from '../AppText';
-import FileUpload from '../FileUpload';
 import Icon from '../Icon';
+import ImageUpload from '../ImageUpload';
 
 function ProofOfWorkFormField({ file, setFile, deleteFile }) {
   const { setInfoModalVisible, setInfoModalContent } =
@@ -25,7 +25,12 @@ function ProofOfWorkFormField({ file, setFile, deleteFile }) {
           <Icon name="help-circle-outline" size={16} color={colors.lightGray} />
         </TouchableOpacity>
       </View>
-      <FileUpload file={file} setFile={setFile} deleteFile={deleteFile} />
+      <ImageUpload // explore making this a FileUpload in the future when the download functionality is smooth
+        imageData={file}
+        setImageData={setFile}
+        deleteImage={deleteFile}
+      />
+      {/* <FileUpload file={file} setFile={setFile} deleteFile={deleteFile} /> */}
     </View>
   );
 }
