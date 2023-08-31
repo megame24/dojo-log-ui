@@ -13,6 +13,8 @@ const resendCode = (userId) => api.get(`/users/${userId}/send-verification`);
 const resetPassword = (passwordDetails, userId) =>
   api.put(`/users/${userId}/reset-password`, passwordDetails);
 
+const updateProfile = (user) => api.put(`/users/${user.id}/profile`, user);
+
 export default {
   signup,
   login,
@@ -20,4 +22,5 @@ export default {
   verifyUser,
   resendCode,
   resetPassword,
+  updateProfile,
 };
