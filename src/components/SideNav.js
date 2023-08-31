@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import colors from '../config/colors';
@@ -8,30 +8,25 @@ import storageService from '../utility/storageService';
 import AppText from './AppText';
 import Screen from './Screen';
 import SideNavItem from './SideNavItem';
+import UserInitials from './UserInitials';
 
 const APP_VERSION = require('../../package.json').version;
 
 function SideNav({ navigation }) {
-  const [initials, setInitials] = useState('');
   const { logout, user } = useAuth();
-
-  useEffect(() => {
-    const splitName = user.name.split(' ');
-    const initials = splitName[0][0] + (splitName[1] ? splitName[1][0] : '');
-    setInitials(initials.toLocaleUpperCase());
-  }, [user.name]);
 
   return (
     <Screen>
       <View style={styles.navContainer}>
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
+            onPress={() => navigation.navigate(constants.PROFILE_TAB)}
             style={styles.profileContainer}
           >
-            <View style={styles.initialsContainer}>
-              <AppText style={styles.initials}>{initials}</AppText>
-            </View>
+            <UserInitials
+              containerStyles={styles.userInitialsContainer}
+              name={user.name}
+            />
             <View style={styles.nameContainer}>
               <AppText numberOfLines={1} style={styles.name}>
                 {user.name}
@@ -96,18 +91,7 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: 'row',
   },
-  initials: {
-    color: colors.white,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  initialsContainer: {
-    width: 50,
-    height: 50,
-    backgroundColor: colors.primary,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+  userInitialsContainer: {
     marginRight: 10,
   },
   profileContainer: {
