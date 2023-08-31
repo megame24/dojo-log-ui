@@ -42,7 +42,7 @@ function ProfileScreen({ navigation }) {
       <FloatingButton
         size={35}
         color={colors.floatingButtonGray}
-        onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
+        onPress={() => navigation.navigate(constants.UPDATE_PROFILE_SCREEN)}
         Icon={() => (
           <Icon name="pen" isFontAwesome size={15} color={colors.white} />
         )}

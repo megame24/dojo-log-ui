@@ -52,4 +52,5 @@ export default Object.freeze({
   UPDATE_GOAL_SCREEN: 'Update goal',
   PROFILE_TAB: 'Profile',
   PROFILE_SCREEN: 'Profile screen',
+  UPDATE_PROFILE_SCREEN: 'Update profile',
 });
