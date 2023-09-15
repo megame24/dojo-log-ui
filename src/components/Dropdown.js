@@ -10,18 +10,19 @@ import colors from '../config/colors';
 
 import AppText from './AppText';
 import Icon from './Icon';
+import { FlatList } from 'react-native-gesture-handler';
 
 const Dropdown = ({
   topLevelContainerStyle,
   inputContainerStyle,
   inputContentStyle,
   optionsContainerStyle,
-  onBlur,
   onSelectItem,
   placeholder,
   options,
   value,
   disabled,
+  useScrollView = false,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
   return (
@@ -55,29 +56,50 @@ const Dropdown = ({
           name="caret-down"
         />
       </Pressable>
-      {showOptions && (
-        <ScrollView
-          style={[
-            inputContainerStyle,
-            styles.optionsContainer,
-            optionsContainerStyle,
-          ]}
-        >
-          {options.map((item, i) => (
-            <TouchableHighlight
-              underlayColor={colors.borderGray}
-              style={styles.option}
-              key={i}
-              onPress={() => {
-                setShowOptions(false);
-                onSelectItem(item);
-              }}
-            >
-              <AppText style={inputContentStyle}>{item.label}</AppText>
-            </TouchableHighlight>
-          ))}
-        </ScrollView>
-      )}
+      {showOptions &&
+        (useScrollView ? (
+          <ScrollView
+            style={[
+              inputContainerStyle,
+              styles.optionsContainer,
+              optionsContainerStyle,
+            ]}
+          >
+            {options.map((item, i) => (
+              <TouchableHighlight
+                underlayColor={colors.borderGray}
+                style={styles.option}
+                key={i}
+                onPress={() => {
+                  setShowOptions(false);
+                  onSelectItem(item);
+                }}
+              >
+                <AppText style={inputContentStyle}>{item.label}</AppText>
+              </TouchableHighlight>
+            ))}
+          </ScrollView>
+        ) : (
+          <FlatList
+            data={options}
+            style={[inputContainerStyle, styles.optionsContainer]}
+            listKey={(item, index) => `_key${index.toString()}`}
+            keyExtractor={(item, index) => `_key${index.toString()}`}
+            renderItem={({ item }) => (
+              <TouchableHighlight
+                underlayColor={colors.borderGray}
+                style={styles.option}
+                key={item.value}
+                onPress={() => {
+                  setShowOptions(false);
+                  onSelectItem(item);
+                }}
+              >
+                <AppText style={inputContentStyle}>{item.label}</AppText>
+              </TouchableHighlight>
+            )}
+          />
+        ))}
     </View>
   );
 };
