@@ -58,6 +58,7 @@ function DropdownFormField({
         inputStyle={inputStyle}
         placeholder={placeholder}
         options={options}
+        useScrollView
         {...otherProps}
       />
       <ErrorMessage
