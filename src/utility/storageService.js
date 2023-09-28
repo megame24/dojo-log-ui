@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'; // replace!!!
-import constants from '../config/constants';
 
 const storeItem = async (payload) => {
   try {

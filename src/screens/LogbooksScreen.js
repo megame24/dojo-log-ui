@@ -89,7 +89,7 @@ function LogbooksScreen({ navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      const endDate = new Date();
+      const endDate = dateService.getEndOfDay(dateService.now());
       const startDate = dateService.getStartOfDay(
         dateService.subtractTimeFromDate(endDate, 6, 'd')
       );
