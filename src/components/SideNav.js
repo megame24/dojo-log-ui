@@ -9,11 +9,13 @@ import AppText from './AppText';
 import Screen from './Screen';
 import SideNavItem from './SideNavItem';
 import UserInitials from './UserInitials';
+import useLink from '../hooks/useLink';
 
 const APP_VERSION = require('../../package.json').version;
 
 function SideNav({ navigation }) {
   const { logout, user } = useAuth();
+  const { openLink } = useLink();
 
   return (
     <Screen>
@@ -36,11 +38,11 @@ function SideNav({ navigation }) {
               </AppText>
             </View>
           </TouchableOpacity>
-          <SideNavItem
+          {/* <SideNavItem
             text="Thanks"
             iconName="cash-outline"
             onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
-          />
+          /> */}
           <SideNavItem
             text="Settings"
             iconName="settings-outline"
@@ -49,12 +51,14 @@ function SideNav({ navigation }) {
           <SideNavItem
             text="Personal data & Privacy"
             iconName="shield-outline"
-            onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
+            onPress={() =>
+              openLink('https://dojologs/personal-data-and-privacy')
+            }
           />
           <SideNavItem
             text="About us"
             iconName="information-circle-outline"
-            onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
+            onPress={() => openLink('https://dojologs/about-us')}
           />
         </View>
         <View>
