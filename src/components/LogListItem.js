@@ -25,7 +25,12 @@ function LogListItem({ item, navigation, deleteLog, downloadFile }) {
         )}
       </View>
       <AppText style={[styles.marginTopTen, { fontSize: 14 }]}>
-        Duration: {item.durationOfWorkInMinutes}
+        Duration:{' '}
+        {item.durationOfWorkInMinutes < 60
+          ? `${item.durationOfWorkInMinutes}m`
+          : `${Math.floor(item.durationOfWorkInMinutes / 60)}h ${
+              item.durationOfWorkInMinutes % 60
+            }m`}
       </AppText>
       {item?.proofOfWork && (
         <TouchableOpacity

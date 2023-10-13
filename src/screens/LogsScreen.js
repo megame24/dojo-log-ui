@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
 import ErrorMessage from '../components/forms/ErrorMessage';
@@ -23,6 +25,7 @@ function LogsScreen({ route, navigation }) {
   const [presignedUrl, setPresignedUrl] = useState('');
   const [fullScreenImgUrl, setFullScreenImgUrl] = useState('');
   const [logs, setLogs] = useState([]);
+  const isFocused = useIsFocused();
 
   const { startDate, endDate, logbookId } = route.params;
 
@@ -36,8 +39,8 @@ function LogsScreen({ route, navigation }) {
   };
 
   useEffect(() => {
-    getLogsAsync();
-  }, []);
+    if (isFocused) getLogsAsync();
+  }, [isFocused]);
 
   const deleteLog = async (logId) => {
     const { ok } = await deleteLogApi.request(logbookId, logId);
