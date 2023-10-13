@@ -51,7 +51,7 @@ function UpdateLogScreen({ route, navigation }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
-    navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
+    navigation.goBack();
   };
 
   const deleteFile = async () => {

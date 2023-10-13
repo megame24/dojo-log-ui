@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import BackButton from '../components/BackButton';
 import FloatingButton from '../components/FloatingButton';
@@ -9,7 +10,6 @@ import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
 import useApi from '../hooks/useApi';
 import logbookApi from '../api/logbook';
-import { useIsFocused } from '@react-navigation/native';
 import ErrorMessage from '../components/forms/ErrorMessage';
 import ActivityIndicator from '../components/ActivityIndicator';
 import AppText from '../components/AppText';
