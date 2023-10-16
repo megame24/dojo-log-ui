@@ -18,13 +18,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.megame.dojologui"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#2980B9"
-      }
+      },
+      "package": "com.megame.dojologui"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
