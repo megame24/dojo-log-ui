@@ -1,11 +1,10 @@
 {
   "name": "dojo-log-ui",
   "version": "0.0.1",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint src",
@@ -23,16 +22,18 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/datetimepicker": "6.5.2",
+    "@react-native-google-signin/google-signin": "^10.0.1",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/drawer": "^6.4.3",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "apisauce": "^2.1.5",
     "dayjs": "^1.11.5",
-    "expo": "^47.0.0",
+    "expo": "~47.0.14",
     "expo-document-picker": "~11.0.1",
     "expo-file-system": "~15.1.1",
     "expo-image-picker": "~14.0.2",
+    "expo-localization": "~14.0.0",
     "expo-secure-store": "~12.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
@@ -49,8 +50,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-web": "~0.18.7",
     "validate-color": "^2.2.1",
-    "yup": "^0.32.11",
-    "expo-localization": "~14.0.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

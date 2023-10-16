@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import jwtDecode from 'jwt-decode';
+import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
@@ -16,6 +17,7 @@ import constants from '../config/constants';
 import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
 import useApi from '../hooks/useApi';
+import useSignInWithGoogle from '../hooks/useSignInWithGoogle';
 import ExpiredSessionContext from '../context/expiredSessionContext';
 
 const validationSchema = Yup.object().shape({
@@ -25,6 +27,7 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const { login } = useAuth();
+  const { signIn } = useSignInWithGoogle();
   const loginApi = useApi(usersApi.login);
   const { sessionExpired, setSessionExpired } = useContext(
     ExpiredSessionContext
@@ -46,6 +49,12 @@ function LoginScreen({ navigation }) {
 
     if (verified) return login(authToken);
     navigation.navigate(constants.VERIFY_SCREEN, { userId: id });
+  };
+
+  const handleGoogleSignIn = async () => {
+    const userInfo = await signIn();
+
+    console.log(userInfo);
   };
 
   return (
@@ -98,6 +107,13 @@ function LoginScreen({ navigation }) {
             onLinkPress={() => navigation.navigate(constants.SIGNUP_SCREEN)}
           />
         </Form>
+
+        <GoogleSigninButton
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={handleGoogleSignIn}
+          // disabled={this.state.isSigninInProgress}
+        />
       </Screen>
     </>
   );
