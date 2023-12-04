@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.megame.dojologui"
+      "bundleIdentifier": "com.megame.dojologui",
+      "googleServicesFile": "./client_299187616976-gio7um9ebl2lc14bkhn20q731a98j06b.apps.googleusercontent.com.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +31,7 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
-    }
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
   }
 }
