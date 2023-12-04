@@ -4,6 +4,9 @@ const signup = (user) => api.post('/users/register', user);
 
 const login = (credentials) => api.post('/users/login', credentials);
 
+const googleSignInVerify = (idToken) =>
+  api.post('/users/google-sign-in-verify', idToken);
+
 const forgotPassword = (email) => api.post('/users/forgot-password', email);
 
 const verifyUser = (code, userId) => api.put(`/users/${userId}/verify`, code);
@@ -23,4 +26,5 @@ export default {
   resendCode,
   resetPassword,
   updateProfile,
+  googleSignInVerify,
 };

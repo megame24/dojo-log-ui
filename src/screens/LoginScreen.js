@@ -19,6 +19,10 @@ import FormSubHeader from '../components/forms/FormSubHeader';
 import useApi from '../hooks/useApi';
 import useSignInWithGoogle from '../hooks/useSignInWithGoogle';
 import ExpiredSessionContext from '../context/expiredSessionContext';
+import AppText from '../components/AppText';
+import { StyleSheet, View } from 'react-native';
+import colors from '../config/colors';
+import SignInWithGoogleButton from '../components/SignInWithGoogleButton';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -29,6 +33,7 @@ function LoginScreen({ navigation }) {
   const { login } = useAuth();
   const { signIn } = useSignInWithGoogle();
   const loginApi = useApi(usersApi.login);
+  const googleSignInVerifyApi = useApi(usersApi.googleSignInVerify);
   const { sessionExpired, setSessionExpired } = useContext(
     ExpiredSessionContext
   );
@@ -39,27 +44,42 @@ function LoginScreen({ navigation }) {
     }, 5000);
   }, []);
 
-  const handleSubmit = async (credentials) => {
-    const { ok, data } = await loginApi.request(credentials);
-
-    if (!ok) return;
-
-    const { authToken } = data;
+  const handleLogin = (authToken) => {
     const { verified, id } = jwtDecode(authToken);
 
     if (verified) return login(authToken);
     navigation.navigate(constants.VERIFY_SCREEN, { userId: id });
   };
 
+  const handleSubmit = async (credentials) => {
+    const { ok, data } = await loginApi.request(credentials);
+
+    if (!ok) return;
+
+    const { authToken } = data;
+    handleLogin(authToken);
+  };
+
   const handleGoogleSignIn = async () => {
     const userInfo = await signIn();
 
-    console.log(userInfo);
+    if (!userInfo) return;
+
+    const { ok, data } = await googleSignInVerifyApi.request({
+      idToken: userInfo.idToken,
+    });
+
+    if (!ok) return;
+
+    const { authToken } = data;
+    handleLogin(authToken);
   };
 
   return (
     <>
-      <ActivityIndicator visible={loginApi.loading} />
+      <ActivityIndicator
+        visible={loginApi.loading || googleSignInVerifyApi.loading}
+      />
       <Screen scrollable>
         <Form
           initialValues={{
@@ -70,13 +90,16 @@ function LoginScreen({ navigation }) {
           validationSchema={validationSchema}
         >
           <FormHeader>Login</FormHeader>
-          <ErrorMessage error={loginApi.error} visible={!!loginApi.error} />
+          <ErrorMessage
+            error={loginApi.error || googleSignInVerifyApi.loading}
+            visible={!!(loginApi.error || googleSignInVerifyApi.loading)}
+          />
           <ErrorMessage
             error={constants.SESSION_EXPIRED_ERROR}
             visible={sessionExpired}
           />
           <FormSubHeader>
-            Welcome back! kindly enter your login details to continue.
+            Welcome! kindly enter your login details to continue.
           </FormSubHeader>
           <FormField
             name="email"
@@ -107,16 +130,44 @@ function LoginScreen({ navigation }) {
             onLinkPress={() => navigation.navigate(constants.SIGNUP_SCREEN)}
           />
         </Form>
-
-        <GoogleSigninButton
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={handleGoogleSignIn}
-          // disabled={this.state.isSigninInProgress}
-        />
+        <View style={styles.orSeparator}>
+          <View style={styles.line} />
+          <AppText style={styles.orText}>or</AppText>
+          <View style={styles.line} />
+        </View>
+        <View style={styles.googleButtonContainer}>
+          <SignInWithGoogleButton onPress={handleGoogleSignIn} />
+          {/* <GoogleSigninButton
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={handleGoogleSignIn}
+            // disabled={this.state.isSigninInProgress}
+          /> */}
+        </View>
       </Screen>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  orSeparator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+    width: '100%',
+  },
+  line: {
+    flex: 1,
+    height: 0.5,
+    backgroundColor: colors.lightGray,
+  },
+  orText: {
+    paddingHorizontal: 10,
+    color: colors.mediumGray,
+  },
+  googleButtonContainer: {
+    alignItems: 'center',
+  },
+});
 
 export default LoginScreen;

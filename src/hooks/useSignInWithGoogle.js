@@ -1,9 +1,10 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 GoogleSignin.configure({
+  // webClientId: '299187616976-27sta8o8v94fsm0b616343cbkvh8l245.apps.googleusercontent.com',
   iosClientId:
     '299187616976-gio7um9ebl2lc14bkhn20q731a98j06b.apps.googleusercontent.com',
-  offlineAccess: true,
+  offlineAccess: false,
 });
 
 function useSignInWithGoogle() {
@@ -13,24 +14,9 @@ function useSignInWithGoogle() {
       const userInfo = await GoogleSignin.signIn();
 
       return userInfo;
-
-      // const response = await fetch('http://your-server-url/verify', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ idToken: userInfo.idToken }),
-      // });
-
-      // const data = await response.json();
-
-      // if (data.success) {
-      //   // User is verified successfully
-      // } else {
-      //   // Failed to verify user
-      // }
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 
