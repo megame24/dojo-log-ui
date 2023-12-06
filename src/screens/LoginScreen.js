@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import jwtDecode from 'jwt-decode';
-import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import Form from '../components/forms/Form';
 import FormField from '../components/forms/FormField';
@@ -137,12 +136,6 @@ function LoginScreen({ navigation }) {
         </View>
         <View style={styles.googleButtonContainer}>
           <SignInWithGoogleButton onPress={handleGoogleSignIn} />
-          {/* <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={handleGoogleSignIn}
-            // disabled={this.state.isSigninInProgress}
-          /> */}
         </View>
       </Screen>
     </>

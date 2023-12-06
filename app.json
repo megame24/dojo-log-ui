@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.megame.dojologui",
-      "googleServicesFile": "./client_299187616976-gio7um9ebl2lc14bkhn20q731a98j06b.apps.googleusercontent.com.plist"
+      "googleServicesFile": "./GoogleService-info.plist"
     },
     "android": {
       "adaptiveIcon": {

@@ -66,12 +66,16 @@ function ImageUpload({ style, imageData, setImageData, deleteImage }) {
       {imageData && (
         <View style={styles.fileContainer}>
           <View style={styles.fileNameIcon}>
-            <Image
-              source={{ uri: imageData.uri }}
-              style={{ width: 40, height: 40 }}
-            />
+            {imageData.uri ? (
+              <Image
+                source={{ uri: imageData.uri }}
+                style={{ width: 40, height: 40 }}
+              />
+            ) : (
+              <Icon name="document" color={colors.primary} />
+            )}
             <AppText style={styles.fileName} numberOfLines={1}>
-              {imageData.fileName}
+              {imageData.fileName || imageData.name}
             </AppText>
           </View>
           <TouchableOpacity
