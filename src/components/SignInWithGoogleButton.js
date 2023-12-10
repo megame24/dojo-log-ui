@@ -8,9 +8,13 @@ import {
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-const SignInWithGoogleButton = ({ onPress }) => {
+const SignInWithGoogleButton = ({ onPress, loading }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, loading ? styles.buttonDisabled : null]}
+      onPress={onPress}
+      disabled={loading}
+    >
       <View style={styles.buttonContentWrapper}>
         <Svg height="20" width="20" viewBox="0 0 48 48">
           <Path
@@ -48,6 +52,10 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'android' ? 40 : 44,
     maxWidth: 400,
   },
+  buttonDisabled: {
+    backgroundColor: '#F2F2F2',
+    borderColor: '#F2F2F2',
+  },
   buttonContentWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -59,6 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto, Arial, sans-serif',
     fontWeight: '500',
     textAlign: 'center',
+    color: '#1F1F1F',
   },
 });
 export default SignInWithGoogleButton;
