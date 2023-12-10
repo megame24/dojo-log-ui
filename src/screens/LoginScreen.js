@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const { login } = useAuth();
-  const { signIn } = useSignInWithGoogle();
+  const { signIn, loading: googleSignInLoading } = useSignInWithGoogle();
   const loginApi = useApi(usersApi.login);
   const googleSignInVerifyApi = useApi(usersApi.googleSignInVerify);
   const { sessionExpired, setSessionExpired } = useContext(
@@ -61,7 +61,6 @@ function LoginScreen({ navigation }) {
 
   const handleGoogleSignIn = async () => {
     const userInfo = await signIn();
-    console.log(userInfo);
 
     if (!userInfo) return;
 
@@ -136,7 +135,10 @@ function LoginScreen({ navigation }) {
           <View style={styles.line} />
         </View>
         <View style={styles.googleButtonContainer}>
-          <SignInWithGoogleButton onPress={handleGoogleSignIn} />
+          <SignInWithGoogleButton
+            onPress={handleGoogleSignIn}
+            loading={googleSignInLoading}
+          />
         </View>
       </Screen>
     </>
