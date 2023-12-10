@@ -2,5 +2,5 @@
   <string name="app_name">dojo-log-ui</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
-  <string name="server_client_id">299187616976-1n949rl120mmujuunf8fib7ahfhv8ka5.apps.googleusercontent.com</string>
+  <string name="server_client_id">[ANDROID_CLIENT_ID]</string>
 </resources>

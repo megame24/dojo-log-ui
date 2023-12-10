@@ -61,6 +61,7 @@ function LoginScreen({ navigation }) {
 
   const handleGoogleSignIn = async () => {
     const userInfo = await signIn();
+    console.log(userInfo);
 
     if (!userInfo) return;
 
