@@ -46,11 +46,11 @@ function SideNav({ navigation }) {
           <SideNavItem
             text="Settings"
             iconName="settings-outline"
-            onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
+            onPress={() => navigation.navigate(constants.SETTINGS_TAB)}
           />
           <SideNavItem
             text="Personal data & Privacy"
-            iconName="shield-outline"
+            iconName="shield-checkmark-outline"
             onPress={() =>
               openLink('https://dojologs/personal-data-and-privacy')
             }

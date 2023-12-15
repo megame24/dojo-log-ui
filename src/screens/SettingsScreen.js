@@ -1,17 +1,35 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import AppText from '../components/AppText';
+import ScreenHeader from '../components/ScreenHeader';
+import HeaderMenu from '../components/HeaderMenu';
+import Screen from '../components/Screen';
+import SideNavItem from '../components/SideNavItem';
+import constants from '../config/constants';
 
-function SettingsScreen() {
+function SettingsScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <AppText>Settings</AppText>
-    </View>
+    <>
+      <ScreenHeader
+        header="Settings"
+        LeftIcon={() => (
+          <HeaderMenu onPress={() => navigation.toggleDrawer()} />
+        )}
+      />
+      <Screen screenHeaderPresent style={{ marginTop: 10 }}>
+        <SideNavItem
+          text="Account"
+          iconName="person-circle-outline"
+          onPress={() => navigation.navigate(constants.ACCOUNT_SETTINGS_SCREEN)}
+        />
+        <SideNavItem
+          text="Password and authentication"
+          iconName="lock-closed-outline"
+          onPress={() =>
+            navigation.navigate(constants.PASSWORD_SETTINGS_SCREEN)
+          }
+        />
+      </Screen>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});
 
 export default SettingsScreen;

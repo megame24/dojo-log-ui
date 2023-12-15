@@ -3,7 +3,7 @@ import authStorage from '../utility/authStorage';
 import dateService from '../utility/dateService';
 
 const api = create({
-  baseURL: 'http://192.168.100.24:3000',
+  baseURL: 'http://192.168.1.127:3000',
 });
 
 api.addAsyncRequestTransform(async (request) => {

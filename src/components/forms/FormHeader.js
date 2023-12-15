@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import AppText from '../AppText';
 
-function FormHeader({ children }) {
-  return <AppText style={styles.formHeader}>{children}</AppText>;
+function FormHeader({ children, style }) {
+  return <AppText style={[styles.formHeader, style]}>{children}</AppText>;
 }
 
 const styles = StyleSheet.create({
