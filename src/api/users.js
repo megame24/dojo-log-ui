@@ -18,6 +18,9 @@ const resetPassword = (passwordDetails, userId) =>
 
 const updateProfile = (user) => api.put(`/users/${user.id}/profile`, user);
 
+const changePassword = (credentials, userId) =>
+  api.put(`/users/${userId}/change-password`, credentials);
+
 export default {
   signup,
   login,
@@ -27,4 +30,5 @@ export default {
   resetPassword,
   updateProfile,
   googleSignInVerify,
+  changePassword,
 };

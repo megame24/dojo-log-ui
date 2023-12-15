@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#F2F2F2',
-    borderColor: '#F2F2F2',
   },
   buttonContentWrapper: {
     flexDirection: 'row',
