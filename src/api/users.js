@@ -21,6 +21,8 @@ const updateProfile = (user) => api.put(`/users/${user.id}/profile`, user);
 const changePassword = (credentials, userId) =>
   api.put(`/users/${userId}/change-password`, credentials);
 
+const deleteAccount = (userId) => api.delete(`/users/${userId}/account`);
+
 export default {
   signup,
   login,
@@ -31,4 +33,5 @@ export default {
   updateProfile,
   googleSignInVerify,
   changePassword,
+  deleteAccount,
 };

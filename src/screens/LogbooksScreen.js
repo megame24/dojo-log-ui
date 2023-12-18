@@ -17,13 +17,13 @@ import CategoryListItem from '../components/CategoryListItem';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
 
-const favouritesCategory = {
-  name: 'favourites',
-  color: colors.gold,
-  iconName: 'star',
-  id: '1',
-  active: true,
-};
+// const favouritesCategory = {
+//   name: 'favourites',
+//   color: colors.gold,
+//   iconName: 'star',
+//   id: '1',
+//   active: true,
+// };
 
 function LogbooksScreen({ navigation }) {
   const { user } = useContext(AuthContext);
@@ -35,7 +35,8 @@ function LogbooksScreen({ navigation }) {
 
   const extractCategories = (logbooks = []) => {
     const categoriesTracker = {};
-    const categoriesTemp = [favouritesCategory];
+    // const categoriesTemp = [favouritesCategory];
+    const categoriesTemp = [];
     logbooks.forEach((logbook) => {
       const category = logbook.category;
       if (category && !categoriesTracker[category.name]) {
