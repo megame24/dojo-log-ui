@@ -58,7 +58,7 @@ function LogbookScreen({ navigation, route }) {
     });
   });
 
-  const getLogbookAsync = async (startDate, endDate) => {
+  const getLogbookAsync = async (startDate, endDate, year) => {
     const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
     const cacheKey = `${constants.LOGBOOK_DATA_CACHE}_${logbookId}_${yearOption.value}`;
     let cachedLogbookData = await storageService.getItem(cacheKey);
@@ -70,19 +70,22 @@ function LogbookScreen({ navigation, route }) {
     }
     if (cachedLogbookDataValid) {
       const cachedLogbooks = cachedLogbookData.logbook;
-      setHeatmapReady(false);
       setLogbook({});
       setLogbook(cachedLogbooks);
     } else {
-      setHeatmapReady(false);
       setLogbook({});
       const { data, ok } = await getLogbookApi.request(
         logbookId,
         startDate,
-        endDate
+        endDate,
+        yearOption.value
       );
-      if (ok) {
-        setLogbook(data);
+      if (!ok) return;
+
+      setLogbook(data);
+
+      // only cache current year logbook data
+      if (yearOption.value === currentYear) {
         const cacheData = {
           logbook: data,
           date: todaysDateInUTC,
@@ -245,7 +248,7 @@ function LogbookScreen({ navigation, route }) {
                 {logbook?.heatmap &&
                   duration.value !== defaultDuration.value && (
                     <YearlyHeatmap
-                      heatmapData={logbook.heatmap}
+                      heatmapData={logbook.yearHeatmapDisplay}
                       year={yearOption.value}
                       setHeatmapReady={setHeatmapReady}
                     />

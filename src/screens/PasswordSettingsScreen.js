@@ -19,8 +19,6 @@ import BackButton from '../components/BackButton';
 import SuccessToast from '../components/SuccessToast';
 import ScreenHeader from '../components/ScreenHeader';
 import useAuth from '../hooks/useAuth';
-import { View } from 'react-native';
-import colors from '../config/colors';
 import Separator from '../components/Separator';
 
 const validationSchema = Yup.object().shape({
