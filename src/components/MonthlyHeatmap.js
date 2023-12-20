@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FlatList } from 'react-native';
 import constants from '../config/constants';
 import dateService from '../utility/dateService';
@@ -14,10 +14,7 @@ function MonthToDateHeatmap({
   logbookId,
   updateGoal,
 }) {
-  const [heatmap, setHeatmap] = useState({});
-  const [daysOfYear, setDaysOfYear] = useState([]);
-
-  useEffect(() => {
+  const { daysOfYear, heatmap } = useMemo(() => {
     const startOfMonth = dateService.getStartOfMonth(year, month);
     const startOfMonthDayValue = new Date(startOfMonth).getDay();
     const startOfMonthDayOfYear = dateService.getDayOfYear(startOfMonth);
@@ -56,7 +53,6 @@ function MonthToDateHeatmap({
       if (i < startOfMonthDayOfYear) heatmapTemp[i].inactive = true;
       weekTracker++;
     }
-    setDaysOfYear(daysArr);
 
     Object.keys(heatmapTemp).forEach((key) => {
       const heatmapElement = heatmapData[key];
@@ -75,9 +71,13 @@ function MonthToDateHeatmap({
         heatmapTemp[key].endDate = heatmapElement.logs.endDate;
       }
     });
-    setHeatmap(heatmapTemp);
-    setHeatmapReady(true);
+
+    return { daysOfYear: daysArr, heatmap: heatmapTemp };
   }, [month, year]);
+
+  useEffect(() => {
+    setHeatmapReady(true);
+  }, [heatmap]);
 
   return (
     <FlatList

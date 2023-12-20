@@ -9,9 +9,9 @@ const getLogbooks = (userId, startDate, endDate) =>
     `/logbooks?userId=${userId}&startDateString=${startDate}&endDateString=${endDate}`
   );
 
-const getLogbook = (logbookId, startDate, endDate) =>
+const getLogbook = (logbookId, startDate, endDate, year) =>
   api.get(
-    `/logbooks/${logbookId}?startDateString=${startDate}&endDateString=${endDate}`
+    `/logbooks/${logbookId}?startDateString=${startDate}&endDateString=${endDate}&year=${year}`
   );
 
 const getEarliestLogbookYear = () => api.get('/logbooks/earliestLogbookYear');

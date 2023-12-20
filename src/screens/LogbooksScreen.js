@@ -102,7 +102,7 @@ function LogbooksScreen({ navigation }) {
     category.active = !category.active; // treat favourites filter differently
     let filteredLogbooksTemp = logbooks.filter((logbook) => {
       let include = true;
-      for (let i = 1; i < categories.length; i++) {
+      for (let i = 0; i < categories.length; i++) {
         if (logbook.category.id === categories[i].id && !categories[i].active) {
           include = false;
           return;
