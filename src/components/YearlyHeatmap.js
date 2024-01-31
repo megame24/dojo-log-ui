@@ -20,6 +20,7 @@ function YearlyHeatmap({ heatmapData }) {
       nestedScrollEnabled
       data={heatmapData}
       numColumns={14}
+      initialNumToRender={365}
       keyExtractor={(item) => item.index}
       renderItem={renderItem}
     />

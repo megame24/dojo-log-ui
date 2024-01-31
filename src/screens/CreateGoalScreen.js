@@ -69,7 +69,7 @@ function CreateGoalScreen({ route, navigation }) {
   return (
     <>
       <ScreenHeader
-        header={constants.CREATE_GOAL_SCREEN}
+        header="Set a goal"
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator
@@ -115,7 +115,7 @@ function CreateGoalScreen({ route, navigation }) {
             PickerItem={RewardPickerItem}
             numberOfColumns={3}
           />
-          <SubmitButton title="Create" />
+          <SubmitButton title="Set goal" />
         </Form>
       </Screen>
     </>
