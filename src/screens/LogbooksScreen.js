@@ -117,7 +117,7 @@ function LogbooksScreen({ navigation }) {
   return (
     <>
       <ScreenHeader
-        header={`What's good, ${user.name.split(' ')[0]}!`}
+        header={`Hello, ${user.name.split(' ')[0]}!`}
         LeftIcon={() => (
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}

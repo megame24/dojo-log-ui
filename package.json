@@ -1,5 +1,5 @@
 {
-  "name": "dojo-log-ui",
+  "name": "dojologs",
   "version": "0.0.1",
   "scripts": {
     "start": "expo start --dev-client",
