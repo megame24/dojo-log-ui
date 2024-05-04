@@ -16,9 +16,9 @@ function FloatingButton({
   return (
     <View style={[styles.container, style]}>
       {label && (
-        <View style={styles.labelContainer}>
+        <TouchableOpacity onPress={onPress} style={styles.labelContainer}>
           <AppText style={{ color: colors.white }}>{label}</AppText>
-        </View>
+        </TouchableOpacity>
       )}
       <TouchableOpacity
         onPress={onPress}

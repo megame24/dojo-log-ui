@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "dojologs",
+    "name": "Dojologs_beta",
     "slug": "dojologs",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/dojolog-icon.png",
+    "icon": "./src/assets/dojologs-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/dojolog-splash.png",
+      "image": "./src/assets/dojologs-splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#2980B9"
     },
@@ -24,14 +24,23 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/dojolog-adaptive-icon.png",
+        "foregroundImage": "./src/assets/dojologs-adaptive-icon.png",
         "backgroundColor": "#2980B9"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.megame.dojologs"
     },
     "web": {
-      "favicon": "./src/assets/favicon.png"
+      "favicon": "./src/assets/dojologs-favicon.png"
     },
-    "plugins": ["@react-native-google-signin/google-signin"]
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a793950b-3899-4ad9-8549-c6e46ca582a3"
+      }
+    },
+    "owner": "megame"
   }
 }

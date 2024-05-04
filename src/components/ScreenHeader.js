@@ -24,7 +24,7 @@ function ScreenHeader({ header, style, LeftIcon, RightIcon }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingTop: Constants.statusBarHeight + 15,
+    paddingTop: 15,
     paddingBottom: 15,
     paddingRight: 20,
     paddingLeft: 20,

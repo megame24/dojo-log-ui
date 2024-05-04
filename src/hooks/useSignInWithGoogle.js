@@ -2,7 +2,10 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useState } from 'react';
 
 GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
+  webClientId:
+    '931625271869-42o10kfcmb96544h7jp2an9mdp9rncv8.apps.googleusercontent.com',
+  androidClientId:
+    '931625271869-5ln5efrahfftsrl3g93p91q63jcuqc1d.apps.googleusercontent.com',
   offlineAccess: false,
 });
 

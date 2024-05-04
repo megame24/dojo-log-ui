@@ -18,12 +18,16 @@ PODS:
   - EXImageLoader (4.3.0):
     - ExpoModulesCore
     - React-Core
+  - EXNotifications (0.20.1):
+    - ExpoModulesCore
   - Expo (49.0.13):
     - ExpoModulesCore
   - ExpoAdapterGoogleSignIn (10.0.1):
     - ExpoModulesCore
     - GoogleSignIn (~> 7.0)
     - React-Core
+  - ExpoDevice (5.4.0):
+    - ExpoModulesCore
   - ExpoDocumentPicker (11.5.4):
     - ExpoModulesCore
   - ExpoImagePicker (14.3.2):
@@ -44,6 +48,9 @@ PODS:
     - ExpoModulesCore
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - EXTaskManager (11.3.0):
+    - ExpoModulesCore
+    - UMAppLoader
   - FBLazyVector (0.72.5)
   - FBReactNativeSpec (0.72.5):
     - RCT-Folly (= 2021.07.22.00)
@@ -530,6 +537,7 @@ PODS:
   - RNSVG (13.9.0):
     - React-Core
   - SocketRocket (0.6.1)
+  - UMAppLoader (4.2.0)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -540,8 +548,10 @@ DEPENDENCIES:
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
+  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
   - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
+  - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -549,6 +559,7 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXTaskManager (from `../node_modules/expo-task-manager/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -596,6 +607,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -624,10 +636,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
+  EXNotifications:
+    :path: "../node_modules/expo-notifications/ios"
   Expo:
     :path: "../node_modules/expo"
   ExpoAdapterGoogleSignIn:
     :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
+  ExpoDevice:
+    :path: "../node_modules/expo-device/ios"
   ExpoDocumentPicker:
     :path: "../node_modules/expo-document-picker/ios"
   ExpoImagePicker:
@@ -642,6 +658,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
+  EXTaskManager:
+    :path: "../node_modules/expo-task-manager/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -733,6 +751,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  UMAppLoader:
+    :path: "../node_modules/unimodules-app-loader/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -740,20 +760,23 @@ SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
-  EXApplication: 042aa2e3f05258a16962ea1a9914bf288db9c9a1
-  EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
-  EXFileSystem: 2b826a3bf1071a4b80a8457e97124783d1ac860e
-  EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
-  EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
-  Expo: e7d2116b947e2e6fdeb09ee4f2754f819426d1b6
-  ExpoAdapterGoogleSignIn: b6e7ca3d25261737d31c274460b503ff1b6cb303
-  ExpoDocumentPicker: 5cb7389ff935b4addefdd466a606de51a512e922
-  ExpoImagePicker: c58fdf28be551681a8edc550bcec76c397a8dfcd
-  ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
-  ExpoLocalization: be37fdd0b5930c6a49cd307b4542f4b426d6134c
-  ExpoModulesCore: 51cb2e7ab4c8da14be3f40b66d54c1781002e99d
-  ExpoSecureStore: 57db3b6da8b59046e2057e95bf7738a8027b47c3
-  EXSplashScreen: c0e7f2d4a640f3b875808ed0b88575538daf6d82
+  EXApplication: 3aa9d9e0ece52ede16fe5f08079441ea106f1ed2
+  EXConstants: b4a9e85ac485e96eba796b3c0cdbf20523aa2a44
+  EXFileSystem: c1c539edf5ebfbe98f171e4b229f63faeda265c7
+  EXFont: 990728c493793fe0118926c0798bc4e0d848a261
+  EXImageLoader: 6803e2a0579142d7a005f9ceef4b206470118d6b
+  EXNotifications: 715075465599e63cf4c43a11b243b2be4f2d650a
+  Expo: 6079aaf134003105fba5a4613580f2745c9b6b60
+  ExpoAdapterGoogleSignIn: 7795acbbe3d8ee01f67e1a58e752dafea394305a
+  ExpoDevice: ca8268cbaa32f20db22c7092b16cc36c2f2ead08
+  ExpoDocumentPicker: 47025ab82c185b1a4f4167aaa01dc0468480bf57
+  ExpoImagePicker: e76ba349576373ee3f89216a3188b4e17f124153
+  ExpoKeepAwake: 396a8209c9a4e6cc0fb3da0cf26acbf4a4803114
+  ExpoLocalization: 524e2cbd440192e6a26c6e47412b593930facdef
+  ExpoModulesCore: 197200ec1dc092f5971c42725bbf03e7b0039ab8
+  ExpoSecureStore: abf6c85f65586171ba0291bda71bf68594f3a4a8
+  EXSplashScreen: 0deafa3e2d52eebffe501c0e2f1b2f71ae9c8bd4
+  EXTaskManager: f1730c315eb6fe457a3a2ee4ed899a51d717f302
   FBLazyVector: 71803c074f6325f10b5ec891c443b6bbabef0ca7
   FBReactNativeSpec: 448e08a759d29a96e15725ae532445bf4343567c
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
@@ -780,7 +803,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: ff70a72027dea5cc7d71cfcc6fad7f599f63987a
   React-jsinspector: aef73cbd43b70675f572214d10fa438c89bf11ba
   React-logger: 2e4aee3e11b3ec4fa6cfd8004610bbb3b8d6cca4
-  react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
+  react-native-safe-area-context: 5496bfc1fb0f0e096eeb740377d6a3d62597abe2
   React-NativeModulesApple: 797bc6078d566eef3fb3f74127e6e1d2e945a15f
   React-perflogger: cd8886513f68e1c135a1e79d20575c6489641597
   React-RCTActionSheet: 726d2615ca62a77ce3e2c13d87f65379cdc73498
@@ -798,16 +821,17 @@ SPEC CHECKSUMS:
   React-runtimescheduler: cc32add98c45c5df18436a6a52a7e1f6edec102c
   React-utils: 7a9918a1ffdd39aba67835d42386f592ea3f8e76
   ReactCommon: 91ece8350ebb3dd2be9cef662abd78b6948233c0
-  RNCAsyncStorage: ddc4ee162bfd41b0d2c68bf2d95acd81dd7f1f93
-  RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
+  RNCAsyncStorage: 76f919a74bc2ac74a23f1cc9dbd6974a8147d9e4
+  RNDateTimePicker: 180c48f3ce080cda34bf4b4b83dc445cb27a853c
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
-  RNGoogleSignin: ccaa4a81582cf713eea562c5dd9dc1961a715fd0
+  RNGoogleSignin: d8c6e70ad37cd9dc69f4f34b36433feec749ad63
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  UMAppLoader: e83f024f75f07802fce99739f04b4537d188caaf
   Yoga: 86fed2e4d425ee4c6eab3813ba1791101ee153c6
 
-PODFILE CHECKSUM: 8d07bc9db6de491d58caed253045cd0644c33c27
+PODFILE CHECKSUM: 323e1dce892b450c69908afb2fc4d7db759f5432
 
 COCOAPODS: 1.13.0
