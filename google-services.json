@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "931625271869",
+    "project_id": "dojologs-28331",
+    "storage_bucket": "dojologs-28331.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931625271869:android:3e750e50de89e2b2bde054",
+        "android_client_info": {
+          "package_name": "com.megame.dojologs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931625271869-5ln5efrahfftsrl3g93p91q63jcuqc1d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.megame.dojologs",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "931625271869-42o10kfcmb96544h7jp2an9mdp9rncv8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxopbHt0x1WOP9Z6o8oZJKzwMYhDonUuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931625271869-42o10kfcmb96544h7jp2an9mdp9rncv8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "931625271869-7sbs8k5p1fff3pm057vv1dil61ggj6g1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.megame.dojologs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

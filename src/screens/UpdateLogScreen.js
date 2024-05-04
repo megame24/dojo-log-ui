@@ -36,8 +36,8 @@ function UpdateLogScreen({ route, navigation }) {
         'file',
         {
           uri: file.uri,
-          name: file.name,
-          type: file.mimeType,
+          name: file.fileName,
+          type: `image/${file.mimeType}`,
         },
         file.name
       );

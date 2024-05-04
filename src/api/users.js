@@ -23,6 +23,9 @@ const changePassword = (credentials, userId) =>
 
 const deleteAccount = (userId) => api.delete(`/users/${userId}/account`);
 
+const createExpoNotificationToken = (token, userId) =>
+  api.post(`/users/${userId}/expo-notification-token`, token);
+
 export default {
   signup,
   login,
@@ -34,4 +37,5 @@ export default {
   googleSignInVerify,
   changePassword,
   deleteAccount,
+  createExpoNotificationToken,
 };

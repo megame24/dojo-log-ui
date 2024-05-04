@@ -2,9 +2,13 @@
 import './ignoreWarnings';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+} from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Notifications from 'expo-notifications';
 import { MenuProvider } from 'react-native-popup-menu';
 
 import AuthNavigator from './src/navigation/AuthNavigator';
@@ -15,6 +19,17 @@ import ExpiredSessionContext from './src/context/expiredSessionContext';
 import authStorage from './src/utility/authStorage';
 import AppNavigator from './src/navigation/AppNavigator';
 import InfoModal from './src/components/InfoModal';
+import constants from './src/config/constants';
+
+// Import the background task setup
+import './src/utility/backgroundTasks';
+
+const navigationRef = createNavigationContainerRef();
+function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 
 export default function App() {
   const [user, setUser] = useState();
@@ -46,6 +61,17 @@ export default function App() {
     }
 
     prepare();
+
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        const data = response.notification.request.content.data;
+        console.log(data, 'LLLLLL');
+        const { view, payload } = data;
+        navigate(constants.SETTINGS_SCREEN);
+      }
+    );
+
+    return () => subscription.remove();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
@@ -73,7 +99,7 @@ export default function App() {
             }}
           >
             <MenuProvider>
-              <NavigationContainer theme={navigationTheme}>
+              <NavigationContainer ref={navigationRef} theme={navigationTheme}>
                 {user ? <AppNavigator /> : <AuthNavigator />}
               </NavigationContainer>
             </MenuProvider>
