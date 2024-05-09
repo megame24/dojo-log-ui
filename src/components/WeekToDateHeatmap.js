@@ -80,36 +80,8 @@ function WeekToDateHeatmap({ heatmapData, navigation, logbookId, updateGoal }) {
             updateGoal={updateGoal}
             allowDayDisplay={false}
           />
-          {/* <HeatmapItem
-            heatmapItemData={heatmap[day]}
-            heatmapCellStyle={styles.heatmapCell}
-          /> */}
           <AppText style={styles.day}>{heatmap[day].day}</AppText>
         </View>
-        //   {!heatmap[day].hasGoal && (
-        //     <View
-        //       style={[
-        //         styles.heatmapCell,
-        //         {
-        //           backgroundColor: heatmap[day].color
-        //             ? heatmap[day].color
-        //             : colors.borderGray,
-        //         },
-        //       ]}
-        //     />
-        //   )}
-        //   {heatmap[day].hasGoal && (
-        //     <View style={styles.heatmapCell}>
-        //       <Icon
-        //         size={25}
-        //         name="trophy-sharp"
-        //         color={
-        //           heatmap[day].goalAchieved ? colors.gold : colors.trophyGray
-        //         }
-        //       />
-        //     </View>
-        //   )}
-        // </View>
       ))}
     </View>
   );
