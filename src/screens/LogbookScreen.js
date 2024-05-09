@@ -196,7 +196,9 @@ function LogbookScreen({ navigation, route }) {
               error={getLogbookApi.error || updateGoalApi.error}
               visible={!!(getLogbookApi.error || updateGoalApi.error)}
             />
-            <AppText>{logbook.description}</AppText>
+            {logbook.description ? (
+              <AppText>{logbook.description}</AppText>
+            ) : null}
             <View style={styles.container}>
               <View style={styles.optionsHeatmapContainer}>
                 <View style={styles.optionsContainer}>

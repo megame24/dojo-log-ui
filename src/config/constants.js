@@ -55,4 +55,5 @@ export default Object.freeze({
   UPDATE_PROFILE_SCREEN: 'Update profile',
   PASSWORD_SETTINGS_SCREEN: 'Password settings',
   ACCOUNT_SETTINGS_SCREEN: 'Account settings',
+  REWARDS_DATA_CACHE: 'rewardsData',
 });

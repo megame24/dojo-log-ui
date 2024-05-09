@@ -15,6 +15,7 @@ import validationSchemaObject from '../config/validationSchemaObject';
 import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
 import ImageUploadFormField from '../components/forms/ImageUploadFormField';
+import storageService from '../utility/storageService';
 
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -44,6 +45,7 @@ function CreateRewardScreen({ navigation }) {
     const { ok } = await createRewardApi.request(rewardFormData);
 
     if (!ok) return;
+    storageService.removeItem(constants.REWARDS_DATA_CACHE);
 
     navigation.navigate(constants.REWARDS_SCREEN);
   };

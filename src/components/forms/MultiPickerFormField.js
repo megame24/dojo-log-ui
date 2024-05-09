@@ -20,6 +20,7 @@ function MultiPickerFormField({
   options,
   PickerItem,
   numberOfColumns,
+  EmptyState,
   ...otherProps
 }) {
   const { setFieldTouched, setFieldValue, values, errors, touched } =
@@ -56,6 +57,7 @@ function MultiPickerFormField({
         options={options}
         PickerItem={PickerItem}
         numberOfColumns={numberOfColumns}
+        EmptyState={EmptyState}
         {...otherProps}
       />
       <ErrorMessage

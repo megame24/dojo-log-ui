@@ -15,9 +15,11 @@ import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
 import logbookApi from '../api/logbook';
 import RewardPickerItem from '../components/RewardPickerItem';
-import { validationSchema } from './CreateGoalScreen';
+import { emptyRewardViewText, validationSchema } from './CreateGoalScreen';
 import DropdownFormField from '../components/forms/DropdownFormField';
 import storageService from '../utility/storageService';
+import EmptyStateView from '../components/EmptyStateView';
+import EmptyRewardOptionsSvg from '../assets/empty-reward-options.svg';
 
 function UpdateGoalScreen({ route, navigation }) {
   const { goal: outdatedGoal } = route.params;
@@ -143,6 +145,12 @@ function UpdateGoalScreen({ route, navigation }) {
             }
             PickerItem={RewardPickerItem}
             numberOfColumns={3}
+            EmptyState={() => (
+              <EmptyStateView
+                EmptyStateSvg={EmptyRewardOptionsSvg}
+                emptyStateTexts={emptyRewardViewText}
+              />
+            )}
           />
           <DropdownFormField
             name="achieved"

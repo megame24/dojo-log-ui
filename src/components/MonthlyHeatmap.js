@@ -5,7 +5,7 @@ import dateService from '../utility/dateService';
 import { getHeatmapCellColorFromDuration } from './WeekToDateHeatmap';
 import HeatmapGridItem from './HeatmapGridItem';
 
-function MonthToDateHeatmap({
+function MonthlyDateHeatmap({
   heatmapData,
   month,
   year,
@@ -57,18 +57,20 @@ function MonthToDateHeatmap({
     Object.keys(heatmapTemp).forEach((key) => {
       const heatmapElement = heatmapData[key];
       if (!heatmapElement) return;
+      const goal = heatmapElement.goal;
+      const logs = heatmapElement.logs;
       if (heatmapElement.goal) {
-        heatmapTemp[key].goalId = heatmapElement.goal.id;
-        heatmapTemp[key].goalName = heatmapElement.goal.name;
+        heatmapTemp[key].goalId = goal.id;
+        heatmapTemp[key].goalName = goal.name;
         heatmapTemp[key].hasGoal = true;
-        heatmapTemp[key].goalAchieved = heatmapElement.goal.achieved;
+        heatmapTemp[key].goalAchieved = goal.achieved;
       }
-      if (heatmapElement.logs) {
+      if (logs) {
         heatmapTemp[key].color = getHeatmapCellColorFromDuration(
-          heatmapElement.logs.totalDurationOfWorkInMinutes
+          logs.totalDurationOfWorkInMinutes
         );
-        heatmapTemp[key].startDate = heatmapElement.logs.startDate;
-        heatmapTemp[key].endDate = heatmapElement.logs.endDate;
+        heatmapTemp[key].startDate = logs.startDate;
+        heatmapTemp[key].endDate = logs.endDate;
       }
     });
 
@@ -98,4 +100,4 @@ function MonthToDateHeatmap({
   );
 }
 
-export default MonthToDateHeatmap;
+export default MonthlyDateHeatmap;

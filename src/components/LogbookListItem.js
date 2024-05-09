@@ -5,13 +5,31 @@ import constants from '../config/constants';
 import AppText from './AppText';
 import Icon from './Icon';
 import WeekToDateHeatmap from './WeekToDateHeatmap';
+import storageService from '../utility/storageService';
+import useApi from '../hooks/useApi';
+import logbookApi from '../api/logbook';
 
-function LogbookListItem({ item, navigation }) {
+function LogbookListItem({ item, navigation, getLogbooks }) {
+  const logbookId = item.id;
+  const updateGoalApi = useApi(logbookApi.updateGoal);
+  const updateGoal = async (goalDetails, goalId) => {
+    const { ok } = await updateGoalApi.request(logbookId, goalId, goalDetails);
+
+    if (!ok) return;
+    await storageService.multiRemove([
+      constants.LOGBOOKS_DATA_CACHE,
+      `${
+        constants.LOGBOOK_DATA_CACHE
+      }_${logbookId}_${new Date().getFullYear()}`,
+    ]);
+    getLogbooks();
+  };
+
   return (
     <View style={styles.logbookContainer}>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId: item.id })
+          navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId })
         }
       >
         <AppText style={styles.logbookName}>{item.name}</AppText>
@@ -20,7 +38,12 @@ function LogbookListItem({ item, navigation }) {
         {item.description}
       </AppText>
       <View style={styles.heatmapIconContainer}>
-        <WeekToDateHeatmap heatmapData={item.heatmap} />
+        <WeekToDateHeatmap
+          heatmapData={item.heatmap}
+          navigation={navigation}
+          logbookId={logbookId}
+          updateGoal={updateGoal}
+        />
         <Icon
           size={25}
           name={item.category?.iconName}

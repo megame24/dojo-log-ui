@@ -4,25 +4,24 @@ import colors from '../config/colors';
 import constants from '../config/constants';
 import dateService from '../utility/dateService';
 import AppText from './AppText';
-import Icon from './Icon';
+import HeatmapGridItem from './HeatmapGridItem';
 
 export const getHeatmapCellColorFromDuration = (durationInMinutes) => {
   if (!durationInMinutes) return colors.borderGray;
   const totalHours = durationInMinutes / 60;
   let color = colors.primary25Per;
-  if (totalHours >= 2) color = colors.primary50Per;
-  if (totalHours >= 6) color = colors.primary75Per;
-  if (totalHours >= 12) color = colors.primary;
+  if (totalHours >= 1) color = colors.primary50Per;
+  if (totalHours >= 3) color = colors.primary75Per;
+  if (totalHours >= 5) color = colors.primary;
   return color;
 };
 
-function WeekToDateHeatmap({ heatmapData }) {
+function WeekToDateHeatmap({ heatmapData, navigation, logbookId, updateGoal }) {
   const [heatmap, setHeatmap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
   const days = constants.days;
 
   // THERE'S A MEMORY LEAK HERE, REFACTOR THIS CODE TO INCLUDE CLEAN UP IF NECESSARY!!!!
-  // Update, it's a 12am time bug!!!
   useEffect(() => {
     const today = new Date();
     const dayOfYear = dateService.getDayOfYear(today);
@@ -50,14 +49,20 @@ function WeekToDateHeatmap({ heatmapData }) {
     Object.keys(heatmap).forEach((key) => {
       const heatmapElement = heatmapData[key];
       if (!heatmapElement) return;
-      if (heatmapElement.goal) {
+      const goal = heatmapElement.goal;
+      const logs = heatmapElement.logs;
+      if (goal) {
         heatmap[key].hasGoal = true;
-        heatmap[key].goalAchieved = heatmapElement.goal.achieved;
+        heatmap[key].goalAchieved = goal.achieved;
+        heatmap[key].goalId = goal.id;
+        heatmap[key].goalName = goal.name;
       }
-      if (heatmapElement.logs) {
+      if (logs) {
         heatmap[key].color = getHeatmapCellColorFromDuration(
-          heatmapElement.logs.totalDurationOfWorkInMinutes
+          logs.totalDurationOfWorkInMinutes
         );
+        heatmap[key].startDate = logs.startDate;
+        heatmap[key].endDate = logs.endDate;
       }
     });
     setHeatmap(heatmap);
@@ -65,33 +70,46 @@ function WeekToDateHeatmap({ heatmapData }) {
 
   return (
     <View style={styles.container}>
-      {daysOfYear.map((day) => (
+      {daysOfYear.map((day, i) => (
         <View style={styles.heatmapContainer} key={day}>
-          {!heatmap[day].hasGoal && (
-            <View
-              style={[
-                styles.heatmapCell,
-                {
-                  backgroundColor: heatmap[day].color
-                    ? heatmap[day].color
-                    : colors.borderGray,
-                },
-              ]}
-            />
-          )}
-          {heatmap[day].hasGoal && (
-            <View style={styles.heatmapCell}>
-              <Icon
-                size={25}
-                name="trophy-sharp"
-                color={
-                  heatmap[day].goalAchieved ? colors.gold : colors.trophyGray
-                }
-              />
-            </View>
-          )}
+          <HeatmapGridItem
+            navigation={navigation}
+            heatmapItemData={heatmap[day]}
+            allowMenu
+            logbookId={logbookId}
+            updateGoal={updateGoal}
+            allowDayDisplay={false}
+          />
+          {/* <HeatmapItem
+            heatmapItemData={heatmap[day]}
+            heatmapCellStyle={styles.heatmapCell}
+          /> */}
           <AppText style={styles.day}>{heatmap[day].day}</AppText>
         </View>
+        //   {!heatmap[day].hasGoal && (
+        //     <View
+        //       style={[
+        //         styles.heatmapCell,
+        //         {
+        //           backgroundColor: heatmap[day].color
+        //             ? heatmap[day].color
+        //             : colors.borderGray,
+        //         },
+        //       ]}
+        //     />
+        //   )}
+        //   {heatmap[day].hasGoal && (
+        //     <View style={styles.heatmapCell}>
+        //       <Icon
+        //         size={25}
+        //         name="trophy-sharp"
+        //         color={
+        //           heatmap[day].goalAchieved ? colors.gold : colors.trophyGray
+        //         }
+        //       />
+        //     </View>
+        //   )}
+        // </View>
       ))}
     </View>
   );
@@ -110,7 +128,6 @@ const styles = StyleSheet.create({
   },
   day: {
     fontSize: 12,
-    marginRight: 8,
   },
   heatmapContainer: {
     alignItems: 'center',

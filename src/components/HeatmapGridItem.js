@@ -21,6 +21,8 @@ function HeatmapGridItem({
   navigation,
   logbookId,
   updateGoal,
+  allowDayDisplay = true,
+  logOnAGoalStyle,
 }) {
   return (
     <View style={styles.heatmapParentContainer}>
@@ -29,14 +31,14 @@ function HeatmapGridItem({
           style={[
             styles.month,
             monthStyle,
-            { opacity: heatmapItemData.monthVisible ? 1 : 0, width: 25 },
+            { opacity: heatmapItemData.monthVisible ? 1 : 0, width: 27 },
           ]}
         >
           {heatmapItemData.month}
         </AppText>
       )}
       <View style={styles.heatmapContainer}>
-        {heatmapItemData.day && (
+        {heatmapItemData.day && allowDayDisplay && (
           <AppText style={[styles.day, dayStyle]}>
             {heatmapItemData.day}
           </AppText>
@@ -50,6 +52,7 @@ function HeatmapGridItem({
               <HeatmapItem
                 heatmapItemData={heatmapItemData}
                 heatmapCellStyle={[styles.heatmapCell, heatmapCellStyle]}
+                logOnAGoalStyle={logOnAGoalStyle}
               />
             </MenuTrigger>
             <MenuOptions
@@ -121,6 +124,7 @@ function HeatmapGridItem({
             heatmapCellStyle={[styles.heatmapCell, heatmapCellStyle]}
             trophySize={trophySize}
             todayMarkSize={todayMarkSize}
+            logOnAGoalStyle={logOnAGoalStyle}
           />
         )}
       </View>
