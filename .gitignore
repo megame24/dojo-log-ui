@@ -15,3 +15,5 @@ web-build/
 .vscode
 
 .env
+GoogleService-info.plist
+google-services.json
