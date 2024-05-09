@@ -167,7 +167,11 @@ function LogbookScreen({ navigation, route }) {
     <>
       <ScreenHeader
         header={logbook.name}
-        LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
+        LeftIcon={() => (
+          <BackButton
+            onPress={() => navigation.navigate(constants.LOGBOOKS_SCREEN)}
+          />
+        )}
         RightIcon={() => (
           <Icon
             name={logbook?.category?.iconName}
