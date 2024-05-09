@@ -11,11 +11,12 @@ import useApi from '../hooks/useApi';
 import logbookApi from '../api/logbook';
 import { useIsFocused } from '@react-navigation/native';
 import ErrorMessage from '../components/forms/ErrorMessage';
-import colors from '../config/colors';
 import LogbookListItem from '../components/LogbookListItem';
 import CategoryListItem from '../components/CategoryListItem';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
+import EmptyLogbooksSvg from '../assets/empty-logbooks.svg';
+import EmptyStateView from '../components/EmptyStateView';
 
 // const favouritesCategory = {
 //   name: 'favourites',
@@ -32,6 +33,8 @@ function LogbooksScreen({ navigation }) {
   const [logbooks, setLogbooks] = useState([]);
   const [filteredLogbooks, setFilteredLogbooks] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const extractCategories = (logbooks = []) => {
     const categoriesTracker = {};
@@ -90,11 +93,13 @@ function LogbooksScreen({ navigation }) {
 
   useEffect(() => {
     if (isFocused) {
-      const endDate = dateService.getEndOfDay(dateService.now());
-      const startDate = dateService.getStartOfDay(
-        dateService.subtractTimeFromDate(endDate, 6, 'd')
+      const endDateValue = dateService.getEndOfDay(dateService.now());
+      const startDateValue = dateService.getStartOfDay(
+        dateService.subtractTimeFromDate(endDateValue, 6, 'd')
       );
-      getLogbooksAsync(startDate, endDate);
+      setStartDate(startDateValue);
+      setEndDate(endDateValue);
+      getLogbooksAsync(startDateValue, endDateValue);
     }
   }, [isFocused]);
 
@@ -117,7 +122,7 @@ function LogbooksScreen({ navigation }) {
   return (
     <>
       <ScreenHeader
-        header={`Hello, ${user.name.split(' ')[0]}!`}
+        header={`Hello ${user.name.split(' ')[0]}!`}
         LeftIcon={() => (
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}
@@ -128,27 +133,54 @@ function LogbooksScreen({ navigation }) {
           error={getLogbooksApi.error}
           visible={!!getLogbooksApi.error}
         />
-        <View>
-          <View style={styles.filterListContainer}>
-            <FlatList
-              data={categories}
-              contentContainerStyle={styles.categoriesFlatListContentContainer}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              horizontal
-              renderItem={({ item }) => (
-                <CategoryListItem item={item} filterLogbooks={filterLogbooks} />
-              )}
+        <View
+          style={{
+            ...((getLogbooksApi.loading || getLogbooksApi.error) && {
+              display: 'none',
+            }),
+          }}
+        >
+          {logbooks.length ? (
+            <>
+              <View style={styles.filterListContainer}>
+                <FlatList
+                  data={categories}
+                  contentContainerStyle={
+                    styles.categoriesFlatListContentContainer
+                  }
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id}
+                  horizontal
+                  renderItem={({ item }) => (
+                    <CategoryListItem
+                      item={item}
+                      filterLogbooks={filterLogbooks}
+                    />
+                  )}
+                />
+              </View>
+              <FlatList
+                data={filteredLogbooks}
+                contentContainerStyle={styles.logbooksFlatListContentContainer}
+                keyExtractor={(item) => item.name}
+                renderItem={({ item }) => (
+                  <LogbookListItem
+                    item={item}
+                    navigation={navigation}
+                    getLogbooks={() => getLogbooksAsync(startDate, endDate)}
+                  />
+                )}
+              />
+            </>
+          ) : (
+            <EmptyStateView
+              EmptyStateSvg={EmptyLogbooksSvg}
+              emptyStateTexts={[
+                'Tap the button to create a logbook.',
+                'Your logbook will help you organize progress logs and set goals towards a specific cause.',
+              ]}
             />
-          </View>
-          <FlatList
-            data={filteredLogbooks}
-            contentContainerStyle={styles.logbooksFlatListContentContainer}
-            keyExtractor={(item) => item.name}
-            renderItem={({ item }) => (
-              <LogbookListItem item={item} navigation={navigation} />
-            )}
-          />
+          )}
         </View>
       </Screen>
       <FloatingButton

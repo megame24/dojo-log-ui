@@ -48,7 +48,7 @@ function LogbookAddOptionsOverlay({
                 color={colors.white}
               />
             )}
-            label="New goal"
+            label="Set a goal"
           />
           <FloatingButton
             onPress={() => {
@@ -60,7 +60,7 @@ function LogbookAddOptionsOverlay({
             Icon={() => (
               <Icon name="pen-nib" isFontAwesome color={colors.white} />
             )}
-            label="New log"
+            label="Log today's progress"
           />
         </Animated.View>
       </>

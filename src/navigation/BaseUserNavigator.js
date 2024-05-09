@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
@@ -52,13 +52,11 @@ async function registerForPushNotificationsAsync() {
 
 const Tab = createBottomTabNavigator();
 
-function BaseUserNavigator({ navigation }) {
+function BaseUserNavigator() {
   const { user } = useContext(AuthContext);
   const createExpoNotificationTokenApi = useApi(
     usersApi.createExpoNotificationToken
   );
-  const [notifResponseData, setNotifResponseData] = useState('');
-  const responseListener = useRef();
 
   const createExpoNotificationTokenAsync = async (token) => {
     await createExpoNotificationTokenApi.request({ token }, user.id);
@@ -70,19 +68,6 @@ function BaseUserNavigator({ navigation }) {
         createExpoNotificationTokenAsync(token);
       }
     });
-
-    // responseListener.current =
-    //   Notifications.addNotificationResponseReceivedListener((response) => {
-    //     setNotifResponseData(JSON.stringify(response.data));
-    //     const { view, payload } = response.data;
-    //     navigation.navigate(constants[view], {
-    //       ...payload,
-    //     });
-    //   });
-
-    // return () => {
-    //   Notifications.removeNotificationSubscription(responseListener.current);
-    // };
   }, []);
 
   return (

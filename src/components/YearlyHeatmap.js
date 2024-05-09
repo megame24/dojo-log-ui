@@ -11,6 +11,7 @@ function YearlyHeatmap({ heatmapData }) {
       heatmapItemData={item}
       trophySize={15}
       todayMarkSize={20}
+      logOnAGoalStyle={styles.logOnAGoal}
     />
   );
 
@@ -41,6 +42,11 @@ const styles = StyleSheet.create({
   month: {
     fontSize: 8,
     marginRight: 0,
+  },
+  logOnAGoal: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
 });
 

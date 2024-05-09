@@ -2,7 +2,7 @@
 import './ignoreWarnings';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   NavigationContainer,
   createNavigationContainerRef,
@@ -65,9 +65,10 @@ export default function App() {
     const subscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         const data = response.notification.request.content.data;
-        console.log(data, 'LLLLLL');
         const { view, payload } = data;
-        navigate(constants.SETTINGS_SCREEN);
+        navigate(constants[view], {
+          ...payload,
+        });
       }
     );
 

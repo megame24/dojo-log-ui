@@ -49,16 +49,21 @@ function SideNav({ navigation }) {
             onPress={() => navigation.navigate(constants.SETTINGS_TAB)}
           />
           <SideNavItem
-            text="Personal data & Privacy"
-            iconName="shield-checkmark-outline"
+            text="About us"
+            iconName="information-circle-outline"
+            onPress={() => openLink('https://dojologs.com')}
+          />
+          <SideNavItem
+            text="Terms of service"
+            iconName="receipt-outline"
             onPress={() =>
-              openLink('https://dojologs/personal-data-and-privacy')
+              openLink('https://dojologs.com/terms-of-service.html')
             }
           />
           <SideNavItem
-            text="About us"
-            iconName="information-circle-outline"
-            onPress={() => openLink('https://dojologs/about-us')}
+            text="Personal data & Privacy"
+            iconName="shield-checkmark-outline"
+            onPress={() => openLink('https://dojologs.com/privacy-policy.html')}
           />
         </View>
         <View>

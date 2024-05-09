@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Pressable, Modal, FlatList } from 'react-native';
+import { StyleSheet, Pressable, Modal, FlatList, View } from 'react-native';
 import colors from '../config/colors';
 import AppText from './AppText';
 import Icon from './Icon';
@@ -17,6 +17,7 @@ function AppMultiPicker({
   value,
   minSelection = 0,
   maxSelection = 5,
+  EmptyState,
 }) {
   const [showOptions, setShowOptions] = useState(false);
   let [selectedItems, setSelectedItems] = useState(value?.value || []);
@@ -70,24 +71,31 @@ function AppMultiPicker({
             Select a minimum of {minSelection} and a maximum of {maxSelection}{' '}
             from the options
           </AppText>
-          <FlatList
-            data={options}
-            numColumns={numberOfColumns}
-            contentContainerStyle={styles.flatListContentContainer}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <PickerItem
-                item={item}
-                selectionLimitReached={selectionLimitReached}
-                onPress={() => {
-                  onItemClick(item);
-                }}
+          {options.length ? (
+            <>
+              <FlatList
+                data={options}
+                numColumns={numberOfColumns}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <PickerItem
+                    item={item}
+                    selectionLimitReached={selectionLimitReached}
+                    onPress={() => {
+                      onItemClick(item);
+                    }}
+                  />
+                )}
               />
-            )}
-          />
-          <Button onPress={closeModal} style={styles.button}>
-            Done
-          </Button>
+            </>
+          ) : (
+            <EmptyState />
+          )}
+          <View style={styles.buttonContainer}>
+            <Button onPress={closeModal} style={styles.button}>
+              Done
+            </Button>
+          </View>
         </Screen>
       </Modal>
     </>
@@ -108,16 +116,14 @@ const styles = StyleSheet.create({
   placeholder: {
     color: colors.lightGray,
   },
-  optionsContainer: {
-    height: 100,
-  },
   button: {
     height: 40,
   },
   buttonContainer: {
-    marginTop: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    position: 'absolute',
+    bottom: 0,
+    left: 20,
+    width: '100%',
   },
   description: {
     marginTop: 10,

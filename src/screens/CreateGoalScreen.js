@@ -19,6 +19,8 @@ import MultiPickerFormField from '../components/forms/MultiPickerFormField';
 import RewardPickerItem from '../components/RewardPickerItem';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
+import EmptyStateView from '../components/EmptyStateView';
+import EmptyRewardOptionsSvg from '../assets/empty-reward-options.svg';
 
 // TODO: move all validations into the validationSchemaObject!!
 
@@ -30,6 +32,11 @@ export const validationSchema = Yup.object().shape({
     .typeError('Due date is a required field'),
   achievementCriteria: Yup.string().max(500).label('Achievement criteria'),
 });
+
+export const emptyRewardViewText = [
+  'You currently have no rewards.',
+  'Create your personalized rewards to link with your goals.',
+];
 
 function CreateGoalScreen({ route, navigation }) {
   const [rewards, setRewards] = useState([]);
@@ -114,6 +121,12 @@ function CreateGoalScreen({ route, navigation }) {
             options={rewards}
             PickerItem={RewardPickerItem}
             numberOfColumns={3}
+            EmptyState={() => (
+              <EmptyStateView
+                EmptyStateSvg={EmptyRewardOptionsSvg}
+                emptyStateTexts={emptyRewardViewText}
+              />
+            )}
           />
           <SubmitButton title="Set goal" />
         </Form>

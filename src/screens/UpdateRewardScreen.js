@@ -15,6 +15,7 @@ import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
 import fileApi from '../api/file';
 import { validationSchema } from './CreateRewardScreen';
+import storageService from '../utility/storageService';
 
 function UpdateRewardScreen({ navigation, route }) {
   const { reward: outdatedReward } = route.params;
@@ -55,6 +56,7 @@ function UpdateRewardScreen({ navigation, route }) {
     );
 
     if (!ok) return;
+    storageService.removeItem(constants.REWARDS_DATA_CACHE);
 
     navigation.navigate(constants.REWARDS_SCREEN);
   };
