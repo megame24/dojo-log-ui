@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import colors from '../config/colors';
 import AppText from './AppText';
 import Icon from './Icon';
 
-function FloatingButton({
-  Icon: PassedIcon,
-  onPress,
-  color = colors.secondary,
-  size = 50,
-  style,
-  label,
-}) {
+const FloatingButton = forwardRef((props, ref) => {
+  const {
+    Icon: PassedIcon,
+    onPress,
+    color = colors.secondary,
+    size = 50,
+    style,
+    label,
+  } = props;
+
   return (
-    <View style={[styles.container, style]}>
+    <View collapsable={false} style={[styles.container, style]} ref={ref}>
       {label && (
         <TouchableOpacity onPress={onPress} style={styles.labelContainer}>
           <AppText style={{ color: colors.white }}>{label}</AppText>
@@ -35,7 +37,7 @@ function FloatingButton({
       </TouchableOpacity>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

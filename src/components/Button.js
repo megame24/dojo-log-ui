@@ -10,6 +10,7 @@ function Button({
   onPress,
   subText,
   Icon,
+  textStyle,
   ...otherProps
 }) {
   return (
@@ -33,7 +34,13 @@ function Button({
             <Icon />
           </View>
         )}
-        <Text style={[styles.text, { color: outline ? color : colors.white }]}>
+        <Text
+          style={[
+            styles.text,
+            { color: outline ? color : colors.white },
+            textStyle,
+          ]}
+        >
           {children}
         </Text>
       </View>

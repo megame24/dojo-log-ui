@@ -56,4 +56,5 @@ export default Object.freeze({
   PASSWORD_SETTINGS_SCREEN: 'Password settings',
   ACCOUNT_SETTINGS_SCREEN: 'Account settings',
   REWARDS_DATA_CACHE: 'rewardsData',
+  SKIP_LOGBOOK_SCREEN_TUTORIAL: 'Skip logbook Screen tutorial',
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -12,97 +12,104 @@ import AppText from './AppText';
 import Icon from './Icon';
 import { FlatList } from 'react-native-gesture-handler';
 
-const Dropdown = ({
-  topLevelContainerStyle,
-  inputContainerStyle,
-  inputContentStyle,
-  optionsContainerStyle,
-  onSelectItem,
-  placeholder,
-  options,
-  value,
-  disabled,
-  useScrollView = false,
-}) => {
-  const [showOptions, setShowOptions] = useState(false);
-  return (
-    <View
-      style={[
-        topLevelContainerStyle,
-        inputContainerStyle,
-        { alignItems: 'center' },
-      ]}
-    >
-      <Pressable
-        style={[styles.container, inputContainerStyle]}
-        onPress={!disabled ? () => setShowOptions(!showOptions) : null}
+const Dropdown = forwardRef(
+  (
+    {
+      topLevelContainerStyle,
+      inputContainerStyle,
+      inputContentStyle,
+      optionsContainerStyle,
+      onSelectItem,
+      placeholder,
+      options,
+      value,
+      disabled,
+      useScrollView = false,
+    },
+    ref
+  ) => {
+    const [showOptions, setShowOptions] = useState(false);
+    return (
+      <View
+        collapsable={false}
+        ref={ref}
+        style={[
+          topLevelContainerStyle,
+          inputContainerStyle,
+          { alignItems: 'center' },
+        ]}
       >
-        {value?.label ? (
-          <AppText
-            style={[
-              inputContentStyle,
-              { color: disabled ? colors.lightGray : colors.black },
-            ]}
-          >
-            {value.label}
-          </AppText>
-        ) : (
-          <AppText style={[styles.placeholder, inputContentStyle]}>
-            {placeholder}
-          </AppText>
-        )}
-        <Icon
-          style={{ color: disabled ? colors.lightGray : colors.black }}
-          name="caret-down"
-        />
-      </Pressable>
-      {showOptions &&
-        (useScrollView ? (
-          <ScrollView
-            style={[
-              inputContainerStyle,
-              styles.optionsContainer,
-              optionsContainerStyle,
-            ]}
-          >
-            {options.map((item, i) => (
-              <TouchableHighlight
-                underlayColor={colors.borderGray}
-                style={styles.option}
-                key={i}
-                onPress={() => {
-                  setShowOptions(false);
-                  onSelectItem(item);
-                }}
-              >
-                <AppText style={inputContentStyle}>{item.label}</AppText>
-              </TouchableHighlight>
-            ))}
-          </ScrollView>
-        ) : (
-          <FlatList
-            data={options}
-            style={[inputContainerStyle, styles.optionsContainer]}
-            listKey={(item, index) => `_key${index.toString()}`}
-            keyExtractor={(item, index) => `_key${index.toString()}`}
-            renderItem={({ item }) => (
-              <TouchableHighlight
-                underlayColor={colors.borderGray}
-                style={styles.option}
-                key={item.value}
-                onPress={() => {
-                  setShowOptions(false);
-                  onSelectItem(item);
-                }}
-              >
-                <AppText style={inputContentStyle}>{item.label}</AppText>
-              </TouchableHighlight>
-            )}
+        <Pressable
+          style={[styles.container, inputContainerStyle]}
+          onPress={!disabled ? () => setShowOptions(!showOptions) : null}
+        >
+          {value?.label ? (
+            <AppText
+              style={[
+                inputContentStyle,
+                { color: disabled ? colors.lightGray : colors.black },
+              ]}
+            >
+              {value.label}
+            </AppText>
+          ) : (
+            <AppText style={[styles.placeholder, inputContentStyle]}>
+              {placeholder}
+            </AppText>
+          )}
+          <Icon
+            style={{ color: disabled ? colors.lightGray : colors.black }}
+            name="caret-down"
           />
-        ))}
-    </View>
-  );
-};
+        </Pressable>
+        {showOptions &&
+          (useScrollView ? (
+            <ScrollView
+              style={[
+                inputContainerStyle,
+                styles.optionsContainer,
+                optionsContainerStyle,
+              ]}
+            >
+              {options.map((item, i) => (
+                <TouchableHighlight
+                  underlayColor={colors.borderGray}
+                  style={styles.option}
+                  key={i}
+                  onPress={() => {
+                    setShowOptions(false);
+                    onSelectItem(item);
+                  }}
+                >
+                  <AppText style={inputContentStyle}>{item.label}</AppText>
+                </TouchableHighlight>
+              ))}
+            </ScrollView>
+          ) : (
+            <FlatList
+              data={options}
+              style={[inputContainerStyle, styles.optionsContainer]}
+              listKey={(item, index) => `_key${index.toString()}`}
+              keyExtractor={(item, index) => `_key${index.toString()}`}
+              renderItem={({ item }) => (
+                <TouchableHighlight
+                  underlayColor={colors.borderGray}
+                  style={styles.option}
+                  key={item.value}
+                  onPress={() => {
+                    setShowOptions(false);
+                    onSelectItem(item);
+                  }}
+                >
+                  <AppText style={inputContentStyle}>{item.label}</AppText>
+                </TouchableHighlight>
+              )}
+            />
+          ))}
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

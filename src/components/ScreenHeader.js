@@ -1,23 +1,24 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 
 import colors from '../config/colors';
 import AppText from './AppText';
 
 function ScreenHeader({ header, style, LeftIcon, RightIcon }) {
   return (
-    <View style={[styles.container, style]}>
-      <View style={styles.leftIconContainer}>{LeftIcon && <LeftIcon />}</View>
-      <View style={styles.headerContainer}>
-        <AppText numberOfLines={1} style={styles.header}>
-          {header}
-        </AppText>
+    <SafeAreaView>
+      <View style={[styles.container, style]}>
+        <View style={styles.leftIconContainer}>{LeftIcon && <LeftIcon />}</View>
+        <View style={styles.headerContainer}>
+          <AppText numberOfLines={1} style={styles.header}>
+            {header}
+          </AppText>
+        </View>
+        <View style={styles.rightIconContainer}>
+          {RightIcon && <RightIcon />}
+        </View>
       </View>
-      <View style={styles.rightIconContainer}>
-        {RightIcon && <RightIcon />}
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -21,6 +21,8 @@ import colors from '../config/colors';
 import HeatmapIntensitySample from '../components/HeatmapIntensitySample';
 import YearlyHeatmap from '../components/YearlyHeatmap';
 import LogbookAddOptionsOverlay from '../components/LogbookAddOptionsOverlay';
+import TutorialOverlay from '../components/TutorialOverlay';
+import useLogbookScreenTutorial from '../hooks/useLogbookScreenTutorial';
 
 // TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 // TODO: Implement pull down to refresh
@@ -49,7 +51,35 @@ function LogbookScreen({ navigation, route }) {
   const [monthOptionDisabled, setMonthOptionDisabled] = useState(false);
   const [heatmapReady, setHeatmapReady] = useState(false);
   const [showAddOptions, setShowAddOptions] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [skipTutorial, setSkipTutorial] = useState(true);
+  const [showCallToAction, setShowCallToAction] = useState(true);
   const isFocused = useIsFocused();
+
+  const floatingButtonRef = useRef(null);
+  const monthlyHeatmapRef = useRef(null);
+  const monthlyYearlyDropdownRef = useRef(null);
+
+  const {
+    tutorialOverlayContent,
+    tutorialOverlayContentReady,
+    callToActionContent,
+  } = useLogbookScreenTutorial(
+    logbook.name,
+    heatmapReady,
+    floatingButtonRef,
+    monthlyHeatmapRef,
+    monthlyYearlyDropdownRef
+  );
+
+  const setSkipTutorialAsync = async () => {
+    const tutorialConfigJSON = await storageService.getItem(
+      constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
+    );
+    if (!tutorialConfigJSON) setSkipTutorial(false);
+    const tutorialConfig = JSON.parse(tutorialConfigJSON);
+    setSkipTutorial(tutorialConfig);
+  };
 
   months.forEach((month, i) => {
     monthsOptions.push({
@@ -134,6 +164,7 @@ function LogbookScreen({ navigation, route }) {
       const endDate = dateService.getEndOfYear(yearOption.value);
       getLogbookAsync(startDate, endDate);
       getEarliestLogbookYearAsync();
+      setSkipTutorialAsync();
     }
   }, [yearOption.value, isFocused]);
 
@@ -207,6 +238,7 @@ function LogbookScreen({ navigation, route }) {
               <View style={styles.optionsHeatmapContainer}>
                 <View style={styles.optionsContainer}>
                   <Dropdown
+                    ref={monthlyYearlyDropdownRef}
                     onSelectItem={(option) => selectDuration(option)}
                     options={[
                       defaultDuration,
@@ -242,6 +274,7 @@ function LogbookScreen({ navigation, route }) {
                   duration.value === defaultDuration.value && (
                     // use factory[strategy not factory] pattern here!!! for week, month and year
                     <MonthlyHeatmap
+                      ref={monthlyHeatmapRef}
                       heatmapData={logbook.heatmap}
                       month={monthOption.value}
                       year={yearOption.value}
@@ -285,7 +318,13 @@ function LogbookScreen({ navigation, route }) {
               <Icon name="pen" isFontAwesome size={15} color={colors.white} />
             )}
           />
-          <FloatingButton onPress={() => setShowAddOptions(true)} />
+          <FloatingButton
+            ref={floatingButtonRef}
+            onPress={() => {
+              setShowAddOptions(true);
+              setShowCallToAction(false);
+            }}
+          />
         </>
       )}
       <LogbookAddOptionsOverlay
@@ -294,6 +333,17 @@ function LogbookScreen({ navigation, route }) {
         navigation={navigation}
         logbookId={logbookId}
       />
+      {tutorialOverlayContentReady && !skipTutorial ? (
+        <TutorialOverlay
+          showTutorial={showTutorial}
+          setShowTutorial={setShowTutorial}
+          content={tutorialOverlayContent}
+          skipTutorialKey={constants.SKIP_LOGBOOK_SCREEN_TUTORIAL}
+          showCallToAction={showCallToAction}
+          setShowCallToAction={setShowCallToAction}
+          callToActionContent={callToActionContent}
+        />
+      ) : null}
     </>
   );
 }
