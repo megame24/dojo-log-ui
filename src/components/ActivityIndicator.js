@@ -11,6 +11,10 @@ function ActivityIndicator({ visible = false }) {
         autoPlay
         loop
         source={require('../assets/animations/loader.json')}
+        // style={{
+        //   width: 300,
+        //   height: 300,
+        // }}
       />
     </View>
   );
@@ -23,6 +27,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'rgba(255,255,255,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

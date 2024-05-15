@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
-import Constants from 'expo-constants';
 
 function Screen({
   style,
@@ -10,13 +9,7 @@ function Screen({
   floatingButtonRoom = 0,
 }) {
   return (
-    <SafeAreaView
-      style={[
-        styles.screen,
-        style,
-        { paddingTop: screenHeaderPresent ? 0 : Constants.statusBarHeight },
-      ]}
-    >
+    <SafeAreaView style={[styles.screen, style]}>
       {scrollable && (
         <ScrollView style={[styles.view, style]}>
           {children}
