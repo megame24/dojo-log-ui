@@ -46,7 +46,7 @@ function UpdateCategoryScreen({ navigation, route }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={updateCategoryApi.loading} />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: outdatedCategory.name,

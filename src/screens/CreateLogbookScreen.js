@@ -64,7 +64,7 @@ function CreateLogbookScreen({ navigation }) {
       <ActivityIndicator
         visible={createLogbookApi.loading || getCategoriesApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: '',

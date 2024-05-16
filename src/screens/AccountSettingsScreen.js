@@ -38,7 +38,7 @@ function AccountSettingsScreen({ navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={deleteAccountApi.loading} />
-      <Screen screenHeaderPresent>
+      <Screen>
         <ErrorMessage
           error={deleteAccountApi.error}
           visible={!!deleteAccountApi.error}

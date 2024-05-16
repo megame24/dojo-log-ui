@@ -44,7 +44,7 @@ function CreateCategoryScreen({ navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={createCategoryApi.loading} />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: '',

@@ -66,7 +66,7 @@ function TutorialOverlay({
     setShowTutorial(false);
     setTimeout(() => {
       setShowCallToAction(false);
-    }, 6000);
+    }, 5000);
   };
 
   const handleDontShowAgain = async () => {

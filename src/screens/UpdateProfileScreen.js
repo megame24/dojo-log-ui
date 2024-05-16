@@ -49,7 +49,7 @@ function UpdateProfileScreen({ navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={updateProfileApi.loading} />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{ name, email, username }}
           values

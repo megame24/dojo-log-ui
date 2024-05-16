@@ -40,7 +40,7 @@ function GoalScreen({ route, navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={getGoalApi.loading} />
-      <Screen screenHeaderPresent floatingButtonRoom={60}>
+      <Screen floatingButtonRoom={60}>
         <ErrorMessage error={getGoalApi.error} visible={!!getGoalApi.error} />
         <LabelAndContent
           label="Name"

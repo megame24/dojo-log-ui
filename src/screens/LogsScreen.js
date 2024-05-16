@@ -83,7 +83,7 @@ function LogsScreen({ route, navigation }) {
           getLogsApi.loading || deleteLogApi.loading || downloadFileApi.loading
         }
       />
-      <Screen screenHeaderPresent>
+      <Screen>
         <ErrorMessage
           error={
             getLogsApi.error || deleteLogApi.error || downloadFileApi.error

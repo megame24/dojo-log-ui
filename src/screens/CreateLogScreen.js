@@ -70,7 +70,7 @@ function CreateLogScreen({ route, navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={createLogApi.loading} />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             message: '',

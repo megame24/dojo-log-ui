@@ -14,7 +14,7 @@ function SettingsScreen({ navigation }) {
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}
       />
-      <Screen screenHeaderPresent style={{ marginTop: 10 }}>
+      <Screen style={{ marginTop: 10 }}>
         <SideNavItem
           text="Account"
           iconName="person-circle-outline"

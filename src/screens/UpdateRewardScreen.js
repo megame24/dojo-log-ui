@@ -79,7 +79,7 @@ function UpdateRewardScreen({ navigation, route }) {
       <ActivityIndicator
         visible={updateRewardApi.loading || deleteFileApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: outdatedReward.name,

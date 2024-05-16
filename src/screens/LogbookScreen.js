@@ -23,6 +23,7 @@ import YearlyHeatmap from '../components/YearlyHeatmap';
 import LogbookAddOptionsOverlay from '../components/LogbookAddOptionsOverlay';
 import TutorialOverlay from '../components/TutorialOverlay';
 import useLogbookScreenTutorial from '../hooks/useLogbookScreenTutorial';
+import useSkipTutorial from '../hooks/useSkipTutorial';
 
 // TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 // TODO: Implement pull down to refresh
@@ -51,14 +52,15 @@ function LogbookScreen({ navigation, route }) {
   const [monthOptionDisabled, setMonthOptionDisabled] = useState(false);
   const [heatmapReady, setHeatmapReady] = useState(false);
   const [showAddOptions, setShowAddOptions] = useState(false);
-  const [showTutorial, setShowTutorial] = useState(true);
-  const [skipTutorial, setSkipTutorial] = useState(true);
-  const [showCallToAction, setShowCallToAction] = useState(true);
   const isFocused = useIsFocused();
+
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [showCallToAction, setShowCallToAction] = useState(true);
 
   const floatingButtonRef = useRef(null);
   const monthlyHeatmapRef = useRef(null);
   const monthlyYearlyDropdownRef = useRef(null);
+  const screenRef = useRef(null);
 
   const {
     tutorialOverlayContent,
@@ -69,17 +71,13 @@ function LogbookScreen({ navigation, route }) {
     heatmapReady,
     floatingButtonRef,
     monthlyHeatmapRef,
-    monthlyYearlyDropdownRef
+    monthlyYearlyDropdownRef,
+    screenRef
   );
 
-  const setSkipTutorialAsync = async () => {
-    const tutorialConfigJSON = await storageService.getItem(
-      constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
-    );
-    if (!tutorialConfigJSON) setSkipTutorial(false);
-    const tutorialConfig = JSON.parse(tutorialConfigJSON);
-    setSkipTutorial(tutorialConfig);
-  };
+  const { skipTutorial } = useSkipTutorial(
+    constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
+  );
 
   months.forEach((month, i) => {
     monthsOptions.push({
@@ -164,7 +162,6 @@ function LogbookScreen({ navigation, route }) {
       const endDate = dateService.getEndOfYear(yearOption.value);
       getLogbookAsync(startDate, endDate);
       getEarliestLogbookYearAsync();
-      setSkipTutorialAsync();
     }
   }, [yearOption.value, isFocused]);
 
@@ -223,8 +220,8 @@ function LogbookScreen({ navigation, route }) {
         keyExtractor={(item) => item.key}
         renderItem={() => (
           <Screen
+            ref={screenRef}
             style={styles.screen}
-            screenHeaderPresent
             floatingButtonRoom={120}
           >
             <ErrorMessage

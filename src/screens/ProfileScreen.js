@@ -23,7 +23,7 @@ function ProfileScreen({ navigation }) {
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}
       />
-      <Screen screenHeaderPresent floatingButtonRoom={60}>
+      <Screen floatingButtonRoom={60}>
         <View style={styles.initialsContainer}>
           <UserInitials name={user.name} size={100} fontSize={40} />
           <AppText style={styles.name}>{user.name}</AppText>
