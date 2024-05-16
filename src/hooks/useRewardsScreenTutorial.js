@@ -1,31 +1,27 @@
 import { useEffect, useState } from 'react';
 
-const useLogbooksScreenTutorial = (
-  userFirstName,
-  floatingButtonRef,
-  screenRef
-) => {
+const useRewardsScreenTutorial = (floatingButtonRef, screenRef) => {
   const tutorialOverlayContentDefault = [
     {
       position: 1,
-      tooltipHeader: `Welcome ${userFirstName}!`,
+      tooltipHeader: 'Rewards! 🎁',
       tooltipText:
-        "You'll need a logbook to represent your pursuits or objectives.\nLogbooks enable you to capture and visualize your progress and goals, enhancing your consistency.",
+        "Think of rewards in Dojologs as treating yourself to a big bowl of ice cream after a long day's work.\nRewards are personal gifts you give yourself for achieving your goals.",
       pulseVisible: false,
       tooltipContainerPosition: { x: 70 },
       pulsePosition: { x: 0, y: 0 },
     },
     {
       position: 2,
-      tooltipHeader: 'Create a logbook',
-      tooltipText: 'Use this button to create a logbook.',
+      tooltipHeader: 'Create a Reward',
+      tooltipText: 'Use this button to create a reward.',
       tooltipContainerPosition: { x: 50 },
       pulseVisible: true,
     },
   ];
 
   const callToActionContentDefault = {
-    text: 'Start a journey, create a logbook.',
+    text: 'Rewards! Rewards!... Do it! create one.',
   };
 
   const [tutorialOverlayContent, setTutorialOverlayContent] = useState(
@@ -66,4 +62,4 @@ const useLogbooksScreenTutorial = (
   };
 };
 
-export default useLogbooksScreenTutorial;
+export default useRewardsScreenTutorial;

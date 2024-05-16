@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
@@ -15,12 +15,30 @@ import EmptyStateView from '../components/EmptyStateView';
 import EmptyRewardsSvg from '../assets/empty-rewards.svg';
 import dateService from '../utility/dateService';
 import storageService from '../utility/storageService';
+import useRewardsScreenTutorial from '../hooks/useRewardsScreenTutorial';
+import useSkipTutorial from '../hooks/useSkipTutorial';
+import TutorialOverlay from '../components/TutorialOverlay';
 
 function RewardsScreen({ navigation }) {
   const [rewards, setRewards] = useState([]);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const isFocused = useIsFocused();
   const deleteRewardApi = useApi(rewardApi.deleteReward);
+
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [showCallToAction, setShowCallToAction] = useState(true);
+  const floatingButtonRef = useRef(null);
+  const screenRef = useRef(null);
+
+  const {
+    tutorialOverlayContent,
+    tutorialOverlayContentReady,
+    callToActionContent,
+  } = useRewardsScreenTutorial(floatingButtonRef, screenRef);
+
+  const { skipTutorial } = useSkipTutorial(
+    constants.SKIP_REWARDS_SCREEN_TUTORIAL
+  );
 
   const getRewards = async () => {
     const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
@@ -76,7 +94,7 @@ function RewardsScreen({ navigation }) {
       <ActivityIndicator
         visible={getRewardsApi.loading || deleteRewardApi.loading}
       />
-      <Screen style={styles.screen}>
+      <Screen ref={screenRef} style={styles.screen}>
         <ErrorMessage
           error={getRewardsApi.error || deleteRewardApi.error}
           visible={!!(getRewardsApi.error || deleteRewardApi.error)}
@@ -108,8 +126,20 @@ function RewardsScreen({ navigation }) {
         </View>
       </Screen>
       <FloatingButton
+        ref={floatingButtonRef}
         onPress={() => navigation.navigate(constants.CREATE_REWARD_SCREEN)}
       />
+      {tutorialOverlayContentReady && !skipTutorial ? (
+        <TutorialOverlay
+          showTutorial={showTutorial}
+          setShowTutorial={setShowTutorial}
+          content={tutorialOverlayContent}
+          skipTutorialKey={constants.SKIP_LOGBOOKS_SCREEN_TUTORIAL}
+          showCallToAction={showCallToAction}
+          setShowCallToAction={setShowCallToAction}
+          callToActionContent={callToActionContent}
+        />
+      ) : null}
     </>
   );
 }

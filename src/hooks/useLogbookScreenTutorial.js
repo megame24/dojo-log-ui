@@ -65,7 +65,7 @@ const useLogbookScreenTutorial = (
     },
   ];
   const callToActionContentDefault = {
-    text: 'Get started by setting a goal.',
+    text: "Get started by setting a goal.\nOr logging today's progress.",
   };
 
   const [tutorialOverlayContent, setTutorialOverlayContent] = useState(
@@ -98,7 +98,7 @@ const useLogbookScreenTutorial = (
         };
         tutorialOverlayContent[6].tooltipContainerPosition.y = pageY - 218;
 
-        callToActionContent.position = { top: pageY + 5, right: pageX - 200 };
+        callToActionContent.position = { top: pageY - 5, right: pageX - 200 };
         setCallToActionContent(callToActionContent);
       });
 
