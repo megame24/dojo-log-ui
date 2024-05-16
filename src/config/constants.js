@@ -41,7 +41,7 @@ export default Object.freeze({
   LOGBOOK_DATA_CACHE: 'logbookData',
   YEAR_OPTIONS_CACHE: 'yearOptions',
   UPDATE_LOGBOOK_SCREEN: 'Update logbook',
-  CREATE_LOG_SCREEN: 'Create log',
+  CREATE_LOG_SCREEN: "Log today's progress",
   REWARDS_SCREEN: 'Rewards screen',
   CREATE_REWARD_SCREEN: 'Create reward',
   UPDATE_REWARD_SCREEN: 'Update reward',
@@ -58,4 +58,5 @@ export default Object.freeze({
   REWARDS_DATA_CACHE: 'rewardsData',
   SKIP_LOGBOOK_SCREEN_TUTORIAL: 'Skip logbook Screen tutorial',
   SKIP_LOGBOOKS_SCREEN_TUTORIAL: 'Skip logbooks Screen tutorial',
+  SKIP_REWARDS_SCREEN_TUTORIAL: 'Skip rewards screen tutorial',
 });
