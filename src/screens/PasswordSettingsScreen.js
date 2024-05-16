@@ -58,7 +58,7 @@ function PasswordSettingsScreen({ navigation }) {
         LeftIcon={() => <BackButton onPress={() => navigation.goBack()} />}
       />
       <ActivityIndicator visible={changePasswordApi.loading} />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             oldPassword: '',

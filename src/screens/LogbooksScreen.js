@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
@@ -17,6 +17,9 @@ import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
 import EmptyLogbooksSvg from '../assets/empty-logbooks.svg';
 import EmptyStateView from '../components/EmptyStateView';
+import TutorialOverlay from '../components/TutorialOverlay';
+import useLogbooksScreenTutorial from '../hooks/useLogbooksScreenTutorial';
+import useSkipTutorial from '../hooks/useSkipTutorial';
 
 // const favouritesCategory = {
 //   name: 'favourites',
@@ -28,6 +31,7 @@ import EmptyStateView from '../components/EmptyStateView';
 
 function LogbooksScreen({ navigation }) {
   const { user } = useContext(AuthContext);
+  const userFirstName = user.name.split(' ')[0];
   const getLogbooksApi = useApi(logbookApi.getLogbooks);
   const isFocused = useIsFocused();
   const [logbooks, setLogbooks] = useState([]);
@@ -35,6 +39,22 @@ function LogbooksScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [showCallToAction, setShowCallToAction] = useState(true);
+
+  const floatingButtonRef = useRef(null);
+  const screenRef = useRef(null);
+
+  const {
+    tutorialOverlayContent,
+    tutorialOverlayContentReady,
+    callToActionContent,
+  } = useLogbooksScreenTutorial(userFirstName, floatingButtonRef, screenRef);
+
+  const { skipTutorial } = useSkipTutorial(
+    constants.SKIP_LOGBOOKS_SCREEN_TUTORIAL
+  );
 
   const extractCategories = (logbooks = []) => {
     const categoriesTracker = {};
@@ -122,18 +142,19 @@ function LogbooksScreen({ navigation }) {
   return (
     <>
       <ScreenHeader
-        header={`Hello ${user.name.split(' ')[0]}!`}
+        header={`Hello ${userFirstName}!`}
         LeftIcon={() => (
           <HeaderMenu onPress={() => navigation.toggleDrawer()} />
         )}
       />
       <ActivityIndicator visible={getLogbooksApi.loading} />
-      <Screen style={styles.screen} screenHeaderPresent>
+      <Screen style={styles.screen}>
         <ErrorMessage
           error={getLogbooksApi.error}
           visible={!!getLogbooksApi.error}
         />
         <View
+          ref={screenRef}
           style={{
             ...((getLogbooksApi.loading || getLogbooksApi.error) && {
               display: 'none',
@@ -184,8 +205,20 @@ function LogbooksScreen({ navigation }) {
         </View>
       </Screen>
       <FloatingButton
+        ref={floatingButtonRef}
         onPress={() => navigation.navigate(constants.CREATE_LOGBOOK_SCREEN)}
       />
+      {tutorialOverlayContentReady && !skipTutorial ? (
+        <TutorialOverlay
+          showTutorial={showTutorial}
+          setShowTutorial={setShowTutorial}
+          content={tutorialOverlayContent}
+          skipTutorialKey={constants.SKIP_LOGBOOKS_SCREEN_TUTORIAL}
+          showCallToAction={showCallToAction}
+          setShowCallToAction={setShowCallToAction}
+          callToActionContent={callToActionContent}
+        />
+      ) : null}
     </>
   );
 }

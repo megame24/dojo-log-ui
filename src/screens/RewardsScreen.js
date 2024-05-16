@@ -76,7 +76,7 @@ function RewardsScreen({ navigation }) {
       <ActivityIndicator
         visible={getRewardsApi.loading || deleteRewardApi.loading}
       />
-      <Screen style={styles.screen} screenHeaderPresent>
+      <Screen style={styles.screen}>
         <ErrorMessage
           error={getRewardsApi.error || deleteRewardApi.error}
           visible={!!(getRewardsApi.error || deleteRewardApi.error)}

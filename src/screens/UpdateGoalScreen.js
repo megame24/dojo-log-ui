@@ -98,7 +98,7 @@ function UpdateGoalScreen({ route, navigation }) {
       <ActivityIndicator
         visible={updateGoalApi.loading || getRewardsApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: outdatedGoal.name,

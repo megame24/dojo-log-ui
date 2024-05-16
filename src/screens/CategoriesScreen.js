@@ -50,7 +50,7 @@ function CategoriesScreen({ navigation }) {
       <ActivityIndicator
         visible={getCategoriesApi.loading || deleteCategoryApi.loading}
       />
-      <Screen style={styles.screen} screenHeaderPresent>
+      <Screen style={styles.screen}>
         <ErrorMessage
           error={getCategoriesApi.error || deleteCategoryApi.error}
           visible={!!(getCategoriesApi.error || deleteCategoryApi.error)}

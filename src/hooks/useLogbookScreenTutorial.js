@@ -5,7 +5,8 @@ const useLogbookScreenTutorial = (
   heatmapReady,
   floatingButtonRef,
   monthlyHeatmapRef,
-  monthlyYearlyDropdownRef
+  monthlyYearlyDropdownRef,
+  screenRef
 ) => {
   const tutorialOverlayContentDefault = [
     {
@@ -122,10 +123,11 @@ const useLogbookScreenTutorial = (
             x: pageX + 128,
           };
           tutorialOverlayContent[5].tooltipContainerPosition.y = tooltipY;
-
-          tutorialOverlayContent[0].tooltipContainerPosition.y = tooltipY - 100;
         }
       );
+      screenRef.current.measure((x, y, width, height, pageX, pageY) => {
+        tutorialOverlayContent[0].tooltipContainerPosition.y = pageY + 50;
+      });
 
       monthlyHeatmapRef.current.measure((x, y, width, height, pageX, pageY) => {
         tutorialOverlayContent[2].pulsePosition = {

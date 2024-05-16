@@ -68,7 +68,7 @@ function UpdateLogScreen({ route, navigation }) {
       <ActivityIndicator
         visible={updateLogApi.loading || deleteFileApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             message: outdatedLog.message,

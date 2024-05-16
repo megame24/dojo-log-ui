@@ -79,7 +79,7 @@ function UpdateLogbookScreen({ navigation, route }) {
           deleteLogbookApi.loading
         }
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: outdatedLogbook.name,

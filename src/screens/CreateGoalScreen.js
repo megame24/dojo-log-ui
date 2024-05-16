@@ -82,7 +82,7 @@ function CreateGoalScreen({ route, navigation }) {
       <ActivityIndicator
         visible={createGoalApi.loading || getRewardsApi.loading}
       />
-      <Screen screenHeaderPresent scrollable>
+      <Screen scrollable>
         <Form
           initialValues={{
             name: '',
