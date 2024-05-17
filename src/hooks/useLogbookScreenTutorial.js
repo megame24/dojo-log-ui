@@ -28,7 +28,7 @@ const useLogbookScreenTutorial = (
       position: 3,
       tooltipHeader: 'Logbook calender view',
       tooltipText:
-        'Once created, progress logs and goals will appear on this calendar view on their respective dates.',
+        'Once created, progress logs and goals will appear on this calendar view on their respective dates.\nTap any cell to interact with it.',
       tooltipContainerPosition: { x: 70 },
       pulseVisible: true,
     },
