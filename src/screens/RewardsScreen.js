@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
@@ -9,7 +9,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
 import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import RewardItem from '../components/RewardItem';
 import EmptyStateView from '../components/EmptyStateView';
 import EmptyRewardsSvg from '../assets/empty-rewards.svg';
@@ -18,8 +18,11 @@ import storageService from '../utility/storageService';
 import useRewardsScreenTutorial from '../hooks/useRewardsScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TutorialOverlay from '../components/TutorialOverlay';
+import BackButton from '../components/BackButton';
 
-function RewardsScreen({ navigation }) {
+function RewardsScreen({ navigation, route }) {
+  const showBackButton = route.params?.showBackButton;
+  const redirectOption = route.params?.redirectOption;
   const [rewards, setRewards] = useState([]);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const isFocused = useIsFocused();
@@ -76,6 +79,14 @@ function RewardsScreen({ navigation }) {
     }
   }, [isFocused]);
 
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        navigation.setParams({ showBackButton: undefined });
+      };
+    }, [navigation])
+  );
+
   const deleteReward = async (rewardId) => {
     storageService.removeItem(constants.REWARDS_DATA_CACHE);
     const { ok } = await deleteRewardApi.request(rewardId);
@@ -87,9 +98,13 @@ function RewardsScreen({ navigation }) {
     <>
       <ScreenHeader
         header="Rewards"
-        LeftIcon={() => (
-          <HeaderMenu onPress={() => navigation.toggleDrawer()} />
-        )}
+        LeftIcon={() =>
+          showBackButton ? (
+            <BackButton onPress={() => navigation.goBack()} />
+          ) : (
+            <HeaderMenu onPress={() => navigation.toggleDrawer()} />
+          )
+        }
       />
       <ActivityIndicator
         visible={getRewardsApi.loading || deleteRewardApi.loading}
@@ -127,7 +142,11 @@ function RewardsScreen({ navigation }) {
       </Screen>
       <FloatingButton
         ref={floatingButtonRef}
-        onPress={() => navigation.navigate(constants.CREATE_REWARD_SCREEN)}
+        onPress={() =>
+          navigation.navigate(constants.CREATE_REWARD_SCREEN, {
+            redirectOption,
+          })
+        }
       />
       {tutorialOverlayContentReady && !skipTutorial ? (
         <TutorialOverlay

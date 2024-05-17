@@ -100,7 +100,18 @@ function BaseUserNavigator() {
       })}
     >
       <Tab.Screen name={constants.LOGBOOKS_TAB} component={LogbooksNavigator} />
-      <Tab.Screen name={constants.REWARDS_TAB} component={RewardsNavigator} />
+      <Tab.Screen
+        name={constants.REWARDS_TAB}
+        component={RewardsNavigator}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(constants.REWARDS_TAB, {
+              screen: constants.REWARDS_SCREEN,
+            });
+          },
+        })}
+      />
       <Tab.Screen name={constants.PROFILE_TAB} component={ProfilesNavigator} />
       <Tab.Screen name={constants.SETTINGS_TAB} component={SettingsNavigator} />
     </Tab.Navigator>

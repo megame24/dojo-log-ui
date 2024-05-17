@@ -22,7 +22,8 @@ export const validationSchema = Yup.object().shape({
   description: Yup.string().max(500).label('Description'),
 });
 
-function CreateRewardScreen({ navigation }) {
+function CreateRewardScreen({ navigation, route }) {
+  const { redirectOption } = route.params;
   const [imageData, setImageData] = useState(null);
   const createRewardApi = useApi(rewardApi.create);
 
@@ -47,7 +48,14 @@ function CreateRewardScreen({ navigation }) {
     if (!ok) return;
     storageService.removeItem(constants.REWARDS_DATA_CACHE);
 
-    navigation.navigate(constants.REWARDS_SCREEN);
+    let redirectScreen = constants.REWARDS_SCREEN;
+    let params = {};
+    if (redirectOption) {
+      redirectScreen = redirectOption.screen;
+      params = redirectOption.params;
+    }
+
+    navigation.navigate(redirectScreen, params);
   };
 
   const deleteImage = () => {

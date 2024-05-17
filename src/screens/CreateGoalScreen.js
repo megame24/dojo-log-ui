@@ -21,6 +21,8 @@ import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
 import EmptyStateView from '../components/EmptyStateView';
 import EmptyRewardOptionsSvg from '../assets/empty-reward-options.svg';
+import CreateRewardsPrompt from '../components/CreateRewardsPrompt';
+import { useIsFocused } from '@react-navigation/native';
 
 // TODO: move all validations into the validationSchemaObject!!
 
@@ -42,12 +44,18 @@ function CreateGoalScreen({ route, navigation }) {
   const [rewards, setRewards] = useState([]);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const createGoalApi = useApi(logbookApi.createGoal);
+  const isFocused = useIsFocused();
+
+  const [showCreateRewardsPrompt, setShowCreateRewardsPrompt] = useState(false);
 
   const { logbookId } = route.params;
 
   const getRewardsAsync = async () => {
     const { data, ok } = await getRewardsApi.request();
-    if (ok) setRewards(data);
+    if (ok) {
+      setRewards(data);
+      setShowCreateRewardsPrompt(data.length === 0);
+    }
   };
 
   const handleSubmit = async (goalDetails) => {
@@ -71,7 +79,7 @@ function CreateGoalScreen({ route, navigation }) {
 
   useEffect(() => {
     getRewardsAsync();
-  }, []);
+  }, [isFocused]);
 
   return (
     <>
@@ -131,6 +139,12 @@ function CreateGoalScreen({ route, navigation }) {
           <SubmitButton title="Set goal" />
         </Form>
       </Screen>
+      <CreateRewardsPrompt
+        showCreateRewardsPrompt={showCreateRewardsPrompt}
+        setShowCreateRewardsPrompt={setShowCreateRewardsPrompt}
+        navigation={navigation}
+        logbookId={logbookId}
+      />
     </>
   );
 }
