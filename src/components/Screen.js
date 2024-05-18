@@ -4,11 +4,7 @@ import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
 const Screen = forwardRef(
   ({ style, children, scrollable = false, floatingButtonRoom = 0 }, ref) => {
     return (
-      <SafeAreaView
-        ref={ref}
-        collapsable={false}
-        style={[styles.screen, style]}
-      >
+      <SafeAreaView ref={ref} collapsable={false} style={[styles.screen]}>
         {scrollable && (
           <ScrollView style={[styles.view, style]}>
             {children}

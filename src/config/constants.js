@@ -59,4 +59,5 @@ export default Object.freeze({
   SKIP_LOGBOOK_SCREEN_TUTORIAL: 'Skip logbook Screen tutorial',
   SKIP_LOGBOOKS_SCREEN_TUTORIAL: 'Skip logbooks Screen tutorial',
   SKIP_REWARDS_SCREEN_TUTORIAL: 'Skip rewards screen tutorial',
+  ONBOARDING_SCREEN: 'Onboarding screen',
 });

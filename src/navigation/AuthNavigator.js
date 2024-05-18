@@ -7,15 +7,20 @@ import constants from '../config/constants';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import VerifyScreen from '../screens/VerifyScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
 
 function AuthNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName={constants.LOGIN_SCREEN}
+      initialRouteName={constants.ONBOARDING_SCREEN}
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen
+        name={constants.ONBOARDING_SCREEN}
+        component={OnboardingScreen}
+      />
       <Stack.Screen name={constants.SIGNUP_SCREEN} component={SignupScreen} />
       <Stack.Screen name={constants.LOGIN_SCREEN} component={LoginScreen} />
       <Stack.Screen name={constants.VERIFY_SCREEN} component={VerifyScreen} />
