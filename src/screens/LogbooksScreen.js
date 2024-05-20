@@ -155,6 +155,7 @@ function LogbooksScreen({ navigation }) {
         />
         <View
           ref={screenRef}
+          collapsable={false}
           style={{
             ...((getLogbooksApi.loading || getLogbooksApi.error) && {
               display: 'none',

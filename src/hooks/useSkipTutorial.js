@@ -3,6 +3,7 @@ import storageService from '../utility/storageService';
 
 const useSkipTutorial = (skipTutorialKey) => {
   const [skipTutorial, setSkipTutorial] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   const setSkipTutorialAsync = async () => {
     const skipTutorialConfigJSON = await storageService.getItem(
@@ -11,13 +12,14 @@ const useSkipTutorial = (skipTutorialKey) => {
     if (!skipTutorialConfigJSON) setSkipTutorial(false);
     const skipTutorialConfig = JSON.parse(skipTutorialConfigJSON);
     setSkipTutorial(skipTutorialConfig);
+    setIsReady(true);
   };
 
   useEffect(() => {
     setSkipTutorialAsync();
   }, []);
 
-  return { skipTutorial };
+  return { skipTutorial, isReady };
 };
 
 export default useSkipTutorial;

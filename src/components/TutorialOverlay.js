@@ -19,15 +19,15 @@ function TutorialOverlay({
   setShowCallToAction,
   callToActionContent,
 }) {
-  const setSkipTutorial = async () => {
-    const tutorialConfigJSON = await storageService.getItem(skipTutorialKey);
-    if (!tutorialConfigJSON) {
-      await storageService.storeItem({
-        key: skipTutorialKey,
-        value: 'false',
-      });
-    }
-  };
+  // const setSkipTutorial = async () => {
+  //   const tutorialConfigJSON = await storageService.getItem(skipTutorialKey);
+  //   if (!tutorialConfigJSON) {
+  //     await storageService.storeItem({
+  //       key: skipTutorialKey,
+  //       value: 'false',
+  //     });
+  //   }
+  // };
 
   const { fadeAnim, showElement } = useFadeAnimation(showTutorial);
   const {
@@ -74,9 +74,9 @@ function TutorialOverlay({
     handleDonePress();
   };
 
-  useEffect(() => {
-    setSkipTutorial();
-  }, []);
+  // useEffect(() => {
+  //   setSkipTutorial();
+  // }, []);
 
   if (showElement)
     return (
