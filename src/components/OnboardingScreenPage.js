@@ -1,21 +1,16 @@
 import { StyleSheet, View } from 'react-native';
-import LottieView from 'lottie-react-native';
 import AppText from './AppText';
 import colors from '../config/colors';
 
-const OnboardingScreenPage = ({ windowWidth, header, text }) => {
+const OnboardingScreenPage = ({
+  windowWidth,
+  header,
+  text,
+  OnboardingAnimation,
+}) => {
   return (
     <View style={[{ width: windowWidth }, styles.OnboardingScreenContainer]}>
-      <LottieView
-        autoPlay
-        loop
-        source={require('../assets/animations/aaa.json')}
-        style={{
-          width: 300,
-          height: 300,
-          // backgroundColor: 'red'
-        }}
-      />
+      <OnboardingAnimation />
       <AppText style={styles.header}>{header}</AppText>
       <AppText>{text}</AppText>
     </View>
@@ -32,8 +27,10 @@ const styles = StyleSheet.create({
   header: {
     color: colors.primary,
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 20,
     marginBottom: 20,
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
