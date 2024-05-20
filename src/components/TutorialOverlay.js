@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, Animated, View, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import colors from '../config/colors';
@@ -19,16 +19,6 @@ function TutorialOverlay({
   setShowCallToAction,
   callToActionContent,
 }) {
-  // const setSkipTutorial = async () => {
-  //   const tutorialConfigJSON = await storageService.getItem(skipTutorialKey);
-  //   if (!tutorialConfigJSON) {
-  //     await storageService.storeItem({
-  //       key: skipTutorialKey,
-  //       value: 'false',
-  //     });
-  //   }
-  // };
-
   const { fadeAnim, showElement } = useFadeAnimation(showTutorial);
   const {
     fadeAnim: fadeAnimCallToAction,
@@ -73,10 +63,6 @@ function TutorialOverlay({
     await storageService.storeItem({ key: skipTutorialKey, value: 'true' });
     handleDonePress();
   };
-
-  // useEffect(() => {
-  //   setSkipTutorial();
-  // }, []);
 
   if (showElement)
     return (

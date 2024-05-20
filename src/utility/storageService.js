@@ -32,10 +32,11 @@ const multiRemove = async (keys) => {
   }
 };
 
-const clearCache = async () => {
+const clearLogbookCache = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    await AsyncStorage.multiRemove(keys);
+    const logbookCacheKeys = keys.filter((key) => key.startsWith('logbook'));
+    await AsyncStorage.multiRemove(logbookCacheKeys);
   } catch (error) {
     console.log(error);
   }
@@ -46,5 +47,5 @@ export default {
   getItem,
   removeItem,
   multiRemove,
-  clearCache,
+  clearLogbookCache,
 };

@@ -9,10 +9,14 @@ const useSkipTutorial = (skipTutorialKey) => {
     const skipTutorialConfigJSON = await storageService.getItem(
       skipTutorialKey
     );
-    if (!skipTutorialConfigJSON) setSkipTutorial(false);
-    const skipTutorialConfig = JSON.parse(skipTutorialConfigJSON);
-    setSkipTutorial(skipTutorialConfig);
-    setIsReady(true);
+    if (!skipTutorialConfigJSON) {
+      setSkipTutorial(false);
+      setIsReady(true);
+    } else {
+      const skipTutorialConfig = JSON.parse(skipTutorialConfigJSON);
+      setSkipTutorial(skipTutorialConfig);
+      setIsReady(true);
+    }
   };
 
   useEffect(() => {

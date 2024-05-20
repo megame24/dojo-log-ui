@@ -17,3 +17,4 @@ web-build/
 .env
 GoogleService-info.plist
 google-services.json
+*.apk

@@ -74,7 +74,7 @@ function SideNav({ navigation }) {
             iconName="log-out-outline"
             onPress={() => {
               logout();
-              storageService.clearCache();
+              storageService.clearLogbookCache();
             }}
           />
           <AppText style={styles.version}>Version {APP_VERSION}</AppText>

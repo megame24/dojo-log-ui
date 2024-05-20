@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Button from '../components/Button';
 import Screen from '../components/Screen';
@@ -9,7 +9,6 @@ import LottieView from 'lottie-react-native';
 import constants from '../config/constants';
 import AppText from '../components/AppText';
 import storageService from '../utility/storageService';
-import useSkipTutorial from '../hooks/useSkipTutorial';
 
 const OnboardingScreen = ({ navigation }) => {
   const { windowWidth, setCurrentPageHandler, currentPage } =
@@ -26,16 +25,6 @@ const OnboardingScreen = ({ navigation }) => {
     });
     handleGetStartedPress();
   };
-
-  const { skipTutorial, isReady: skipTutorialStateIsReady } = useSkipTutorial(
-    constants.SKIP_ONBOARDING_SCREENS
-  );
-
-  useEffect(() => {
-    if (skipTutorial && skipTutorialStateIsReady) {
-      handleGetStartedPress();
-    }
-  }, [skipTutorialStateIsReady]);
 
   return (
     <Screen style={{ marginBottom: 0, paddingHorizontal: 0 }}>
