@@ -1,3 +1,5 @@
+export const persistCachePrefix = '_persist';
+
 export default Object.freeze({
   SIGNUP_SCREEN: 'Signup',
   LOGIN_SCREEN: 'Login',
@@ -56,9 +58,9 @@ export default Object.freeze({
   PASSWORD_SETTINGS_SCREEN: 'Password settings',
   ACCOUNT_SETTINGS_SCREEN: 'Account settings',
   REWARDS_DATA_CACHE: 'rewardsData',
-  SKIP_LOGBOOK_SCREEN_TUTORIAL: 'Skip logbook Screen tutorial',
-  SKIP_LOGBOOKS_SCREEN_TUTORIAL: 'Skip logbooks Screen tutorial',
-  SKIP_REWARDS_SCREEN_TUTORIAL: 'Skip rewards screen tutorial',
+  SKIP_LOGBOOK_SCREEN_TUTORIAL: `${persistCachePrefix} Skip logbook Screen tutorial`,
+  SKIP_LOGBOOKS_SCREEN_TUTORIAL: `${persistCachePrefix} Skip logbooks Screen tutorial`,
+  SKIP_REWARDS_SCREEN_TUTORIAL: `${persistCachePrefix} Skip rewards screen tutorial`,
   ONBOARDING_SCREEN: 'Onboarding screen',
-  SKIP_ONBOARDING_SCREENS: 'Skip onboarding screens',
+  SKIP_ONBOARDING_SCREENS: `${persistCachePrefix} Skip onboarding screens`,
 });

@@ -39,6 +39,7 @@ function LogbooksScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [logbooksReady, setLogbooksReady] = useState(false);
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
@@ -85,6 +86,7 @@ function LogbooksScreen({ navigation }) {
     if (cachedLogbooksDataValid) {
       const cachedLogbooks = cachedLogbooksData.logbooks;
       setLogbooks(cachedLogbooks);
+      setLogbooksReady(true);
       setFilteredLogbooks(cachedLogbooks);
       extractCategories(cachedLogbooks);
     } else {
@@ -97,6 +99,7 @@ function LogbooksScreen({ navigation }) {
       );
       if (ok) {
         setLogbooks(data);
+        setLogbooksReady(true);
         setFilteredLogbooks(data);
         extractCategories(data);
         const cacheData = {
@@ -162,39 +165,7 @@ function LogbooksScreen({ navigation }) {
             }),
           }}
         >
-          {logbooks.length ? (
-            <>
-              <View style={styles.filterListContainer}>
-                <FlatList
-                  data={categories}
-                  contentContainerStyle={
-                    styles.categoriesFlatListContentContainer
-                  }
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item) => item.id}
-                  horizontal
-                  renderItem={({ item }) => (
-                    <CategoryListItem
-                      item={item}
-                      filterLogbooks={filterLogbooks}
-                    />
-                  )}
-                />
-              </View>
-              <FlatList
-                data={filteredLogbooks}
-                contentContainerStyle={styles.logbooksFlatListContentContainer}
-                keyExtractor={(item) => item.name}
-                renderItem={({ item }) => (
-                  <LogbookListItem
-                    item={item}
-                    navigation={navigation}
-                    getLogbooks={() => getLogbooksAsync(startDate, endDate)}
-                  />
-                )}
-              />
-            </>
-          ) : (
+          {!logbooks.length && logbooksReady ? (
             <EmptyStateView
               EmptyStateSvg={EmptyLogbooksSvg}
               emptyStateTexts={[
@@ -202,7 +173,31 @@ function LogbooksScreen({ navigation }) {
                 'Your logbook will help you organize progress logs and set goals towards a specific cause.',
               ]}
             />
-          )}
+          ) : null}
+          <View style={styles.filterListContainer}>
+            <FlatList
+              data={categories}
+              contentContainerStyle={styles.categoriesFlatListContentContainer}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              horizontal
+              renderItem={({ item }) => (
+                <CategoryListItem item={item} filterLogbooks={filterLogbooks} />
+              )}
+            />
+          </View>
+          <FlatList
+            data={filteredLogbooks}
+            contentContainerStyle={styles.logbooksFlatListContentContainer}
+            keyExtractor={(item) => item.name}
+            renderItem={({ item }) => (
+              <LogbookListItem
+                item={item}
+                navigation={navigation}
+                getLogbooks={() => getLogbooksAsync(startDate, endDate)}
+              />
+            )}
+          />
         </View>
       </Screen>
       <FloatingButton

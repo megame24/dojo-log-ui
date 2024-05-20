@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'; // replace!!!
+import { persistCachePrefix } from '../config/constants';
 
 const storeItem = async (payload) => {
   try {
@@ -32,11 +33,13 @@ const multiRemove = async (keys) => {
   }
 };
 
-const clearLogbookCache = async () => {
+const clearCache = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    const logbookCacheKeys = keys.filter((key) => key.startsWith('logbook'));
-    await AsyncStorage.multiRemove(logbookCacheKeys);
+    const nonPersistentCacheKeys = keys.filter(
+      (key) => !key.startsWith(persistCachePrefix)
+    );
+    await AsyncStorage.multiRemove(nonPersistentCacheKeys);
   } catch (error) {
     console.log(error);
   }
@@ -47,5 +50,5 @@ export default {
   getItem,
   removeItem,
   multiRemove,
-  clearLogbookCache,
+  clearCache,
 };

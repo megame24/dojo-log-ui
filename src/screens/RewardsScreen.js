@@ -27,6 +27,7 @@ function RewardsScreen({ navigation, route }) {
   const getRewardsApi = useApi(rewardApi.getRewards);
   const isFocused = useIsFocused();
   const deleteRewardApi = useApi(rewardApi.deleteReward);
+  const [rewardsReady, setRewardsReady] = useState(false);
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
@@ -57,10 +58,12 @@ function RewardsScreen({ navigation, route }) {
     if (cacheRewardsDataValid) {
       const cachedRewards = cacheRewardsData.rewards;
       setRewards(cachedRewards);
+      setRewardsReady(true);
     } else {
       const { ok, data } = await getRewardsApi.request();
       if (ok) {
         setRewards(data);
+        setRewardsReady(true);
         const cacheData = {
           rewards: data,
           date: todaysDateInUTC,
@@ -115,21 +118,7 @@ function RewardsScreen({ navigation, route }) {
           visible={!!(getRewardsApi.error || deleteRewardApi.error)}
         />
         <View style={{ ...(getRewardsApi.loading && { display: 'none' }) }}>
-          {rewards.length ? (
-            <FlatList
-              data={rewards}
-              contentContainerStyle={styles.flatListContentContainer}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item, index }) => (
-                <RewardItem
-                  navigation={navigation}
-                  item={item}
-                  index={index}
-                  deleteReward={deleteReward}
-                />
-              )}
-            />
-          ) : (
+          {!rewards.length && rewardsReady ? (
             <EmptyStateView
               EmptyStateSvg={EmptyRewardsSvg}
               emptyStateTexts={[
@@ -137,7 +126,20 @@ function RewardsScreen({ navigation, route }) {
                 'Celebrate your achievements with personalized rewards when you reach your goals.',
               ]}
             />
-          )}
+          ) : null}
+          <FlatList
+            data={rewards}
+            contentContainerStyle={styles.flatListContentContainer}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => (
+              <RewardItem
+                navigation={navigation}
+                item={item}
+                index={index}
+                deleteReward={deleteReward}
+              />
+            )}
+          />
         </View>
       </Screen>
       <FloatingButton

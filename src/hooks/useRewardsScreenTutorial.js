@@ -21,7 +21,7 @@ const useRewardsScreenTutorial = (floatingButtonRef, screenRef) => {
   ];
 
   const callToActionContentDefault = {
-    text: 'Rewards! Rewards!... Do it! create one.',
+    text: 'Rewards are fun, create one.',
   };
 
   const [tutorialOverlayContent, setTutorialOverlayContent] = useState(
