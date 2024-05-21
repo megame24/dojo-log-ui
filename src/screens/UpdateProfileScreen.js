@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 
 import useAuth from '../hooks/useAuth';
@@ -13,6 +13,7 @@ import FormField from '../components/forms/FormField';
 import SubmitButton from '../components/forms/SubmitButton';
 import useApi from '../hooks/useApi';
 import usersApi from '../api/users';
+import SuccessToast from '../components/SuccessToast';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(2).max(255).label('Name'),
@@ -26,6 +27,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function UpdateProfileScreen({ navigation }) {
+  const [toastVisible, setToastVisible] = useState(false);
   const {
     user: { id, name, email, username },
     login,
@@ -39,6 +41,10 @@ function UpdateProfileScreen({ navigation }) {
 
     const { authToken } = data;
     login(authToken);
+    setToastVisible(true);
+  };
+
+  const handleRedirect = () => {
     navigation.navigate(constants.PROFILE_SCREEN);
   };
 
@@ -75,8 +81,16 @@ function UpdateProfileScreen({ navigation }) {
             autoCapitalize="none"
             autoCorrect={false}
           />
-          <SubmitButton title="Save" />
+          <SubmitButton disabled={toastVisible} title="Save" />
         </Form>
+        <SuccessToast
+          message="Profile updated successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

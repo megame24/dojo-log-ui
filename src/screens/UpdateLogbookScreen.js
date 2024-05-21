@@ -22,12 +22,15 @@ import colors from '../config/colors';
 import AppText from '../components/AppText';
 import CustomModal from '../components/CustomModal';
 import Button from '../components/Button';
+import SuccessToast from '../components/SuccessToast';
 
 function UpdateLogbookScreen({ navigation, route }) {
   const updateLogbookApi = useApi(logbookApi.update);
   const deleteLogbookApi = useApi(logbookApi.deleteLogbook);
   const { logbook: outdatedLogbook } = route.params;
   const [categories, setCategories] = useState([]);
+  const [editToastVisible, setEditToastVisible] = useState(false);
+  const [deleteToastVisible, setDeleteToastVisible] = useState(false);
   const getCategoriesApi = useApi(categoryApi.getAll);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -52,17 +55,26 @@ function UpdateLogbookScreen({ navigation, route }) {
     if (!ok) return;
 
     await storageService.clearCache();
-    navigation.navigate(constants.LOGBOOK_SCREEN, {
-      logbookId: logbook.id,
-    });
+    setEditToastVisible(true);
   };
 
   const handleDeletePress = async () => {
+    setModalVisible(false);
     const { ok } = await deleteLogbookApi.request(outdatedLogbook.id);
 
     if (!ok) return;
 
     await storageService.clearCache();
+    setDeleteToastVisible(true);
+  };
+
+  const handleEditRedirect = () => {
+    navigation.navigate(constants.LOGBOOK_SCREEN, {
+      logbookId: outdatedLogbook.id,
+    });
+  };
+
+  const handleDeleteRedirect = () => {
     navigation.navigate(constants.LOGBOOKS_SCREEN);
   };
 
@@ -120,7 +132,7 @@ function UpdateLogbookScreen({ navigation, route }) {
             multiline
             autoCorrect
           />
-          <SubmitButton title="Save" />
+          <SubmitButton disabled={editToastVisible} title="Save" />
         </Form>
         <TouchableOpacity
           style={styles.delete}
@@ -129,6 +141,22 @@ function UpdateLogbookScreen({ navigation, route }) {
           <Icon color={colors.red} name="trash-outline" />
           <AppText style={{ marginLeft: 5, color: colors.red }}>Delete</AppText>
         </TouchableOpacity>
+        <SuccessToast
+          message="Logbook updated successfully"
+          visible={editToastVisible}
+          onClose={() => {
+            setEditToastVisible(false);
+            handleEditRedirect();
+          }}
+        />
+        <SuccessToast
+          message="Logbook deleted successfully"
+          visible={deleteToastVisible}
+          onClose={() => {
+            setEditToastVisible(false);
+            handleDeleteRedirect();
+          }}
+        />
       </Screen>
       <CustomModal
         modalVisible={modalVisible}

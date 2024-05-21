@@ -19,6 +19,7 @@ import useRewardsScreenTutorial from '../hooks/useRewardsScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TutorialOverlay from '../components/TutorialOverlay';
 import BackButton from '../components/BackButton';
+import SuccessToast from '../components/SuccessToast';
 
 function RewardsScreen({ navigation, route }) {
   const showBackButton = route.params?.showBackButton;
@@ -31,6 +32,7 @@ function RewardsScreen({ navigation, route }) {
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
+  const [toastVisible, setToastVisible] = useState(false);
   const floatingButtonRef = useRef(null);
   const screenRef = useRef(null);
 
@@ -95,6 +97,7 @@ function RewardsScreen({ navigation, route }) {
     const { ok } = await deleteRewardApi.request(rewardId);
 
     if (ok) getRewards();
+    setToastVisible(true);
   };
 
   return (
@@ -141,6 +144,14 @@ function RewardsScreen({ navigation, route }) {
             )}
           />
         </View>
+        <SuccessToast
+          message="Reward deleted successfully"
+          duration={2000}
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+          }}
+        />
       </Screen>
       <FloatingButton
         ref={floatingButtonRef}

@@ -16,6 +16,7 @@ import useApi from '../hooks/useApi';
 import ProofOfWorkFormField from '../components/forms/ProofOfWorkFormField';
 import storageService from '../utility/storageService';
 import dateService from '../utility/dateService';
+import SuccessToast from '../components/SuccessToast';
 
 export const validationSchema = Yup.object().shape({
   message: Yup.string().max(500).required().label('Message'),
@@ -27,6 +28,7 @@ export const validationSchema = Yup.object().shape({
 
 function CreateLogScreen({ route, navigation }) {
   const [file, setFile] = useState(null);
+  const [toastVisible, setToastVisible] = useState(false);
   const createLogApi = useApi(logbookApi.createLog);
 
   const { logbookId } = route.params;
@@ -56,6 +58,11 @@ function CreateLogScreen({ route, navigation }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
+
+    setToastVisible(true);
+  };
+
+  const handleRedirect = async () => {
     navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
   };
 
@@ -93,8 +100,16 @@ function CreateLogScreen({ route, navigation }) {
             setFile={setFile}
             deleteFile={deleteFile}
           />
-          <SubmitButton title="Create" />
+          <SubmitButton disabled={toastVisible} title="Create" />
         </Form>
+        <SuccessToast
+          message="Progress logged successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

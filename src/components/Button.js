@@ -11,6 +11,7 @@ function Button({
   subText,
   Icon,
   textStyle,
+  disabled = false,
   ...otherProps
 }) {
   return (
@@ -22,11 +23,11 @@ function Button({
           backgroundColor: outline ? colors.white : color,
           borderWidth: 1,
           borderColor: color,
-          opacity: otherProps.disabled ? 0.5 : 1,
+          opacity: disabled ? 0.5 : 1,
         },
         style,
       ]}
-      onPress={onPress}
+      onPress={disabled ? () => {} : onPress}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {Icon && (

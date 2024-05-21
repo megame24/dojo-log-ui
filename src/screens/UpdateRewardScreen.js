@@ -16,6 +16,7 @@ import rewardApi from '../api/reward';
 import fileApi from '../api/file';
 import { validationSchema } from './CreateRewardScreen';
 import storageService from '../utility/storageService';
+import SuccessToast from '../components/SuccessToast';
 
 function UpdateRewardScreen({ navigation, route }) {
   const { reward: outdatedReward } = route.params;
@@ -28,6 +29,7 @@ function UpdateRewardScreen({ navigation, route }) {
   }
   const [imageData, setImageData] = useState(defaultImageData);
   const [imageWasDeleted, setImageWasDeleted] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
   const updateRewardApi = useApi(rewardApi.update);
   const deleteFileApi = useApi(fileApi.deleteFile);
 
@@ -57,7 +59,10 @@ function UpdateRewardScreen({ navigation, route }) {
 
     if (!ok) return;
     storageService.removeItem(constants.REWARDS_DATA_CACHE);
+    setToastVisible(true);
+  };
 
+  const handleRedirect = () => {
     navigation.navigate(constants.REWARDS_SCREEN);
   };
 
@@ -106,8 +111,16 @@ function UpdateRewardScreen({ navigation, route }) {
             setImageData={setImageData}
             deleteImage={deleteImage}
           />
-          <SubmitButton title="Update" />
+          <SubmitButton disabled={toastVisible} title="Update" />
         </Form>
+        <SuccessToast
+          message="Reward updated successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

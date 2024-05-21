@@ -20,10 +20,12 @@ import DropdownFormField from '../components/forms/DropdownFormField';
 import storageService from '../utility/storageService';
 import EmptyStateView from '../components/EmptyStateView';
 import EmptyRewardOptionsSvg from '../assets/empty-reward-options.svg';
+import SuccessToast from '../components/SuccessToast';
 
 function UpdateGoalScreen({ route, navigation }) {
   const { goal: outdatedGoal } = route.params;
   const [rewards, setRewards] = useState([]);
+  const [toastVisible, setToastVisible] = useState(false);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const updateGoalApi = useApi(logbookApi.updateGoal);
 
@@ -84,6 +86,10 @@ function UpdateGoalScreen({ route, navigation }) {
         outdatedGoal.logbookId
       }_${new Date().getFullYear()}`,
     ]);
+    setToastVisible(true);
+  };
+
+  const handleRedirect = () => {
     navigation.navigate(constants.GOAL_SCREEN, {
       goalId: outdatedGoal.id,
     });
@@ -160,8 +166,16 @@ function UpdateGoalScreen({ route, navigation }) {
               { label: 'No', value: false },
             ]}
           />
-          <SubmitButton title="Save" />
+          <SubmitButton disabled={toastVisible} title="Save" />
         </Form>
+        <SuccessToast
+          message="Goal updated successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

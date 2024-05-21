@@ -3,11 +3,16 @@ import { useFormikContext } from 'formik';
 import Button from '../Button';
 import { StyleSheet } from 'react-native';
 
-function SubmitButton({ title, ...otherProps }) {
+function SubmitButton({ title, disabled, ...otherProps }) {
   const { handleSubmit } = useFormikContext();
 
   return (
-    <Button onPress={handleSubmit} {...otherProps} style={styles.button}>
+    <Button
+      disabled={disabled}
+      onPress={handleSubmit}
+      {...otherProps}
+      style={styles.button}
+    >
       {title}
     </Button>
   );

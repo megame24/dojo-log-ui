@@ -16,6 +16,7 @@ import useApi from '../hooks/useApi';
 import rewardApi from '../api/reward';
 import ImageUploadFormField from '../components/forms/ImageUploadFormField';
 import storageService from '../utility/storageService';
+import SuccessToast from '../components/SuccessToast';
 
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -25,6 +26,7 @@ export const validationSchema = Yup.object().shape({
 function CreateRewardScreen({ navigation, route }) {
   const { redirectOption } = route.params;
   const [imageData, setImageData] = useState(null);
+  const [toastVisible, setToastVisible] = useState(false);
   const createRewardApi = useApi(rewardApi.create);
 
   const handleSubmit = async (rewardDetails) => {
@@ -47,7 +49,10 @@ function CreateRewardScreen({ navigation, route }) {
 
     if (!ok) return;
     storageService.removeItem(constants.REWARDS_DATA_CACHE);
+    setToastVisible(true);
+  };
 
+  const handleRedirect = () => {
     let redirectScreen = constants.REWARDS_SCREEN;
     let params = {};
     if (redirectOption) {
@@ -96,8 +101,16 @@ function CreateRewardScreen({ navigation, route }) {
             setImageData={setImageData}
             deleteImage={deleteImage}
           />
-          <SubmitButton title="Create" />
+          <SubmitButton disabled={toastVisible} title="Create" />
         </Form>
+        <SuccessToast
+          message="Reward created successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

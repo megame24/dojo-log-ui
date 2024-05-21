@@ -18,6 +18,7 @@ import categoryApi from '../api/category';
 import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import storageService from '../utility/storageService';
+import SuccessToast from '../components/SuccessToast';
 
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -27,6 +28,8 @@ export const validationSchema = Yup.object().shape({
 
 function CreateLogbookScreen({ navigation }) {
   const [categories, setCategories] = useState([]);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [logbookId, setLogbookId] = useState(null);
   const getCategoriesApi = useApi(categoryApi.getAll);
   const createLogbookApi = useApi(logbookApi.create);
 
@@ -50,11 +53,15 @@ function CreateLogbookScreen({ navigation }) {
 
     if (!ok) return;
 
-    storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
-    navigation.navigate(constants.LOGBOOK_SCREEN, {
-      logbookId: data.logbookId,
-    });
+    setLogbookId(data.logbookId);
+    setToastVisible(true);
   };
+
+  const handleRedirect = () => {
+    storageService.removeItem(constants.LOGBOOKS_DATA_CACHE);
+    navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
+  };
+
   return (
     <>
       <ScreenHeader
@@ -95,8 +102,16 @@ function CreateLogbookScreen({ navigation }) {
             multiline
             autoCorrect
           />
-          <SubmitButton title="Create" />
+          <SubmitButton disabled={toastVisible} title="Create" />
         </Form>
+        <SuccessToast
+          message="Logbook created successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

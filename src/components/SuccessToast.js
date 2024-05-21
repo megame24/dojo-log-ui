@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Modal } from 'react-native';
 
-const SuccessToast = ({ visible, message, onClose }) => {
+const SuccessToast = ({ visible, message, duration = 1000, onClose }) => {
   useEffect(() => {
     if (visible) {
       setTimeout(() => {
         onClose();
-      }, 2000);
+      }, duration);
     }
   }, [visible]);
 
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 100,
   },
   toast: {
     backgroundColor: '#27ae60',

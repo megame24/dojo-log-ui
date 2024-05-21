@@ -17,6 +17,7 @@ import storageService from '../utility/storageService';
 import constants from '../config/constants';
 import Icon from '../components/Icon';
 import colors from '../config/colors';
+import SuccessToast from '../components/SuccessToast';
 
 function LogsScreen({ route, navigation }) {
   const getLogsApi = useApi(logbookApi.getLogs);
@@ -25,6 +26,7 @@ function LogsScreen({ route, navigation }) {
   const [presignedUrl, setPresignedUrl] = useState('');
   const [fullScreenImgUrl, setFullScreenImgUrl] = useState('');
   const [logs, setLogs] = useState([]);
+  const [toastVisible, setToastVisible] = useState(false);
   const isFocused = useIsFocused();
 
   const { startDate, endDate, logbookId } = route.params;
@@ -54,6 +56,7 @@ function LogsScreen({ route, navigation }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
+    setToastVisible(true);
   };
 
   const downloadFile = async (file) => {
@@ -118,6 +121,13 @@ function LogsScreen({ route, navigation }) {
             </TouchableOpacity>
           </>
         )}
+        <SuccessToast
+          message="Progress log deleted successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+          }}
+        />
       </Screen>
     </>
   );

@@ -15,6 +15,7 @@ import logbookApi from '../api/logbook';
 import fileApi from '../api/file';
 import useApi from '../hooks/useApi';
 import storageService from '../utility/storageService';
+import SuccessToast from '../components/SuccessToast';
 
 function UpdateLogScreen({ route, navigation }) {
   const { log: outdatedLog } = route.params;
@@ -22,6 +23,7 @@ function UpdateLogScreen({ route, navigation }) {
   const defaultFile = outdatedLog.proofOfWork || null;
 
   const [file, setFile] = useState(defaultFile);
+  const [toastVisible, setToastVisible] = useState(false);
   const updateLogApi = useApi(logbookApi.updateLog);
   const deleteFileApi = useApi(fileApi.deleteFile);
 
@@ -51,6 +53,10 @@ function UpdateLogScreen({ route, navigation }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
+    setToastVisible(true);
+  };
+
+  const handleRedirect = () => {
     navigation.goBack();
   };
 
@@ -91,8 +97,16 @@ function UpdateLogScreen({ route, navigation }) {
             setFile={setFile}
             deleteFile={deleteFile}
           />
-          <SubmitButton title="Save" />
+          <SubmitButton disabled={toastVisible} title="Save" />
         </Form>
+        <SuccessToast
+          message="Progress log updated successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
     </>
   );

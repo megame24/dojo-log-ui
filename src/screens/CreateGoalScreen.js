@@ -23,6 +23,7 @@ import EmptyStateView from '../components/EmptyStateView';
 import EmptyRewardOptionsSvg from '../assets/empty-reward-options.svg';
 import CreateRewardsPrompt from '../components/CreateRewardsPrompt';
 import { useIsFocused } from '@react-navigation/native';
+import SuccessToast from '../components/SuccessToast';
 
 // TODO: move all validations into the validationSchemaObject!!
 
@@ -42,6 +43,7 @@ export const emptyRewardViewText = [
 
 function CreateGoalScreen({ route, navigation }) {
   const [rewards, setRewards] = useState([]);
+  const [toastVisible, setToastVisible] = useState(false);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const createGoalApi = useApi(logbookApi.createGoal);
   const isFocused = useIsFocused();
@@ -74,6 +76,10 @@ function CreateGoalScreen({ route, navigation }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
+    setToastVisible(true);
+  };
+
+  const handleRedirect = () => {
     navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId });
   };
 
@@ -136,8 +142,16 @@ function CreateGoalScreen({ route, navigation }) {
               />
             )}
           />
-          <SubmitButton title="Set goal" />
+          <SubmitButton disabled={toastVisible} title="Set goal" />
         </Form>
+        <SuccessToast
+          message="Goal created successfully"
+          visible={toastVisible}
+          onClose={() => {
+            setToastVisible(false);
+            handleRedirect();
+          }}
+        />
       </Screen>
       <CreateRewardsPrompt
         showCreateRewardsPrompt={showCreateRewardsPrompt}
