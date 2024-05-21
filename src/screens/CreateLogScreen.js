@@ -93,7 +93,12 @@ function CreateLogScreen({ route, navigation }) {
             error={createLogApi.error}
             visible={!!createLogApi.error}
           />
-          <FormField name="message" label="Message" autoCorrect />
+          <FormField
+            name="message"
+            placeholder="Note progress or work done"
+            label="Message"
+            autoCorrect
+          />
           <DurationOfWorkFormField />
           <ProofOfWorkFormField
             file={file}

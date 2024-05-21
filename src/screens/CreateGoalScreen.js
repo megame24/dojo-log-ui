@@ -115,15 +115,21 @@ function CreateGoalScreen({ route, navigation }) {
             error={createGoalApi.error || getRewardsApi.error}
             visible={!!(createGoalApi.error || getRewardsApi.error)}
           />
-          <FormField name="name" label="Name" autoCorrect />
+          <FormField
+            placeholder="Name your goal"
+            name="name"
+            label="Name"
+            autoCorrect
+          />
           <DatePickerFormField
             name="dueDate"
             label="Due date"
-            placeholder="Select a date"
+            placeholder="Pick a due date"
           />
           <FormField
             name="achievementCriteria"
             label="Achievement criteria"
+            placeholder="What needs to be done for this goal to be achieved? (optional)"
             inputContainerStyle={styles.descriptionInputContainerStyle}
             multiline
             autoCorrect
@@ -131,7 +137,7 @@ function CreateGoalScreen({ route, navigation }) {
           <MultiPickerFormField
             name="rewards"
             label="Reward(s)"
-            placeholder="Select rewards"
+            placeholder="Choose associated rewards"
             options={rewards}
             PickerItem={RewardPickerItem}
             numberOfColumns={3}

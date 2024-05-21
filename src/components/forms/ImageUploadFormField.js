@@ -7,7 +7,7 @@ function ImageUploadFormField({ imageData, setImageData, deleteImage }) {
   return (
     <View style={styles.proofOfWorkContainer}>
       <View style={styles.labelContainer}>
-        <AppText style={styles.label}>Image</AppText>
+        <AppText style={styles.label}>Image of reward</AppText>
         <AppText style={styles.subLabel}>(optional)</AppText>
       </View>
       <ImageUpload

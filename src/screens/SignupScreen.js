@@ -51,7 +51,7 @@ function SignupScreen({ navigation }) {
           <FormSubHeader>
             Welcome! kindly enter your details to get started.
           </FormSubHeader>
-          <FormField name="name" label="Name" autoCorrect={false} />
+          <FormField name="name" label="Full name" autoCorrect={false} />
           <FormField
             name="email"
             autoCapitalize="none"

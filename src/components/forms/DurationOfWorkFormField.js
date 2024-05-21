@@ -11,7 +11,6 @@ function DurationOfWorkFormField({
   name = 'durationOfWork',
   label = 'Duration of work',
   inputContainerStyle,
-  inputStyle,
   infoIcon = false,
   infoIconContent,
   ...otherProps
@@ -45,10 +44,11 @@ function DurationOfWorkFormField({
           <AppTextInput
             onBlur={() => setFieldTouched('hours')}
             keyboardType="numeric"
+            placeholder="0"
             onChangeText={(text) => onTextChange(text, 'hours', setHours)}
             value={values.hours}
             inputContainerStyle={styles.inputContainerStyle}
-            inputStyle={inputStyle}
+            inputStyle={styles.inputStyle}
             {...otherProps}
           />
           <AppText>hours</AppText>
@@ -57,10 +57,11 @@ function DurationOfWorkFormField({
           <AppTextInput
             onBlur={() => setFieldTouched('minutes')}
             keyboardType="numeric"
+            placeholder="0"
             onChangeText={(text) => onTextChange(text, 'minutes', setMinutes)}
             value={values.minutes}
             inputContainerStyle={styles.inputContainerStyle}
-            inputStyle={inputStyle}
+            inputStyle={styles.inputStyle}
             {...otherProps}
           />
           <AppText>minutes</AppText>
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
   durationContainer: { flexDirection: 'row' },
   inputContainer: { width: '50%', flexDirection: 'row', alignItems: 'center' },
   inputContainerStyle: { width: '50%', marginRight: 10 },
+  inputStyle: { textAlign: 'right' },
 });
 
 export default DurationOfWorkFormField;

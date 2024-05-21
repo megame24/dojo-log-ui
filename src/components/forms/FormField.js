@@ -17,6 +17,7 @@ function FormField({
   inputStyle,
   infoIcon = false,
   infoIconContent,
+  placeholder,
   ...otherProps
 }) {
   const { setFieldTouched, setFieldValue, values, errors, touched } =
@@ -49,6 +50,7 @@ function FormField({
         value={values[name]}
         inputContainerStyle={inputContainerStyle}
         inputStyle={inputStyle}
+        placeholder={placeholder}
         {...otherProps}
       />
       <ErrorMessage

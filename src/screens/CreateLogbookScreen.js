@@ -86,7 +86,12 @@ function CreateLogbookScreen({ navigation }) {
             error={getCategoriesApi.error || createLogbookApi.error}
             visible={!!(getCategoriesApi.error || createLogbookApi.error)}
           />
-          <FormField name="name" label="Name" autoCorrect={false} />
+          <FormField
+            placeholder="Name your logbook"
+            name="name"
+            label="Name"
+            autoCorrect={false}
+          />
           <PickerFormField
             name="category"
             label="Category"
@@ -98,6 +103,7 @@ function CreateLogbookScreen({ navigation }) {
           <FormField
             name="description"
             label="Description"
+            placeholder="Add details or inspiration here (optional)"
             inputContainerStyle={styles.descriptionInputContainerStyle}
             multiline
             autoCorrect

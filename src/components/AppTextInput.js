@@ -5,11 +5,13 @@ import colors from '../config/colors';
 import defaultStyle from '../config/styles';
 
 const AppTextInput = React.forwardRef(
-  ({ inputContainerStyle, inputStyle, ...otherProps }, ref) => (
+  ({ inputContainerStyle, inputStyle, placeholder, ...otherProps }, ref) => (
     <View style={[styles.container, inputContainerStyle]}>
       <TextInput
         ref={ref}
         {...otherProps}
+        placeholder={placeholder}
+        placeholderTextColor={colors.lightGray}
         style={[defaultStyle.text, inputStyle]}
         underlineColorAndroid="transparent"
       />
