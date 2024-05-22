@@ -12,6 +12,7 @@ export default {
   primary25Per: '#cadfee',
   primary50Per: '#94c0dc',
   primary75Per: '#5fa0cb',
+  secondary50Per: '#f9ce89',
   primary25PerTransparent: 'rgba(41, 128, 185, 0.25)',
   primary50PerTransparent: 'rgba(41, 128, 185, 0.5)',
   primary75PerTransparent: 'rgba(41, 128, 185, 0.75)',
@@ -20,4 +21,5 @@ export default {
   gold: '#F1C40F',
   trophyGray: '#B8B8B8',
   floatingButtonGray: '#999999',
+  floatingButtonGray50Per: '#cccccc',
 };

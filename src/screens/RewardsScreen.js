@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
@@ -20,6 +26,7 @@ import useSkipTutorial from '../hooks/useSkipTutorial';
 import TutorialOverlay from '../components/TutorialOverlay';
 import BackButton from '../components/BackButton';
 import SuccessToast from '../components/SuccessToast';
+import ConnectionContext from '../context/connectionContext';
 
 function RewardsScreen({ navigation, route }) {
   const showBackButton = route.params?.showBackButton;
@@ -29,6 +36,7 @@ function RewardsScreen({ navigation, route }) {
   const isFocused = useIsFocused();
   const deleteRewardApi = useApi(rewardApi.deleteReward);
   const [rewardsReady, setRewardsReady] = useState(false);
+  const { isNotConnected } = useContext(ConnectionContext);
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
@@ -66,14 +74,17 @@ function RewardsScreen({ navigation, route }) {
       if (ok) {
         setRewards(data);
         setRewardsReady(true);
-        const cacheData = {
-          rewards: data,
-          date: todaysDateInUTC,
-        };
-        await storageService.storeItem({
-          key: constants.REWARDS_DATA_CACHE,
-          value: JSON.stringify(cacheData),
-        });
+
+        if (!isNotConnected) {
+          const cacheData = {
+            rewards: data,
+            date: todaysDateInUTC,
+          };
+          await storageService.storeItem({
+            key: constants.REWARDS_DATA_CACHE,
+            value: JSON.stringify(cacheData),
+          });
+        }
       }
     }
   };

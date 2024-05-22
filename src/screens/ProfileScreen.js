@@ -42,6 +42,7 @@ function ProfileScreen({ navigation }) {
       <FloatingButton
         size={35}
         color={colors.floatingButtonGray}
+        disabledColor={colors.floatingButtonGray50Per}
         onPress={() => navigation.navigate(constants.UPDATE_PROFILE_SCREEN)}
         Icon={() => (
           <Icon name="pen" isFontAwesome size={15} color={colors.white} />

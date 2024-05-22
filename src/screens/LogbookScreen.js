@@ -43,9 +43,15 @@ function LogbookScreen({ navigation, route }) {
     value: currentMonth,
   };
   const { logbookId } = route.params;
-  const getLogbookApi = useApi(logbookApi.getLogbook);
+  const getLogbookApi = useApi(logbookApi.getLogbook, {
+    heatmap: {},
+    yearHeatmapDisplay: [],
+  });
   const updateGoalApi = useApi(logbookApi.updateGoal);
-  const getEarliestLogbookYearApi = useApi(logbookApi.getEarliestLogbookYear);
+  const getEarliestLogbookYearApi = useApi(
+    logbookApi.getEarliestLogbookYear,
+    new Date().getFullYear()
+  );
   const [yearOptions, setYearOptions] = useState([]);
   const [logbook, setLogbook] = useState({});
   const [duration, setDuration] = useState(defaultDuration);
@@ -117,7 +123,7 @@ function LogbookScreen({ navigation, route }) {
       setLogbook(data);
 
       // only cache current year logbook data
-      if (yearOption.value === currentYear) {
+      if (yearOption.value === currentYear && !isNotConnected) {
         const cacheData = {
           logbook: data,
           date: todaysDateInUTC,
@@ -307,6 +313,7 @@ function LogbookScreen({ navigation, route }) {
             style={styles.editButton}
             size={35}
             color={colors.floatingButtonGray}
+            disabledColor={colors.floatingButtonGray50Per}
             onPress={() =>
               navigation.navigate(constants.UPDATE_LOGBOOK_SCREEN, {
                 logbook: {

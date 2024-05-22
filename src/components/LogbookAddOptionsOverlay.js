@@ -34,6 +34,7 @@ function LogbookAddOptionsOverlay({
             style={styles.editButton}
             size={35}
             color={colors.primary}
+            disabledColor={colors.primary50Per}
             onPress={() => {
               navigation.navigate(constants.CREATE_GOAL_SCREEN, {
                 logbookId,
