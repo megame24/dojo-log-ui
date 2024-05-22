@@ -2,13 +2,13 @@ import { useContext, useState } from 'react';
 
 import useAuth from './useAuth';
 import constants from '../config/constants';
-import ExpiredSessionContext from '../context/expiredSessionContext';
+import AuthContext from '../context/authContext';
 
 function useApi(apiFunc) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { logout } = useAuth();
-  const { setSessionExpired } = useContext(ExpiredSessionContext);
+  const { setSessionExpired } = useContext(AuthContext);
 
   async function request(...args) {
     setError('');

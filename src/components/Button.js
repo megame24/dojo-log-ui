@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import colors from '../config/colors';
+import ConnectionContext from '../context/connectionContext';
 
 function Button({
   children,
@@ -14,6 +15,7 @@ function Button({
   disabled = false,
   ...otherProps
 }) {
+  const { isNotConnected } = useContext(ConnectionContext);
   return (
     <TouchableOpacity
       {...otherProps}
@@ -23,11 +25,11 @@ function Button({
           backgroundColor: outline ? colors.white : color,
           borderWidth: 1,
           borderColor: color,
-          opacity: disabled ? 0.5 : 1,
+          opacity: disabled || isNotConnected ? 0.5 : 1,
         },
         style,
       ]}
-      onPress={disabled ? () => {} : onPress}
+      onPress={disabled || isNotConnected ? () => {} : onPress}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {Icon && (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Menu, {
   MenuTrigger,
@@ -9,6 +9,7 @@ import colors from '../config/colors';
 import constants from '../config/constants';
 import AppText from './AppText';
 import HeatmapItem from './HeatmapItem';
+import ConnectionContext from '../context/connectionContext';
 
 function HeatmapGridItem({
   heatmapItemData,
@@ -24,6 +25,7 @@ function HeatmapGridItem({
   allowDayDisplay = true,
   logOnAGoalStyle,
 }) {
+  const { isNotConnected } = useContext(ConnectionContext);
   return (
     <View style={styles.heatmapParentContainer}>
       {heatmapItemData.month && (
@@ -108,12 +110,22 @@ function HeatmapGridItem({
               )}
               {heatmapItemData.hasGoal && !heatmapItemData.goalAchieved && (
                 <MenuOption
+                  disabled={isNotConnected}
                   onSelect={() =>
                     updateGoal({ achieved: true }, heatmapItemData.goalId)
                   }
                   style={styles.popupMenuOption}
                 >
-                  <AppText style={{ fontSize: 14 }}>Set to achieved</AppText>
+                  <AppText
+                    style={{
+                      fontSize: 14,
+                      color: isNotConnected
+                        ? colors.lightGray
+                        : colors.darkGray,
+                    }}
+                  >
+                    Set to achieved
+                  </AppText>
                 </MenuOption>
               )}
             </MenuOptions>

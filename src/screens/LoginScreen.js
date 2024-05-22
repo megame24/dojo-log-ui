@@ -17,11 +17,11 @@ import validationSchemaObject from '../config/validationSchemaObject';
 import FormSubHeader from '../components/forms/FormSubHeader';
 import useApi from '../hooks/useApi';
 import useSignInWithGoogle from '../hooks/useSignInWithGoogle';
-import ExpiredSessionContext from '../context/expiredSessionContext';
 import AppText from '../components/AppText';
 import { StyleSheet, View } from 'react-native';
 import colors from '../config/colors';
 import SignInWithGoogleButton from '../components/SignInWithGoogleButton';
+import AuthContext from '../context/authContext';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -33,9 +33,7 @@ function LoginScreen({ navigation }) {
   const { signIn, loading: googleSignInLoading } = useSignInWithGoogle();
   const loginApi = useApi(usersApi.login);
   const googleSignInVerifyApi = useApi(usersApi.googleSignInVerify);
-  const { sessionExpired, setSessionExpired } = useContext(
-    ExpiredSessionContext
-  );
+  const { sessionExpired, setSessionExpired } = useContext(AuthContext);
 
   useEffect(() => {
     setTimeout(() => {

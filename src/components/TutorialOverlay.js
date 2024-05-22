@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { StyleSheet, Animated, View, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import colors from '../config/colors';
@@ -6,6 +6,7 @@ import useFadeAnimation from '../hooks/useFadeAnimation';
 import AppText from './AppText';
 import Button from './Button';
 import storageService from '../utility/storageService';
+import ConnectionContext from '../context/connectionContext';
 
 // this will contain the next, skip and do not show agin buttons
 // will also contain the texts and the coordinates of the pulse and text box.
@@ -19,6 +20,7 @@ function TutorialOverlay({
   setShowCallToAction,
   callToActionContent,
 }) {
+  const { isNotConnected } = useContext(ConnectionContext);
   const { fadeAnim, showElement } = useFadeAnimation(showTutorial);
   const {
     fadeAnim: fadeAnimCallToAction,
@@ -64,6 +66,7 @@ function TutorialOverlay({
     handleDonePress();
   };
 
+  if (isNotConnected) return null;
   if (showElement)
     return (
       <Animated.View

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -25,6 +25,7 @@ import TutorialOverlay from '../components/TutorialOverlay';
 import useLogbookScreenTutorial from '../hooks/useLogbookScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TadaAnimation from '../components/TadaAnimation';
+import ConnectionContext from '../context/connectionContext';
 
 // TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 // TODO: Implement pull down to refresh
@@ -63,6 +64,7 @@ function LogbookScreen({ navigation, route }) {
   const monthlyHeatmapRef = useRef(null);
   const monthlyYearlyDropdownRef = useRef(null);
   const screenRef = useRef(null);
+  const { isNotConnected } = useContext(ConnectionContext);
 
   const {
     tutorialOverlayContent,
@@ -261,6 +263,7 @@ function LogbookScreen({ navigation, route }) {
                     inputContentStyle={styles.optionInputContentStyle}
                   />
                   <Dropdown
+                    disabled={isNotConnected}
                     onSelectItem={(option) => selectYear(option)}
                     options={yearOptions}
                     placeholder="Year"

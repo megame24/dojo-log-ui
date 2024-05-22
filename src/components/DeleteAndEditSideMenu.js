@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import Menu, {
   MenuTrigger,
@@ -9,8 +9,10 @@ import colors from '../config/colors';
 
 import AppText from './AppText';
 import Icon from './Icon';
+import ConnectionContext from '../context/connectionContext';
 
 function DeleteAndEditSideMenu({ onEdit, onDelete }) {
+  const { isNotConnected } = useContext(ConnectionContext);
   return (
     <Menu>
       {/* consider refactoring out!!!!! */}
@@ -21,8 +23,18 @@ function DeleteAndEditSideMenu({ onEdit, onDelete }) {
         <MenuOption onSelect={onEdit} style={styles.popupMenuOption}>
           <AppText>Edit</AppText>
         </MenuOption>
-        <MenuOption onSelect={onDelete} style={styles.popupMenuOption}>
-          <AppText>Delete</AppText>
+        <MenuOption
+          disabled={isNotConnected}
+          onSelect={isNotConnected ? () => {} : onDelete}
+          style={styles.popupMenuOption}
+        >
+          <AppText
+            style={{
+              color: isNotConnected ? colors.lightGray : colors.darkGray,
+            }}
+          >
+            Delete
+          </AppText>
         </MenuOption>
       </MenuOptions>
     </Menu>
