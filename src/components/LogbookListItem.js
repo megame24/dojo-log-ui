@@ -40,9 +40,15 @@ function LogbookListItem({
       >
         <AppText style={styles.logbookName}>{item.name}</AppText>
       </TouchableOpacity>
-      <AppText style={styles.logbookDesc} numberOfLines={1}>
-        {item.description}
-      </AppText>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate(constants.LOGBOOK_SCREEN, { logbookId })
+        }
+      >
+        <AppText style={styles.logbookDesc} numberOfLines={1}>
+          {item.description}
+        </AppText>
+      </TouchableOpacity>
       <View style={styles.heatmapIconContainer}>
         <WeekToDateHeatmap
           heatmapData={item.heatmap}
