@@ -20,6 +20,7 @@ import EmptyStateView from '../components/EmptyStateView';
 import TutorialOverlay from '../components/TutorialOverlay';
 import useLogbooksScreenTutorial from '../hooks/useLogbooksScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
+import TadaAnimation from '../components/TadaAnimation';
 
 // const favouritesCategory = {
 //   name: 'favourites',
@@ -40,6 +41,7 @@ function LogbooksScreen({ navigation }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [logbooksReady, setLogbooksReady] = useState(false);
+  const [playTadaAnimation, setPlayTadaAnimation] = useState(false);
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
@@ -195,6 +197,7 @@ function LogbooksScreen({ navigation }) {
                 item={item}
                 navigation={navigation}
                 getLogbooks={() => getLogbooksAsync(startDate, endDate)}
+                setPlayTadaAnimation={setPlayTadaAnimation}
               />
             )}
           />
@@ -215,6 +218,7 @@ function LogbooksScreen({ navigation }) {
           callToActionContent={callToActionContent}
         />
       ) : null}
+      <TadaAnimation play={playTadaAnimation} setPlay={setPlayTadaAnimation} />
     </>
   );
 }

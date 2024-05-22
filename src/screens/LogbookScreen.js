@@ -24,6 +24,7 @@ import LogbookAddOptionsOverlay from '../components/LogbookAddOptionsOverlay';
 import TutorialOverlay from '../components/TutorialOverlay';
 import useLogbookScreenTutorial from '../hooks/useLogbookScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
+import TadaAnimation from '../components/TadaAnimation';
 
 // TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 // TODO: Implement pull down to refresh
@@ -52,6 +53,7 @@ function LogbookScreen({ navigation, route }) {
   const [monthOptionDisabled, setMonthOptionDisabled] = useState(false);
   const [heatmapReady, setHeatmapReady] = useState(false);
   const [showAddOptions, setShowAddOptions] = useState(false);
+  const [playTadaAnimation, setPlayTadaAnimation] = useState(false);
   const isFocused = useIsFocused();
 
   const [showTutorial, setShowTutorial] = useState(true);
@@ -188,7 +190,8 @@ function LogbookScreen({ navigation, route }) {
     ]);
     const startDate = dateService.getStartOfYear(yearOption.value);
     const endDate = dateService.getEndOfYear(yearOption.value);
-    getLogbookAsync(startDate, endDate);
+    await getLogbookAsync(startDate, endDate);
+    setPlayTadaAnimation(true);
   };
 
   return (
@@ -341,6 +344,7 @@ function LogbookScreen({ navigation, route }) {
           callToActionContent={callToActionContent}
         />
       ) : null}
+      <TadaAnimation play={playTadaAnimation} setPlay={setPlayTadaAnimation} />
     </>
   );
 }

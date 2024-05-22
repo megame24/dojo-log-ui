@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Modal } from 'react-native';
 
-const SuccessToast = ({ visible, message, duration = 1000, onClose }) => {
+const SuccessToast = ({ visible, message, duration = 600, onClose }) => {
   useEffect(() => {
     if (visible) {
       setTimeout(() => {

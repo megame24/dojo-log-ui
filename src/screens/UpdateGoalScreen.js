@@ -26,6 +26,7 @@ function UpdateGoalScreen({ route, navigation }) {
   const { goal: outdatedGoal } = route.params;
   const [rewards, setRewards] = useState([]);
   const [toastVisible, setToastVisible] = useState(false);
+  const [goalAchieved, setGoalAchieved] = useState(false);
   const getRewardsApi = useApi(rewardApi.getRewards);
   const updateGoalApi = useApi(logbookApi.updateGoal);
 
@@ -86,12 +87,15 @@ function UpdateGoalScreen({ route, navigation }) {
         outdatedGoal.logbookId
       }_${new Date().getFullYear()}`,
     ]);
+    if (goalDetails.achieved.value) setGoalAchieved(true);
     setToastVisible(true);
   };
 
   const handleRedirect = () => {
     navigation.navigate(constants.GOAL_SCREEN, {
       goalId: outdatedGoal.id,
+      logbookId: outdatedGoal.logbookId,
+      ...(goalAchieved && { goalAchieved: true }),
     });
   };
 

@@ -17,17 +17,25 @@ import LabelAndContent from '../components/LabelAndContent';
 import dateService from '../utility/dateService';
 import GoalRewardItem from '../components/GoalRewardItem';
 import constants from '../config/constants';
+import TadaAnimation from '../components/TadaAnimation';
 
 function GoalScreen({ route, navigation }) {
   const getGoalApi = useApi(logbookApi.getGoal);
   const [goal, setGoal] = useState({});
-  const { goalId, logbookId } = route.params;
+  const { goalId, logbookId, goalAchieved } = route.params;
+  const parsedGoalAchieved = goalAchieved ? JSON.parse(goalAchieved) : false;
+  const [playTadaAnimation, setPlayTadaAnimation] =
+    useState(parsedGoalAchieved);
   const isFocused = useIsFocused();
 
   const getGoalAsync = async () => {
     const { data, ok } = await getGoalApi.request(logbookId, goalId);
     if (ok) setGoal(data);
   };
+
+  useEffect(() => {
+    setPlayTadaAnimation(parsedGoalAchieved);
+  }, [parsedGoalAchieved]);
 
   useEffect(() => {
     if (isFocused) getGoalAsync();
@@ -87,6 +95,7 @@ function GoalScreen({ route, navigation }) {
           <Icon name="pen" isFontAwesome size={15} color={colors.white} />
         )}
       />
+      <TadaAnimation play={playTadaAnimation} setPlay={setPlayTadaAnimation} />
     </>
   );
 }

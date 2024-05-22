@@ -9,7 +9,12 @@ import storageService from '../utility/storageService';
 import useApi from '../hooks/useApi';
 import logbookApi from '../api/logbook';
 
-function LogbookListItem({ item, navigation, getLogbooks }) {
+function LogbookListItem({
+  item,
+  navigation,
+  getLogbooks,
+  setPlayTadaAnimation,
+}) {
   const logbookId = item.id;
   const updateGoalApi = useApi(logbookApi.updateGoal);
   const updateGoal = async (goalDetails, goalId) => {
@@ -22,7 +27,8 @@ function LogbookListItem({ item, navigation, getLogbooks }) {
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
-    getLogbooks();
+    await getLogbooks();
+    setPlayTadaAnimation(true);
   };
 
   return (
