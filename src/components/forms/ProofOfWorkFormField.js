@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import colors from '../../config/colors';
+import { View, StyleSheet } from 'react-native';
 import glossary from '../../config/glossary';
 import InfoModalContext from '../../context/infoModalContext';
 import AppText from '../AppText';
-import Icon from '../Icon';
 import ImageUpload from '../ImageUpload';
+import InfoIcon from '../InfoIcon';
 
 function ProofOfWorkFormField({ file, setFile, deleteFile }) {
   const { setInfoModalVisible, setInfoModalContent } =
@@ -16,14 +15,12 @@ function ProofOfWorkFormField({ file, setFile, deleteFile }) {
       <View style={styles.labelContainer}>
         <AppText style={styles.label}>Proof of work</AppText>
         <AppText style={styles.subLabel}>(optional)</AppText>
-        <TouchableOpacity
-          onPress={() => {
+        <InfoIcon
+          infoIconPress={() => {
             setInfoModalContent(glossary.PROOF_OF_WORK);
             setInfoModalVisible(true);
           }}
-        >
-          <Icon name="help-circle-outline" size={16} color={colors.lightGray} />
-        </TouchableOpacity>
+        />
       </View>
       <ImageUpload // explore making this a FileUpload in the future when the download functionality is smooth
         imageData={file}

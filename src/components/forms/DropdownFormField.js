@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useFormikContext } from 'formik';
 
 import AppText from '../AppText';
 import ErrorMessage from './ErrorMessage';
-import colors from '../../config/colors';
 import InfoModalContext from '../../context/infoModalContext';
-import Icon from '../Icon';
 import Dropdown from '../Dropdown';
+import InfoIcon from '../InfoIcon';
 
 function DropdownFormField({
   label,
@@ -36,13 +35,7 @@ function DropdownFormField({
       <View style={styles.labelContainer}>
         <AppText style={styles.label}>{label}</AppText>
         {infoIcon && (
-          <TouchableOpacity onPress={() => infoIconPress(infoIconContent)}>
-            <Icon
-              name="help-circle-outline"
-              size={16}
-              color={colors.lightGray}
-            />
-          </TouchableOpacity>
+          <InfoIcon infoIconPress={() => infoIconPress(infoIconContent)} />
         )}
       </View>
       <Dropdown

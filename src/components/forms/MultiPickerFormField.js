@@ -1,12 +1,11 @@
 import { useFormikContext } from 'formik';
 import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import colors from '../../config/colors';
+import { View, StyleSheet } from 'react-native';
 import InfoModalContext from '../../context/infoModalContext';
 import AppMultiPicker from '../AppMultiPicker';
 import AppText from '../AppText';
-import Icon from '../Icon';
 import ErrorMessage from './ErrorMessage';
+import InfoIcon from '../InfoIcon';
 
 function MultiPickerFormField({
   label,
@@ -38,13 +37,7 @@ function MultiPickerFormField({
       <View style={styles.labelContainer}>
         <AppText style={styles.label}>{label}</AppText>
         {infoIcon && (
-          <TouchableOpacity onPress={() => infoIconPress(infoIconContent)}>
-            <Icon
-              name="help-circle-outline"
-              size={16}
-              color={colors.lightGray}
-            />
-          </TouchableOpacity>
+          <InfoIcon infoIconPress={() => infoIconPress(infoIconContent)} />
         )}
       </View>
       <AppMultiPicker

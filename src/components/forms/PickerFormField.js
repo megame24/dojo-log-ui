@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useFormikContext } from 'formik';
 
 import AppText from '../AppText';
 import ErrorMessage from './ErrorMessage';
-import colors from '../../config/colors';
 import InfoModalContext from '../../context/infoModalContext';
-import Icon from '../Icon';
 import AppPicker from '../AppPicker';
+import InfoIcon from '../InfoIcon';
 
 function PickerFormField({
   label,
@@ -38,13 +37,7 @@ function PickerFormField({
       <View style={styles.labelContainer}>
         <AppText style={styles.label}>{label}</AppText>
         {infoIcon && (
-          <TouchableOpacity onPress={() => infoIconPress(infoIconContent)}>
-            <Icon
-              name="help-circle-outline"
-              size={16}
-              color={colors.lightGray}
-            />
-          </TouchableOpacity>
+          <InfoIcon infoIconPress={() => infoIconPress(infoIconContent)} />
         )}
       </View>
       <AppPicker
