@@ -20,7 +20,7 @@ import constants from '../config/constants';
 import TadaAnimation from '../components/TadaAnimation';
 
 function GoalScreen({ route, navigation }) {
-  const getGoalApi = useApi(logbookApi.getGoal);
+  const getGoalApi = useApi(logbookApi.getGoal, {});
   const [goal, setGoal] = useState({});
   const { goalId, logbookId, goalAchieved } = route.params;
   const parsedGoalAchieved = goalAchieved ? JSON.parse(goalAchieved) : false;
@@ -88,6 +88,7 @@ function GoalScreen({ route, navigation }) {
       <FloatingButton
         size={35}
         color={colors.floatingButtonGray}
+        disabledColor={colors.floatingButtonGray50Per}
         onPress={() =>
           navigation.navigate(constants.UPDATE_GOAL_SCREEN, { goal })
         }

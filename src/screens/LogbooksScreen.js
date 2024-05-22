@@ -21,6 +21,7 @@ import TutorialOverlay from '../components/TutorialOverlay';
 import useLogbooksScreenTutorial from '../hooks/useLogbooksScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TadaAnimation from '../components/TadaAnimation';
+import ConnectionContext from '../context/connectionContext';
 
 // const favouritesCategory = {
 //   name: 'favourites',
@@ -42,6 +43,7 @@ function LogbooksScreen({ navigation }) {
   const [endDate, setEndDate] = useState('');
   const [logbooksReady, setLogbooksReady] = useState(false);
   const [playTadaAnimation, setPlayTadaAnimation] = useState(false);
+  const { isNotConnected } = useContext(ConnectionContext);
 
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
@@ -104,14 +106,17 @@ function LogbooksScreen({ navigation }) {
         setLogbooksReady(true);
         setFilteredLogbooks(data);
         extractCategories(data);
-        const cacheData = {
-          logbooks: data,
-          date: todaysDateInUTC,
-        };
-        await storageService.storeItem({
-          key: constants.LOGBOOKS_DATA_CACHE,
-          value: JSON.stringify(cacheData),
-        });
+
+        if (!isNotConnected) {
+          const cacheData = {
+            logbooks: data,
+            date: todaysDateInUTC,
+          };
+          await storageService.storeItem({
+            key: constants.LOGBOOKS_DATA_CACHE,
+            value: JSON.stringify(cacheData),
+          });
+        }
       }
     }
   };

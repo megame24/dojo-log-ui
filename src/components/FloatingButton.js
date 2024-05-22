@@ -11,6 +11,7 @@ const FloatingButton = forwardRef((props, ref) => {
     Icon: PassedIcon,
     onPress,
     color = colors.secondary,
+    disabledColor = colors.secondary50Per,
     size = 50,
     style,
     label,
@@ -33,10 +34,9 @@ const FloatingButton = forwardRef((props, ref) => {
         style={[
           styles.buttonContainer,
           {
-            backgroundColor: color,
+            backgroundColor: disabled || isNotConnected ? disabledColor : color,
             width: size,
             height: size,
-            opacity: disabled || isNotConnected ? 0.5 : 1,
           },
         ]}
       >
