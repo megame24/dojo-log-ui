@@ -10,6 +10,7 @@ import constants from '../config/constants';
 import AppText from './AppText';
 import HeatmapItem from './HeatmapItem';
 import ConnectionContext from '../context/connectionContext';
+import Icon from './Icon';
 
 function HeatmapGridItem({
   heatmapItemData,
@@ -24,6 +25,7 @@ function HeatmapGridItem({
   updateGoal,
   allowDayDisplay = true,
   logOnAGoalStyle,
+  quickLog,
 }) {
   const { isNotConnected } = useContext(ConnectionContext);
   return (
@@ -82,6 +84,30 @@ function HeatmapGridItem({
                   View logs
                 </AppText>
               </MenuOption>
+              {(heatmapItemData.isToday || heatmapItemData.day === 'Today') && (
+                <MenuOption
+                  disabled={isNotConnected}
+                  onSelect={() => quickLog()}
+                  style={[
+                    styles.popupMenuOption,
+                    {
+                      backgroundColor: isNotConnected
+                        ? colors.secondary50Per
+                        : colors.secondary,
+                    },
+                  ]}
+                >
+                  <AppText
+                    style={{
+                      fontSize: 14,
+                      color: colors.white,
+                    }}
+                  >
+                    <Icon color={colors.white} name="add-outline" size={16} />{' '}
+                    Quick progress log
+                  </AppText>
+                </MenuOption>
+              )}
               {heatmapItemData.hasGoal && (
                 <MenuOption
                   disableTouchable
@@ -91,7 +117,7 @@ function HeatmapGridItem({
                   ]}
                 >
                   <AppText numberOfLines={1} style={{ fontSize: 14 }}>
-                    {heatmapItemData.goalName}
+                    Goal: {heatmapItemData.goalName}
                   </AppText>
                 </MenuOption>
               )}
@@ -169,7 +195,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   popupMenuOptions: {
-    width: 150,
+    width: 160,
     borderRadius: 5,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },

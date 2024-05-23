@@ -63,4 +63,5 @@ export default Object.freeze({
   SKIP_REWARDS_SCREEN_TUTORIAL: `${persistCachePrefix} Skip rewards screen tutorial`,
   ONBOARDING_SCREEN: 'Onboarding screen',
   SKIP_ONBOARDING_SCREENS: `${persistCachePrefix} Skip onboarding screens`,
+  QUICK_LOG_DATA: `${persistCachePrefix} quick log data`,
 });

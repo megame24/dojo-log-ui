@@ -16,7 +16,13 @@ export const getHeatmapCellColorFromDuration = (durationInMinutes) => {
   return color;
 };
 
-function WeekToDateHeatmap({ heatmapData, navigation, logbookId, updateGoal }) {
+function WeekToDateHeatmap({
+  heatmapData,
+  navigation,
+  logbookId,
+  updateGoal,
+  quickLog,
+}) {
   const [heatmap, setHeatmap] = useState({});
   const [daysOfYear, setDaysOfYear] = useState([]);
   const days = constants.days;
@@ -79,6 +85,7 @@ function WeekToDateHeatmap({ heatmapData, navigation, logbookId, updateGoal }) {
             logbookId={logbookId}
             updateGoal={updateGoal}
             allowDayDisplay={false}
+            quickLog={quickLog}
           />
           <AppText style={styles.day}>{heatmap[day].day}</AppText>
         </View>

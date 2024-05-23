@@ -22,6 +22,7 @@ import useLogbooksScreenTutorial from '../hooks/useLogbooksScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TadaAnimation from '../components/TadaAnimation';
 import ConnectionContext from '../context/connectionContext';
+import SuccessToast from '../components/SuccessToast';
 
 // const favouritesCategory = {
 //   name: 'favourites',
@@ -50,6 +51,9 @@ function LogbooksScreen({ navigation }) {
 
   const floatingButtonRef = useRef(null);
   const screenRef = useRef(null);
+
+  const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
+  const [quickLogError, setQuickLogError] = useState(false);
 
   const {
     tutorialOverlayContent,
@@ -160,8 +164,8 @@ function LogbooksScreen({ navigation }) {
       <ActivityIndicator visible={getLogbooksApi.loading} />
       <Screen style={styles.screen}>
         <ErrorMessage
-          error={getLogbooksApi.error}
-          visible={!!getLogbooksApi.error}
+          error={getLogbooksApi.error || quickLogError}
+          visible={!!(getLogbooksApi.error || quickLogError)}
         />
         <View
           ref={screenRef}
@@ -203,10 +207,20 @@ function LogbooksScreen({ navigation }) {
                 navigation={navigation}
                 getLogbooks={() => getLogbooksAsync(startDate, endDate)}
                 setPlayTadaAnimation={setPlayTadaAnimation}
+                setQuickLogError={setQuickLogError}
+                setQuickLogToastVisible={setQuickLogToastVisible}
               />
             )}
           />
         </View>
+        <SuccessToast
+          message="Progress logged successfully"
+          duration={2000}
+          visible={quickLogToastVisible}
+          onClose={() => {
+            setQuickLogToastVisible(false);
+          }}
+        />
       </Screen>
       <FloatingButton
         ref={floatingButtonRef}

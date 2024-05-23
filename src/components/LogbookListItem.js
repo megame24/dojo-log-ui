@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../config/colors';
 import constants from '../config/constants';
@@ -8,19 +8,24 @@ import WeekToDateHeatmap from './WeekToDateHeatmap';
 import storageService from '../utility/storageService';
 import useApi from '../hooks/useApi';
 import logbookApi from '../api/logbook';
+import useQuickLog from '../hooks/userQuickLog';
 
 function LogbookListItem({
   item,
   navigation,
   getLogbooks,
   setPlayTadaAnimation,
+  setQuickLogError,
+  setQuickLogToastVisible,
 }) {
   const logbookId = item.id;
   const updateGoalApi = useApi(logbookApi.updateGoal);
-  const updateGoal = async (goalDetails, goalId) => {
-    const { ok } = await updateGoalApi.request(logbookId, goalId, goalDetails);
 
-    if (!ok) return;
+  const { quickLogError, quickLogSuccess, quickLog } = useQuickLog(logbookId);
+
+  const clearLogbooksCacheAndGetLogbooksAsync = async (
+    shouldSetQuickLogToastVisible = false
+  ) => {
     await storageService.multiRemove([
       constants.LOGBOOKS_DATA_CACHE,
       `${
@@ -28,8 +33,26 @@ function LogbookListItem({
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
     await getLogbooks();
+    if (shouldSetQuickLogToastVisible) setQuickLogToastVisible(true);
+  };
+
+  const updateGoal = async (goalDetails, goalId) => {
+    const { ok } = await updateGoalApi.request(logbookId, goalId, goalDetails);
+
+    if (!ok) return;
+    await clearLogbooksCacheAndGetLogbooksAsync();
     setPlayTadaAnimation(true);
   };
+
+  useEffect(() => {
+    if (quickLogError) setQuickLogError(quickLogError);
+  }, [quickLogError]);
+
+  useEffect(() => {
+    if (quickLogSuccess) {
+      clearLogbooksCacheAndGetLogbooksAsync(true);
+    }
+  }, [quickLogSuccess]);
 
   return (
     <View style={styles.logbookContainer}>
@@ -55,6 +78,7 @@ function LogbookListItem({
           navigation={navigation}
           logbookId={logbookId}
           updateGoal={updateGoal}
+          quickLog={quickLog}
         />
         <Icon
           size={25}
