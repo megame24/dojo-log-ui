@@ -87,7 +87,8 @@ function UpdateGoalScreen({ route, navigation }) {
         outdatedGoal.logbookId
       }_${new Date().getFullYear()}`,
     ]);
-    if (goalDetails.achieved.value) setGoalAchieved(true);
+    if (!outdatedGoal.achieved && goalDetails.achieved.value)
+      setGoalAchieved(true);
     setToastVisible(true);
   };
 

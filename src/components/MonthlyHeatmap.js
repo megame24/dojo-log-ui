@@ -15,6 +15,7 @@ const MonthlyDateHeatmap = forwardRef(
       navigation,
       logbookId,
       updateGoal,
+      quickLog,
     },
     ref
   ) => {
@@ -103,6 +104,7 @@ const MonthlyDateHeatmap = forwardRef(
               allowMenu
               logbookId={logbookId}
               updateGoal={updateGoal}
+              quickLog={quickLog}
             />
           )}
         />

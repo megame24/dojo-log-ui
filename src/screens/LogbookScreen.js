@@ -26,6 +26,8 @@ import useLogbookScreenTutorial from '../hooks/useLogbookScreenTutorial';
 import useSkipTutorial from '../hooks/useSkipTutorial';
 import TadaAnimation from '../components/TadaAnimation';
 import ConnectionContext from '../context/connectionContext';
+import useQuickLog from '../hooks/userQuickLog';
+import SuccessToast from '../components/SuccessToast';
 
 // TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
 // TODO: Implement pull down to refresh
@@ -89,6 +91,9 @@ function LogbookScreen({ navigation, route }) {
     constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
   );
 
+  const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
+  const { quickLogError, quickLogSuccess, quickLog } = useQuickLog(logbookId);
+
   months.forEach((month, i) => {
     monthsOptions.push({
       label: month,
@@ -96,7 +101,11 @@ function LogbookScreen({ navigation, route }) {
     });
   });
 
-  const getLogbookAsync = async (startDate, endDate, year) => {
+  const getLogbookAsync = async (
+    startDate,
+    endDate,
+    shouldSetQuickLogToastVisible = false
+  ) => {
     const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
     const cacheKey = `${constants.LOGBOOK_DATA_CACHE}_${logbookId}_${yearOption.value}`;
     let cachedLogbookData = await storageService.getItem(cacheKey);
@@ -121,6 +130,7 @@ function LogbookScreen({ navigation, route }) {
       if (!ok) return;
 
       setLogbook(data);
+      if (shouldSetQuickLogToastVisible) setQuickLogToastVisible(true);
 
       // only cache current year logbook data
       if (yearOption.value === currentYear && !isNotConnected) {
@@ -167,13 +177,13 @@ function LogbookScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused || quickLogSuccess) {
       const startDate = dateService.getStartOfYear(yearOption.value);
       const endDate = dateService.getEndOfYear(yearOption.value);
-      getLogbookAsync(startDate, endDate);
+      getLogbookAsync(startDate, endDate, quickLogSuccess);
       getEarliestLogbookYearAsync();
     }
-  }, [yearOption.value, isFocused]);
+  }, [yearOption.value, isFocused, quickLogSuccess]);
 
   const selectDuration = (durationOption) => {
     setDuration(durationOption);
@@ -236,8 +246,12 @@ function LogbookScreen({ navigation, route }) {
             floatingButtonRoom={120}
           >
             <ErrorMessage
-              error={getLogbookApi.error || updateGoalApi.error}
-              visible={!!(getLogbookApi.error || updateGoalApi.error)}
+              error={
+                getLogbookApi.error || updateGoalApi.error || quickLogError
+              }
+              visible={
+                !!(getLogbookApi.error || updateGoalApi.error || quickLogError)
+              }
             />
             {logbook.description ? (
               <AppText>{logbook.description}</AppText>
@@ -291,6 +305,7 @@ function LogbookScreen({ navigation, route }) {
                       navigation={navigation}
                       logbookId={logbookId}
                       updateGoal={updateGoal}
+                      quickLog={quickLog}
                     />
                   )}
                 {logbook?.heatmap &&
@@ -304,6 +319,14 @@ function LogbookScreen({ navigation, route }) {
                 <HeatmapIntensitySample style={styles.heatmapIntensitySample} />
               </View>
             </View>
+            <SuccessToast
+              message="Progress logged successfully"
+              duration={2000}
+              visible={quickLogToastVisible}
+              onClose={() => {
+                setQuickLogToastVisible(false);
+              }}
+            />
           </Screen>
         )}
       />

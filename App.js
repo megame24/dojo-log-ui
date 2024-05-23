@@ -25,6 +25,7 @@ import constants from './src/config/constants';
 import './src/utility/backgroundTasks';
 import ConnectionContext from './src/context/connectionContext';
 import NotConnected from './src/components/NotConnected';
+import useSetAppDefaults from './src/hooks/useSetAppDefaults';
 
 const navigationRef = createNavigationContainerRef();
 function navigate(name, params) {
@@ -40,6 +41,8 @@ export default function App() {
   const [infoModalVisible, setInfoModalVisible] = useState(false);
   const [infoModalContent, setInfoModalContent] = useState({});
   const [isNotConnected, setIsNotConnected] = useState(true);
+
+  useSetAppDefaults();
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
