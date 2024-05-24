@@ -68,7 +68,8 @@ function LogbookScreen({ navigation, route }) {
   const [showTutorial, setShowTutorial] = useState(true);
   const [showCallToAction, setShowCallToAction] = useState(true);
 
-  const floatingButtonRef = useRef(null);
+  const rightFloatingButtonRef = useRef(null);
+  const leftFloatingButtonRef = useRef(null);
   const monthlyHeatmapRef = useRef(null);
   const monthlyYearlyDropdownRef = useRef(null);
   const screenRef = useRef(null);
@@ -81,7 +82,8 @@ function LogbookScreen({ navigation, route }) {
   } = useLogbookScreenTutorial(
     logbook.name,
     heatmapReady,
-    floatingButtonRef,
+    rightFloatingButtonRef,
+    leftFloatingButtonRef,
     monthlyHeatmapRef,
     monthlyYearlyDropdownRef,
     screenRef
@@ -228,11 +230,7 @@ function LogbookScreen({ navigation, route }) {
           />
         )}
       />
-      <ActivityIndicator
-        visible={
-          getLogbookApi.loading || !heatmapReady || updateGoalApi.loading
-        }
-      />
+      <ActivityIndicator visible={getLogbookApi.loading || !heatmapReady} />
       {/*when loading show nothing here */}
       <FlatList
         style={{ flexGrow: 1 }}
@@ -335,8 +333,8 @@ function LogbookScreen({ navigation, route }) {
           <FloatingButton
             style={styles.editButton}
             size={35}
-            color={colors.floatingButtonGray}
-            disabledColor={colors.floatingButtonGray50Per}
+            color={colors.primary}
+            disabledColor={colors.primary50Per}
             onPress={() =>
               navigation.navigate(constants.UPDATE_LOGBOOK_SCREEN, {
                 logbook: {
@@ -352,7 +350,22 @@ function LogbookScreen({ navigation, route }) {
             )}
           />
           <FloatingButton
-            ref={floatingButtonRef}
+            ref={leftFloatingButtonRef}
+            style={{ right: 0, left: 30 }}
+            size={40}
+            color={colors.floatingButtonGray}
+            disabledColor={colors.floatingButtonGray50Per}
+            onPress={() =>
+              navigation.navigate(constants.LOGBOOK_PREFERENCES_SCREEN, {
+                logbookId,
+              })
+            }
+            Icon={() => (
+              <Icon name="build-outline" size={22} color={colors.white} />
+            )}
+          />
+          <FloatingButton
+            ref={rightFloatingButtonRef}
             onPress={() => {
               setShowAddOptions(true);
               setShowCallToAction(false);

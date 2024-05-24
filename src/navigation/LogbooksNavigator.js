@@ -12,6 +12,7 @@ import LogsScreen from '../screens/LogsScreen';
 import UpdateLogScreen from '../screens/UpdateLogScreen';
 import GoalScreen from '../screens/GoalScreen';
 import UpdateGoalScreen from '../screens/UpdateGoalScreen';
+import ConfigureLogbookScreen from '../screens/ConfigureLogbookScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,10 @@ function LogbooksNavigator() {
       <Stack.Screen
         name={constants.UPDATE_GOAL_SCREEN}
         component={UpdateGoalScreen}
+      />
+      <Stack.Screen
+        name={constants.LOGBOOK_PREFERENCES_SCREEN}
+        component={ConfigureLogbookScreen}
       />
     </Stack.Navigator>
   );

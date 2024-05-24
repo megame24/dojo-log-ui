@@ -64,4 +64,5 @@ export default Object.freeze({
   ONBOARDING_SCREEN: 'Onboarding screen',
   SKIP_ONBOARDING_SCREENS: `${persistCachePrefix} Skip onboarding screens`,
   QUICK_LOG_DATA: `${persistCachePrefix} quick log data`,
+  LOGBOOK_PREFERENCES_SCREEN: 'Logbook preferences',
 });
