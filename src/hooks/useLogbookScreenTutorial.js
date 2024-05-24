@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 const useLogbookScreenTutorial = (
   logbookName,
   heatmapReady,
-  floatingButtonRef,
+  rightFloatingButtonRef,
+  leftFloatingButtonRef,
   monthlyHeatmapRef,
   monthlyYearlyDropdownRef,
   screenRef
@@ -59,8 +60,16 @@ const useLogbookScreenTutorial = (
     {
       position: 7,
       tooltipHeader: 'Edit your logbook',
-      tooltipText: 'Use this button to edit or delete your logbook.',
+      tooltipText: 'Click this button to edit or delete your logbook.',
       tooltipContainerPosition: { x: 57 },
+      pulseVisible: true,
+    },
+    {
+      position: 8,
+      tooltipHeader: 'Logbook Preferences',
+      tooltipText:
+        'Click this button to set your logbook preferences, including setting default values such as the quick log progress message and more."',
+      tooltipContainerPosition: { x: 75 },
       pulseVisible: true,
     },
   ];
@@ -79,28 +88,40 @@ const useLogbookScreenTutorial = (
 
   useEffect(() => {
     if (logbookName) {
-      tutorialOverlayContent[1].tooltipText = `When you make progress on your "${logbookName}" or want to set a goal, use this button to log daily progress and set new goals.`;
+      tutorialOverlayContent[1].tooltipText = `When you make progress on your "${logbookName}" or want to set a goal, click this button to log daily progress and set new goals.`;
     }
   }, [logbookName]);
 
   useEffect(() => {
     if (monthlyHeatmapRef.current) {
-      floatingButtonRef.current.measure((x, y, width, height, pageX, pageY) => {
-        tutorialOverlayContent[1].pulsePosition = {
-          y: pageY - 20,
-          x: pageX - 20,
-        };
-        tutorialOverlayContent[1].tooltipContainerPosition.y = pageY - 200;
+      rightFloatingButtonRef.current.measure(
+        (x, y, width, height, pageX, pageY) => {
+          tutorialOverlayContent[1].pulsePosition = {
+            y: pageY - 20,
+            x: pageX - 20,
+          };
+          tutorialOverlayContent[1].tooltipContainerPosition.y = pageY - 200;
 
-        tutorialOverlayContent[6].pulsePosition = {
-          y: pageY - 74,
-          x: pageX - 17,
-        };
-        tutorialOverlayContent[6].tooltipContainerPosition.y = pageY - 218;
+          tutorialOverlayContent[6].pulsePosition = {
+            y: pageY - 74,
+            x: pageX - 17,
+          };
+          tutorialOverlayContent[6].tooltipContainerPosition.y = pageY - 218;
 
-        callToActionContent.position = { top: pageY - 5, right: pageX - 200 };
-        setCallToActionContent(callToActionContent);
-      });
+          callToActionContent.position = { top: pageY - 5, right: pageX - 200 };
+          setCallToActionContent(callToActionContent);
+        }
+      );
+
+      leftFloatingButtonRef.current.measure(
+        (x, y, width, height, pageX, pageY) => {
+          tutorialOverlayContent[7].pulsePosition = {
+            y: pageY - 20,
+            x: pageX + 7,
+          };
+          tutorialOverlayContent[7].tooltipContainerPosition.y = pageY - 220;
+        }
+      );
 
       monthlyYearlyDropdownRef.current.measure(
         (x, y, width, height, pageX, pageY) => {

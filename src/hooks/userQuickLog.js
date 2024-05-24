@@ -11,9 +11,13 @@ const useQuickLog = (logbookId) => {
 
   const quickLog = async () => {
     setSuccess(false);
-    const quickLogDataJSON = await storageService.getItem(
-      constants.QUICK_LOG_DATA
+    let quickLogDataJSON;
+    quickLogDataJSON = await storageService.getItem(
+      `${constants.QUICK_LOG_DATA}${logbookId}`
     );
+    if (!quickLogDataJSON) {
+      quickLogDataJSON = await storageService.getItem(constants.QUICK_LOG_DATA);
+    }
     const quickLogData = JSON.parse(quickLogDataJSON);
     const logFormData = new FormData();
     logFormData.append('message', quickLogData.message);

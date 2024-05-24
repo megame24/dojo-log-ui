@@ -87,8 +87,8 @@ function GoalScreen({ route, navigation }) {
       </Screen>
       <FloatingButton
         size={35}
-        color={colors.floatingButtonGray}
-        disabledColor={colors.floatingButtonGray50Per}
+        color={colors.primary}
+        disabledColor={colors.primary50Per}
         onPress={() =>
           navigation.navigate(constants.UPDATE_GOAL_SCREEN, { goal })
         }
