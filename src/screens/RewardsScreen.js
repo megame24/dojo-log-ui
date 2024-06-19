@@ -177,7 +177,7 @@ function RewardsScreen({ navigation, route }) {
           showTutorial={showTutorial}
           setShowTutorial={setShowTutorial}
           content={tutorialOverlayContent}
-          skipTutorialKey={constants.SKIP_LOGBOOKS_SCREEN_TUTORIAL}
+          skipTutorialKey={constants.SKIP_REWARDS_SCREEN_TUTORIAL}
           showCallToAction={showCallToAction}
           setShowCallToAction={setShowCallToAction}
           callToActionContent={callToActionContent}

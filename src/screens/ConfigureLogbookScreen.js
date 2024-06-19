@@ -12,6 +12,8 @@ import { validationSchema } from './CreateLogScreen';
 import { useIsFocused } from '@react-navigation/native';
 import storageService from '../utility/storageService';
 import ActivityIndicator from '../components/ActivityIndicator';
+import { StyleSheet, View } from 'react-native';
+import FormSubHeader from '../components/forms/FormSubHeader';
 
 const ConfigureLogbookScreen = ({ route, navigation }) => {
   const { logbookId } = route.params;
@@ -71,6 +73,9 @@ const ConfigureLogbookScreen = ({ route, navigation }) => {
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
           >
+            <FormSubHeader style={styles.formSubHeader}>
+              Quick log
+            </FormSubHeader>
             <FormField
               name="message"
               placeholder="Note progress or work done"
@@ -78,6 +83,23 @@ const ConfigureLogbookScreen = ({ route, navigation }) => {
               autoCorrect
             />
             <DurationOfWorkFormField label="Quick progress log duration of work" />
+
+            <FormSubHeader style={styles.formSubHeader}>
+              Logbook notifications
+            </FormSubHeader>
+            <FormField
+              name="title"
+              placeholder="Title"
+              label="Notification title"
+              autoCorrect
+            />
+            <FormField
+              name="body"
+              placeholder="Message"
+              label="Notification message"
+              autoCorrect
+            />
+
             <SubmitButton disabled={toastVisible} title="Save preferences" />
           </Form>
           <SuccessToast
@@ -93,5 +115,12 @@ const ConfigureLogbookScreen = ({ route, navigation }) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  formSubHeader: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+});
 
 export default ConfigureLogbookScreen;

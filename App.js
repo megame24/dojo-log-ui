@@ -35,6 +35,14 @@ function navigate(name, params) {
 }
 
 export default function App() {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
@@ -78,7 +86,9 @@ export default function App() {
       }
     );
 
-    return () => subscription.remove();
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -88,7 +98,7 @@ export default function App() {
 
     return () => {
       unsubscribe();
-    }
+    };
   }, []);
 
   const onLayoutRootView = useCallback(async () => {

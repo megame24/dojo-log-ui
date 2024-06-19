@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   popupMenuOptions: {
-    width: 160,
+    width: 180,
     borderRadius: 5,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },

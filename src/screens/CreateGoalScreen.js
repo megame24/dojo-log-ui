@@ -61,6 +61,7 @@ function CreateGoalScreen({ route, navigation }) {
   };
 
   const handleSubmit = async (goalDetails) => {
+    console.log(dateService.getEndOfDay(goalDetails.dueDate), 'OOOOOO');
     const goal = {
       name: goalDetails.name,
       achievementCriteria: goalDetails.achievementCriteria,

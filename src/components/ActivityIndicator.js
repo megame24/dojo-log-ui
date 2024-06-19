@@ -7,15 +7,13 @@ function ActivityIndicator({ visible = false }) {
 
   return (
     <View style={styles.container}>
-      <LottieView
-        autoPlay
-        loop
-        source={require('../assets/animations/loader.json')}
-        style={{
-          width: 300,
-          height: 300,
-        }}
-      />
+      <View style={styles.loaderContainer}>
+        <LottieView
+          autoPlay
+          loop
+          source={require('../assets/animations/loader.json')}
+        />
+      </View>
     </View>
   );
 }
@@ -29,6 +27,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.7)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loaderContainer: {
+    width: 300,
+    height: 300,
   },
 });
 

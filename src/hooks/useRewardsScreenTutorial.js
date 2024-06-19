@@ -14,7 +14,7 @@ const useRewardsScreenTutorial = (floatingButtonRef, screenRef) => {
     {
       position: 2,
       tooltipHeader: 'Create a Reward',
-      tooltipText: 'Use this button to create a reward.',
+      tooltipText: 'Click this button to create a reward.',
       tooltipContainerPosition: { x: 50 },
       pulseVisible: true,
     },

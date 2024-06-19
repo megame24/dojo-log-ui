@@ -18,3 +18,4 @@ web-build/
 GoogleService-info.plist
 google-services.json
 *.apk
+*.aab

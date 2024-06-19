@@ -15,7 +15,7 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
   // Schedule a local notification
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: notification.request.content.title || 'Notification',
+      title: 'From background!!',
       body: notification.request.content.body || 'You have a new notification',
       data: notification.request.content.data,
     },

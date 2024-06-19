@@ -62,7 +62,7 @@ function AccountSettingsScreen({ navigation }) {
       >
         <AppText style={styles.modalHeader}>Delete account</AppText>
         <AppText>
-          Your data will be permanently deleted, do you wish to continue?
+          All your data will be permanently deleted, do you wish to continue?
         </AppText>
         <View style={styles.buttonContainer}>
           <Button

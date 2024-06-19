@@ -81,16 +81,23 @@ function LogbooksScreen({ navigation }) {
   };
 
   const getLogbooksAsync = async (startDate, endDate) => {
-    const todaysDateInUTC = dateService.getTimelessTimestamp(new Date());
+    const ONE_HOURS_IN_MILLISECONDS = 60 * 60 * 1000;
+    const currentTimeInUTC = Date.now();
+
     let cachedLogbooksData = await storageService.getItem(
       constants.LOGBOOKS_DATA_CACHE
     );
     let cachedLogbooksDataValid = false;
+
     if (cachedLogbooksData) {
       cachedLogbooksData = JSON.parse(cachedLogbooksData);
-      if (cachedLogbooksData.date === todaysDateInUTC)
+      const cachedTime = cachedLogbooksData.timestamp;
+
+      if (currentTimeInUTC - cachedTime <= ONE_HOURS_IN_MILLISECONDS) {
         cachedLogbooksDataValid = true;
+      }
     }
+
     if (cachedLogbooksDataValid) {
       const cachedLogbooks = cachedLogbooksData.logbooks;
       setLogbooks(cachedLogbooks);
@@ -105,6 +112,7 @@ function LogbooksScreen({ navigation }) {
         startDate,
         endDate
       );
+
       if (ok) {
         setLogbooks(data);
         setLogbooksReady(true);
@@ -114,7 +122,7 @@ function LogbooksScreen({ navigation }) {
         if (!isNotConnected) {
           const cacheData = {
             logbooks: data,
-            date: todaysDateInUTC,
+            timestamp: currentTimeInUTC,
           };
           await storageService.storeItem({
             key: constants.LOGBOOKS_DATA_CACHE,

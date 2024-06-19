@@ -18,7 +18,7 @@ const useLogbooksScreenTutorial = (
     {
       position: 2,
       tooltipHeader: 'Create a logbook',
-      tooltipText: 'Use this button to create a logbook.',
+      tooltipText: 'Click this button to create a logbook.',
       tooltipContainerPosition: { x: 50 },
       pulseVisible: true,
     },
