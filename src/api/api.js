@@ -2,8 +2,10 @@ import { create } from 'apisauce';
 import authStorage from '../utility/authStorage';
 import dateService from '../utility/dateService';
 
+// baseURL: 'http://192.168.100.24:3000',
+// baseURL: 'https://stage-api.dojologs.com',
 const api = create({
-  baseURL: 'http://192.168.254.31:3000',
+  baseURL: 'http://192.168.100.24:3000',
 });
 
 api.addAsyncRequestTransform(async (request) => {

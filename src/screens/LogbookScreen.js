@@ -269,6 +269,7 @@ function LogbookScreen({ navigation, route }) {
                     topLevelContainerStyle={{ marginRight: 8 }}
                     inputContainerStyle={{ width: 80, padding: 5 }}
                     inputContentStyle={styles.optionInputContentStyle}
+                    optionsContainerStyle={styles.optionsContainerStyle}
                   />
                   <Dropdown
                     disabled={monthOptionDisabled}
@@ -279,6 +280,7 @@ function LogbookScreen({ navigation, route }) {
                     topLevelContainerStyle={{ marginRight: 8 }}
                     inputContainerStyle={{ width: 60, padding: 5 }}
                     inputContentStyle={styles.optionInputContentStyle}
+                    optionsContainerStyle={styles.optionsContainerStyle}
                   />
                   <Dropdown
                     disabled={isNotConnected}
@@ -289,6 +291,7 @@ function LogbookScreen({ navigation, route }) {
                     topLevelContainerStyle={{ marginRight: 4 }}
                     inputContainerStyle={{ width: 65, padding: 5 }}
                     inputContentStyle={styles.optionInputContentStyle}
+                    optionsContainerStyle={styles.optionsContainerStyle}
                   />
                 </View>
                 {logbook?.heatmap &&
@@ -406,6 +409,10 @@ const styles = StyleSheet.create({
   },
   optionInputContentStyle: {
     fontSize: 12,
+  },
+  optionsContainerStyle: {
+    position: 'absolute',
+    top: 39,
   },
   container: {
     alignItems: 'center',

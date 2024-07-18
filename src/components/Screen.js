@@ -6,7 +6,7 @@ const Screen = forwardRef(
     return (
       <SafeAreaView ref={ref} collapsable={false} style={[styles.screen]}>
         {scrollable && (
-          <ScrollView style={[styles.view, style]}>
+          <ScrollView style={[styles.view, style]} nestedScrollEnabled>
             {children}
             <View style={{ marginTop: floatingButtonRoom }} />
           </ScrollView>

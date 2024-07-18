@@ -13,11 +13,12 @@ function AppMultiPicker({
   placeholder,
   options,
   PickerItem,
+  pickerItemLabelName,
   numberOfColumns = 1,
   value,
   minSelection = 0,
   maxSelection = 5,
-  EmptyState,
+  EmptyState = () => {},
 }) {
   const [showOptions, setShowOptions] = useState(false);
   let [selectedItems, setSelectedItems] = useState(value?.value || []);
@@ -35,7 +36,7 @@ function AppMultiPicker({
     }
     setSelectionLimitReached(selectedItems.length === maxSelection);
     selectedItems.forEach((el, i) => {
-      pickerLabel += el.name;
+      pickerLabel += el[pickerItemLabelName];
       if (i !== selectedItems.length - 1) pickerLabel += ', ';
     });
     onSelectItem({

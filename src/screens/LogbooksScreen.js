@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import FloatingButton from '../components/FloatingButton';
 import HeaderMenu from '../components/HeaderMenu';
@@ -54,6 +60,7 @@ function LogbooksScreen({ navigation }) {
 
   const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
   const [quickLogError, setQuickLogError] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const {
     tutorialOverlayContent,
@@ -104,6 +111,7 @@ function LogbooksScreen({ navigation }) {
       setLogbooksReady(true);
       setFilteredLogbooks(cachedLogbooks);
       extractCategories(cachedLogbooks);
+      setRefreshing(false);
     } else {
       setFilteredLogbooks([]);
       setCategories([]);
@@ -130,6 +138,7 @@ function LogbooksScreen({ navigation }) {
           });
         }
       }
+      setRefreshing(false);
     }
   };
 
@@ -205,12 +214,21 @@ function LogbooksScreen({ navigation }) {
               )}
             />
           </View>
-          <FlatList
-            data={filteredLogbooks}
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => {
+                  setRefreshing(true);
+                  getLogbooksAsync(startDate, endDate);
+                }}
+              />
+            }
             contentContainerStyle={styles.logbooksFlatListContentContainer}
-            keyExtractor={(item) => item.name}
-            renderItem={({ item }) => (
+          >
+            {filteredLogbooks.map((item) => (
               <LogbookListItem
+                key={item.id}
                 item={item}
                 navigation={navigation}
                 getLogbooks={() => getLogbooksAsync(startDate, endDate)}
@@ -218,8 +236,8 @@ function LogbooksScreen({ navigation }) {
                 setQuickLogError={setQuickLogError}
                 setQuickLogToastVisible={setQuickLogToastVisible}
               />
-            )}
-          />
+            ))}
+          </ScrollView>
         </View>
         <SuccessToast
           message="Progress logged successfully"

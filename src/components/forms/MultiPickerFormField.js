@@ -18,6 +18,7 @@ function MultiPickerFormField({
   placeholder,
   options,
   PickerItem,
+  pickerItemLabelName = 'name',
   numberOfColumns,
   EmptyState,
   ...otherProps
@@ -49,6 +50,7 @@ function MultiPickerFormField({
         placeholder={placeholder}
         options={options}
         PickerItem={PickerItem}
+        pickerItemLabelName={pickerItemLabelName}
         numberOfColumns={numberOfColumns}
         EmptyState={EmptyState}
         {...otherProps}

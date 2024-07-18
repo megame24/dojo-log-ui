@@ -17,6 +17,7 @@ function FormField({
   infoIcon = false,
   infoIconContent,
   placeholder,
+  textArea = false,
   ...otherProps
 }) {
   const { setFieldTouched, setFieldValue, values, errors, touched } =
@@ -41,9 +42,13 @@ function FormField({
         onBlur={() => setFieldTouched(name)}
         onChangeText={(text) => setFieldValue(name, text)}
         value={values[name]}
-        inputContainerStyle={inputContainerStyle}
+        inputContainerStyle={[
+          inputContainerStyle,
+          textArea ? { minHeight: 100 } : {},
+        ]}
         inputStyle={inputStyle}
         placeholder={placeholder}
+        multiline={textArea}
         {...otherProps}
       />
       <ErrorMessage

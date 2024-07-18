@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import ScreenHeader from '../components/ScreenHeader';
 import constants from '../config/constants';
 import BackButton from '../components/BackButton';
@@ -142,8 +141,7 @@ function UpdateGoalScreen({ route, navigation }) {
           <FormField
             name="achievementCriteria"
             label="Achievement criteria"
-            inputContainerStyle={styles.descriptionInputContainerStyle}
-            multiline
+            textArea
             autoCorrect
           />
           <MultiPickerFormField
@@ -185,9 +183,5 @@ function UpdateGoalScreen({ route, navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
-});
 
 export default UpdateGoalScreen;

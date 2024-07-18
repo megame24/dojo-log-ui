@@ -18,10 +18,16 @@ import FormSubHeader from '../components/forms/FormSubHeader';
 import useApi from '../hooks/useApi';
 import useSignInWithGoogle from '../hooks/useSignInWithGoogle';
 import AppText from '../components/AppText';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import colors from '../config/colors';
 import SignInWithGoogleButton from '../components/SignInWithGoogleButton';
 import AuthContext from '../context/authContext';
+import {
+  AppleAuthenticationButton,
+  AppleAuthenticationButtonType,
+  AppleAuthenticationButtonStyle,
+} from 'expo-apple-authentication';
+import useSignInWithApple from '../hooks/useSignInWithApple';
 
 const validationSchema = Yup.object().shape({
   email: validationSchemaObject.email,
@@ -30,9 +36,12 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const { login } = useAuth();
-  const { signIn, loading: googleSignInLoading } = useSignInWithGoogle();
+  const { signIn: signInWithGoogle, loading: googleSignInLoading } =
+    useSignInWithGoogle();
+  const { signIn: signInWithApple } = useSignInWithApple();
   const loginApi = useApi(usersApi.login);
   const googleSignInVerifyApi = useApi(usersApi.googleSignInVerify);
+  const appleSignInVerifyApi = useApi(usersApi.appleSignInVerify);
   const { sessionExpired, setSessionExpired } = useContext(AuthContext);
 
   useEffect(() => {
@@ -57,8 +66,28 @@ function LoginScreen({ navigation }) {
     handleLogin(authToken);
   };
 
+  const handleAppleSignIn = async () => {
+    const credentials = await signInWithApple();
+
+    if (!credentials) return;
+    const { fullName, identityToken } = credentials;
+
+    let appleUserFullName = fullName.givenName ? fullName.givenName : '';
+    appleUserFullName += fullName.familyName ? fullName.familyName : '';
+
+    const { ok, data } = await appleSignInVerifyApi.request({
+      idToken: identityToken,
+      appleUserFullName,
+    });
+
+    if (!ok) return;
+
+    const { authToken } = data;
+    handleLogin(authToken);
+  };
+
   const handleGoogleSignIn = async () => {
-    const userInfo = await signIn();
+    const userInfo = await signInWithGoogle();
 
     if (!userInfo) return;
 
@@ -75,7 +104,11 @@ function LoginScreen({ navigation }) {
   return (
     <>
       <ActivityIndicator
-        visible={loginApi.loading || googleSignInVerifyApi.loading}
+        visible={
+          loginApi.loading ||
+          googleSignInVerifyApi.loading ||
+          appleSignInVerifyApi.loading
+        }
       />
       <Screen scrollable>
         <Form
@@ -88,8 +121,18 @@ function LoginScreen({ navigation }) {
         >
           <FormHeader>Login</FormHeader>
           <ErrorMessage
-            error={loginApi.error || googleSignInVerifyApi.loading}
-            visible={!!(loginApi.error || googleSignInVerifyApi.loading)}
+            error={
+              loginApi.error ||
+              googleSignInVerifyApi.loading ||
+              appleSignInVerifyApi.error
+            }
+            visible={
+              !!(
+                loginApi.error ||
+                googleSignInVerifyApi.loading ||
+                appleSignInVerifyApi.error
+              )
+            }
           />
           <ErrorMessage
             error={constants.SESSION_EXPIRED_ERROR}
@@ -132,6 +175,17 @@ function LoginScreen({ navigation }) {
           <AppText style={styles.orText}>or</AppText>
           <View style={styles.line} />
         </View>
+        {Platform.OS === 'ios' ? (
+          <View style={styles.appleButtonContainer}>
+            <AppleAuthenticationButton
+              buttonType={AppleAuthenticationButtonType.CONTINUE}
+              buttonStyle={AppleAuthenticationButtonStyle.BLACK}
+              cornerRadius={5}
+              onPress={handleAppleSignIn}
+              style={styles.appleButton}
+            />
+          </View>
+        ) : null}
         <View style={styles.googleButtonContainer}>
           <SignInWithGoogleButton
             onPress={handleGoogleSignIn}
@@ -161,6 +215,13 @@ const styles = StyleSheet.create({
   },
   googleButtonContainer: {
     alignItems: 'center',
+  },
+  appleButtonContainer: {
+    marginBottom: 20,
+  },
+  appleButton: {
+    width: '100%',
+    height: 44,
   },
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "dojologs",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -57,7 +57,9 @@
     "react-native-web": "~0.19.6",
     "validate-color": "^2.2.1",
     "yup": "^0.32.11",
-    "@react-native-community/netinfo": "9.3.10"
+    "@react-native-community/netinfo": "9.3.10",
+    "expo-dev-client": "~2.4.13",
+    "expo-apple-authentication": "~6.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

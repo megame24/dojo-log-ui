@@ -15,14 +15,14 @@ function CategoryItem({ item, navigation, deleteCategory }) {
         <AppText style={styles.text}>{capitalize(item.name)}</AppText>
         <Icon name={item.iconName} color={item.color} />
       </View>
-      <DeleteAndEditSideMenu
+      {/* <DeleteAndEditSideMenu
         onEdit={() =>
           navigation.navigate(constants.UPDATE_CATEGORY_SCREEN, {
             category: item,
           })
         }
         onDelete={() => deleteCategory(item.id)}
-      />
+      /> */}
     </View>
   );
 }

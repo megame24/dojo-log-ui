@@ -68,9 +68,9 @@ function CategoriesScreen({ navigation }) {
           )}
         />
       </Screen>
-      <FloatingButton
+      {/* <FloatingButton
         onPress={() => navigation.navigate(constants.CREATE_CATEGORY_SCREEN)}
-      />
+      /> */}
     </>
   );
 }

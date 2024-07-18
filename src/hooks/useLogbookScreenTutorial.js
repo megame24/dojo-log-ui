@@ -68,7 +68,7 @@ const useLogbookScreenTutorial = (
       position: 8,
       tooltipHeader: 'Logbook Preferences',
       tooltipText:
-        'Click this button to set your logbook preferences, including setting default values such as the quick log progress message and more."',
+        'Click this button to set your logbook preferences, including daily reminders, default values like the quick log progress message, and more."',
       tooltipContainerPosition: { x: 75 },
       pulseVisible: true,
     },

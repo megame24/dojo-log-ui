@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 
 import ActivityIndicator from '../components/ActivityIndicator';
@@ -98,8 +97,7 @@ function CreateRewardScreen({ navigation, route }) {
             name="description"
             label="Description"
             placeholder="Describe the reward, like what it includes (optional)"
-            inputContainerStyle={styles.descriptionInputContainerStyle}
-            multiline
+            textArea
             autoCorrect
           />
           <ImageUploadFormField
@@ -121,9 +119,5 @@ function CreateRewardScreen({ navigation, route }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
-});
 
 export default CreateRewardScreen;
