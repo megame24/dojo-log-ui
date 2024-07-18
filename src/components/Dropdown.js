@@ -70,6 +70,7 @@ const Dropdown = forwardRef(
                 styles.optionsContainer,
                 optionsContainerStyle,
               ]}
+              nestedScrollEnabled
             >
               {options.map((item, i) => (
                 <TouchableHighlight
@@ -88,7 +89,11 @@ const Dropdown = forwardRef(
           ) : (
             <FlatList
               data={options}
-              style={[inputContainerStyle, styles.optionsContainer]}
+              style={[
+                inputContainerStyle,
+                styles.optionsContainer,
+                optionsContainerStyle,
+              ]}
               listKey={(item, index) => `_key${index.toString()}`}
               keyExtractor={(item, index) => `_key${index.toString()}`}
               renderItem={({ item }) => (
@@ -128,8 +133,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderWidth: 1,
     borderColor: colors.borderGray,
-    position: 'absolute',
-    top: 39,
+    position: 'relative',
+    // top: 39,
     maxHeight: 150,
     padding: 0,
     paddingVertical: 5,

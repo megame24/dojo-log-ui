@@ -7,6 +7,9 @@ const login = (credentials) => api.post('/users/login', credentials);
 const googleSignInVerify = (idToken) =>
   api.post('/users/google-sign-in-verify', idToken);
 
+const appleSignInVerify = (payload) =>
+  api.post('/users/apple-sign-in-verify', payload);
+
 const forgotPassword = (email) => api.post('/users/forgot-password', email);
 
 const verifyUser = (code, userId) => api.put(`/users/${userId}/verify`, code);
@@ -35,6 +38,7 @@ export default {
   resetPassword,
   updateProfile,
   googleSignInVerify,
+  appleSignInVerify,
   changePassword,
   deleteAccount,
   createExpoNotificationToken,

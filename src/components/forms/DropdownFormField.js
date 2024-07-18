@@ -17,7 +17,9 @@ function DropdownFormField({
   infoIcon = false,
   infoIconContent,
   placeholder,
+  useScrollView = true,
   options,
+  onItemChange = () => {},
   ...otherProps
 }) {
   const { setFieldTouched, setFieldValue, values, errors, touched } =
@@ -40,25 +42,30 @@ function DropdownFormField({
       </View>
       <Dropdown
         onBlur={() => setFieldTouched(name)}
-        onSelectItem={(item) => setFieldValue(name, item)}
+        onSelectItem={(item) => {
+          setFieldValue(name, item);
+          onItemChange(item);
+        }}
         value={values[name]}
         topLevelContainerStyle={{ marginTop: 5 }}
         inputContainerStyle={[
           { width: '100%', borderRadius: 10 },
           inputContainerStyle,
         ]}
-        optionsContainerStyle={{ top: 43 }}
+        // optionsContainerStyle={{ top: 43 }}
         inputStyle={inputStyle}
         placeholder={placeholder}
         options={options}
         useScrollView
         {...otherProps}
       />
-      <ErrorMessage
-        style={styles.error}
-        error={errors[name]}
-        visible={touched[name]}
-      />
+      <View style={{ zIndex: -1 }}>
+        <ErrorMessage
+          style={styles.error}
+          error={errors[name]}
+          visible={touched[name]}
+        />
+      </View>
     </View>
   );
 }

@@ -35,13 +35,13 @@ function navigate(name, params) {
 }
 
 export default function App() {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-    }),
-  });
+  // Notifications.setNotificationHandler({
+  //   handleNotification: async () => ({
+  //     shouldShowAlert: true,
+  //     shouldPlaySound: true,
+  //     shouldSetBadge: true,
+  //   }),
+  // });
 
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);

@@ -33,7 +33,7 @@ function AdminNavigator() {
         name={constants.CATEGORIES_TAB}
         component={CategoriesNavigator}
       />
-      <Tab.Screen name={constants.SETTINGS_TAB} component={SettingsNavigator} />
+      {/* <Tab.Screen name={constants.SETTINGS_TAB} component={SettingsNavigator} /> */}
     </Tab.Navigator>
   );
 }

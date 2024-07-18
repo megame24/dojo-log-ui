@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import ActivityIndicator from '../components/ActivityIndicator';
 
@@ -19,6 +18,7 @@ import PickerFormField from '../components/forms/PickerFormField';
 import CategoryPickerItem from '../components/CategoryPickerItem';
 import storageService from '../utility/storageService';
 import SuccessToast from '../components/SuccessToast';
+import DropdownFormField from '../components/forms/DropdownFormField';
 
 export const validationSchema = Yup.object().shape({
   name: validationSchemaObject.name,
@@ -32,6 +32,11 @@ function CreateLogbookScreen({ navigation }) {
   const [logbookId, setLogbookId] = useState(null);
   const getCategoriesApi = useApi(categoryApi.getAll);
   const createLogbookApi = useApi(logbookApi.create);
+
+  const defaultEnableReminderOption = {
+    label: 'Yes',
+    value: true,
+  };
 
   const getCategoriesAsync = async () => {
     const { data, ok } = await getCategoriesApi.request();
@@ -48,6 +53,7 @@ function CreateLogbookScreen({ navigation }) {
       categoryId: logbookDetails.category.id,
       visibility: constants.VISIBILITY_PRIVATE, // default to private for now
       description: logbookDetails.description,
+      enableReminder: logbookDetails.enableReminder.value,
     };
     const { ok, data } = await createLogbookApi.request(logbook);
 
@@ -77,6 +83,7 @@ function CreateLogbookScreen({ navigation }) {
             name: '',
             category: null,
             description: '',
+            enableReminder: defaultEnableReminderOption,
           }}
           values
           onSubmit={handleSubmit}
@@ -104,9 +111,17 @@ function CreateLogbookScreen({ navigation }) {
             name="description"
             label="Description"
             placeholder="Add details or inspiration here (optional)"
-            inputContainerStyle={styles.descriptionInputContainerStyle}
-            multiline
+            textArea
             autoCorrect
+          />
+          <DropdownFormField
+            name="enableReminder"
+            label="Get daily reminders"
+            placeholder="Enable daily reminders"
+            options={[
+              defaultEnableReminderOption,
+              { label: 'No', value: false },
+            ]}
           />
           <SubmitButton disabled={toastVisible} title="Create" />
         </Form>
@@ -122,9 +137,5 @@ function CreateLogbookScreen({ navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
-});
 
 export default CreateLogbookScreen;

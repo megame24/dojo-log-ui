@@ -41,6 +41,15 @@ const getGoal = (logbookId, goalId) =>
 const updateGoal = (logbookId, goalId, goal) =>
   api.put(`/logbooks/${logbookId}/goals/${goalId}`, goal);
 
+const getLogbookNotification = (logbookId) =>
+  api.get(`/logbooks/${logbookId}/notifications`);
+
+const saveLogbookNotifications = (logbookId, notifications) =>
+  api.put(`/logbooks/${logbookId}/notifications`, { notifications });
+
+const deleteLogbookNotifications = (logbookId) =>
+  api.delete(`/logbooks/${logbookId}/notifications`);
+
 export default {
   create,
   getLogbooks,
@@ -55,4 +64,7 @@ export default {
   updateLog,
   getGoal,
   updateGoal,
+  getLogbookNotification,
+  saveLogbookNotifications,
+  deleteLogbookNotifications,
 };

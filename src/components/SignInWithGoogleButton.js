@@ -63,8 +63,9 @@ const styles = StyleSheet.create({
   },
   buttonContents: {
     flexGrow: 1,
+    fontSize: 16,
     fontFamily: 'Roboto, Arial, sans-serif',
-    fontWeight: '500',
+    fontWeight: '600',
     textAlign: 'center',
     color: '#1F1F1F',
   },

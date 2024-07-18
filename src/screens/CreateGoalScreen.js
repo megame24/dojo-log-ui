@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { StyleSheet } from 'react-native';
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
 import ErrorMessage from '../components/forms/ErrorMessage';
@@ -61,7 +60,6 @@ function CreateGoalScreen({ route, navigation }) {
   };
 
   const handleSubmit = async (goalDetails) => {
-    console.log(dateService.getEndOfDay(goalDetails.dueDate), 'OOOOOO');
     const goal = {
       name: goalDetails.name,
       achievementCriteria: goalDetails.achievementCriteria,
@@ -131,8 +129,7 @@ function CreateGoalScreen({ route, navigation }) {
             name="achievementCriteria"
             label="Achievement criteria"
             placeholder="What needs to be done for this goal to be achieved? (optional)"
-            inputContainerStyle={styles.descriptionInputContainerStyle}
-            multiline
+            textArea
             autoCorrect
           />
           <MultiPickerFormField
@@ -169,9 +166,5 @@ function CreateGoalScreen({ route, navigation }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
-});
 
 export default CreateGoalScreen;

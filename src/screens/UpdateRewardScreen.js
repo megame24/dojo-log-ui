@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 import ActivityIndicator from '../components/ActivityIndicator';
 import BackButton from '../components/BackButton';
@@ -102,8 +101,7 @@ function UpdateRewardScreen({ navigation, route }) {
           <FormField
             name="description"
             label="Description"
-            inputContainerStyle={styles.descriptionInputContainerStyle}
-            multiline
+            textArea
             autoCorrect
           />
           <ImageUploadFormField
@@ -125,9 +123,5 @@ function UpdateRewardScreen({ navigation, route }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
-});
 
 export default UpdateRewardScreen;

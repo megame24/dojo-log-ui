@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dojologs",
     "slug": "dojologs",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./src/assets/dojologs-icon.png",
     "userInterfaceStyle": "light",
@@ -19,6 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "bundleIdentifier": "com.megame.dojologs",
       "googleServicesFile": "./GoogleService-info.plist"
     },
@@ -34,7 +35,8 @@
       "favicon": "./src/assets/dojologs-favicon.png"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "expo-apple-authentication"
     ],
     "extra": {
       "eas": {

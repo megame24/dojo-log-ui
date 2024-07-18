@@ -43,11 +43,13 @@ function SideNav({ navigation }) {
             iconName="cash-outline"
             onPress={() => navigation.navigate(constants.DUMMY_SCREEN)}
           /> */}
-          <SideNavItem
-            text="Settings"
-            iconName="settings-outline"
-            onPress={() => navigation.navigate(constants.SETTINGS_TAB)}
-          />
+          {user.role === 'ADMIN' ? null : (
+            <SideNavItem
+              text="Settings"
+              iconName="settings-outline"
+              onPress={() => navigation.navigate(constants.SETTINGS_TAB)}
+            />
+          )}
           <SideNavItem
             text="About us"
             iconName="information-circle-outline"

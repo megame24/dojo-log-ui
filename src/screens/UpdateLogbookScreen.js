@@ -128,8 +128,7 @@ function UpdateLogbookScreen({ navigation, route }) {
           <FormField
             name="description"
             label="Description"
-            inputContainerStyle={styles.descriptionInputContainerStyle} // refactor
-            multiline
+            textArea
             autoCorrect
           />
           <SubmitButton disabled={editToastVisible} title="Save" />
@@ -187,7 +186,6 @@ function UpdateLogbookScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  descriptionInputContainerStyle: { minHeight: 100 },
   delete: {
     marginTop: 30,
     alignSelf: 'flex-end',
