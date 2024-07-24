@@ -34,6 +34,7 @@ import SuccessToast from '../components/SuccessToast';
 
 function LogbookScreen({ navigation, route }) {
   const defaultDuration = { label: 'Monthly', value: 'Monthly' };
+  const yearlyDuration = { label: 'Yearly', value: 'Yearly' };
   const months = constants.months;
   const monthsOptions = [];
   const today = new Date();
@@ -94,7 +95,8 @@ function LogbookScreen({ navigation, route }) {
   );
 
   const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
-  const { quickLogError, quickLogSuccess, quickLog } = useQuickLog(logbookId);
+  const { quickLogError, quickLogSuccess, quickLog, setQuickLogSuccess } =
+    useQuickLog(logbookId);
 
   months.forEach((month, i) => {
     monthsOptions.push({
@@ -127,15 +129,22 @@ function LogbookScreen({ navigation, route }) {
         logbookId,
         startDate,
         endDate,
-        yearOption.value
+        duration.value === yearlyDuration.value ? yearOption.value : ''
       );
       if (!ok) return;
 
       setLogbook(data);
-      if (shouldSetQuickLogToastVisible) setQuickLogToastVisible(true);
+      if (shouldSetQuickLogToastVisible) {
+        setQuickLogToastVisible(true);
+        setQuickLogSuccess(false);
+      }
 
-      // only cache current year logbook data
-      if (yearOption.value === currentYear && !isNotConnected) {
+      // only cache current year yearly duration logbook data
+      if (
+        yearOption.value === currentYear &&
+        !isNotConnected &&
+        duration.value === yearlyDuration.value
+      ) {
         const cacheData = {
           logbook: data,
           date: todaysDateInUTC,
@@ -180,12 +189,28 @@ function LogbookScreen({ navigation, route }) {
 
   useEffect(() => {
     if (isFocused || quickLogSuccess) {
-      const startDate = dateService.getStartOfYear(yearOption.value);
-      const endDate = dateService.getEndOfYear(yearOption.value);
+      let startDate = dateService.getStartOfMonth(
+        yearOption.value,
+        monthOption.value
+      );
+      let endDate = dateService.getEndOfMonth(
+        yearOption.value,
+        monthOption.value
+      );
+      if (duration.value !== defaultDuration.value) {
+        startDate = dateService.getStartOfYear(yearOption.value);
+        endDate = dateService.getEndOfYear(yearOption.value);
+      }
       getLogbookAsync(startDate, endDate, quickLogSuccess);
       getEarliestLogbookYearAsync();
     }
-  }, [yearOption.value, isFocused, quickLogSuccess]);
+  }, [
+    yearOption.value,
+    isFocused,
+    quickLogSuccess,
+    monthOption.value,
+    duration.value,
+  ]);
 
   const selectDuration = (durationOption) => {
     setDuration(durationOption);
@@ -260,10 +285,7 @@ function LogbookScreen({ navigation, route }) {
                   <Dropdown
                     ref={monthlyYearlyDropdownRef}
                     onSelectItem={(option) => selectDuration(option)}
-                    options={[
-                      defaultDuration,
-                      { label: 'Yearly', value: 'Yearly' },
-                    ]}
+                    options={[defaultDuration, yearlyDuration]}
                     placeholder="Duration"
                     value={duration}
                     topLevelContainerStyle={{ marginRight: 8 }}

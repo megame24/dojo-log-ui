@@ -38,6 +38,7 @@ const useQuickLog = (logbookId) => {
     quickLogLoading: createLogApi.loading,
     quickLogError: createLogApi.error,
     quickLogSuccess: success,
+    setQuickLogSuccess: setSuccess,
     quickLog,
   };
 };
