@@ -113,7 +113,7 @@ function TutorialOverlay({
                     style={[
                       styles.tooltipText,
                       styles.skipButton,
-                      { marginTop: 7 },
+                      { marginTop: 10, color: '#fffa65' },
                     ]}
                   >
                     Don't show again
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   skipButton: {
-    fontSize: 12,
+    fontSize: 16,
     textDecorationLine: 'underline',
   },
   tooltipContainer: {

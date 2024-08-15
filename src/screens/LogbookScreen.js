@@ -29,9 +29,6 @@ import ConnectionContext from '../context/connectionContext';
 import useQuickLog from '../hooks/userQuickLog';
 import SuccessToast from '../components/SuccessToast';
 
-// TODO: ADD AN INFO ICON TO THE OPTIONS ROW DETAILING ALL THE CLICKS AND STUFF
-// TODO: Implement pull down to refresh
-
 function LogbookScreen({ navigation, route }) {
   const defaultDuration = { label: 'Monthly', value: 'Monthly' };
   const yearlyDuration = { label: 'Yearly', value: 'Yearly' };
@@ -64,6 +61,12 @@ function LogbookScreen({ navigation, route }) {
   const [heatmapReady, setHeatmapReady] = useState(false);
   const [showAddOptions, setShowAddOptions] = useState(false);
   const [playTadaAnimation, setPlayTadaAnimation] = useState(false);
+
+  const { skipTutorial } = useSkipTutorial(
+    constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
+  );
+  const [addOptionsButtonDisabled, setAddOptionsButtonDisabled] =
+    useState(false);
   const isFocused = useIsFocused();
 
   const [showTutorial, setShowTutorial] = useState(true);
@@ -88,10 +91,6 @@ function LogbookScreen({ navigation, route }) {
     monthlyHeatmapRef,
     monthlyYearlyDropdownRef,
     screenRef
-  );
-
-  const { skipTutorial } = useSkipTutorial(
-    constants.SKIP_LOGBOOK_SCREEN_TUTORIAL
   );
 
   const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
@@ -211,6 +210,15 @@ function LogbookScreen({ navigation, route }) {
     monthOption.value,
     duration.value,
   ]);
+
+  useEffect(() => {
+    if (!skipTutorial) setAddOptionsButtonDisabled(true);
+    if (heatmapReady) {
+      setTimeout(() => {
+        setAddOptionsButtonDisabled(false);
+      }, 1500);
+    }
+  }, [heatmapReady, skipTutorial]);
 
   const selectDuration = (durationOption) => {
     setDuration(durationOption);
@@ -344,7 +352,7 @@ function LogbookScreen({ navigation, route }) {
             </View>
             <SuccessToast
               message="Progress logged successfully"
-              duration={2000}
+              duration={800}
               visible={quickLogToastVisible}
               onClose={() => {
                 setQuickLogToastVisible(false);
@@ -376,6 +384,7 @@ function LogbookScreen({ navigation, route }) {
           />
           <FloatingButton
             ref={leftFloatingButtonRef}
+            disabled={addOptionsButtonDisabled}
             style={{ right: 0, left: 30 }}
             size={40}
             color={colors.floatingButtonGray}
@@ -391,6 +400,7 @@ function LogbookScreen({ navigation, route }) {
           />
           <FloatingButton
             ref={rightFloatingButtonRef}
+            disabled={addOptionsButtonDisabled}
             onPress={() => {
               setShowAddOptions(true);
               setShowCallToAction(false);

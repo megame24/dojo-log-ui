@@ -42,11 +42,8 @@ function FormField({
         onBlur={() => setFieldTouched(name)}
         onChangeText={(text) => setFieldValue(name, text)}
         value={values[name]}
-        inputContainerStyle={[
-          inputContainerStyle,
-          textArea ? { minHeight: 100 } : {},
-        ]}
-        inputStyle={inputStyle}
+        inputContainerStyle={inputContainerStyle}
+        inputStyle={[inputStyle, textArea ? { minHeight: 100 } : {}]}
         placeholder={placeholder}
         multiline={textArea}
         {...otherProps}

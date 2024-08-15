@@ -12,7 +12,7 @@ const AppTextInput = React.forwardRef(
         {...otherProps}
         placeholder={placeholder}
         placeholderTextColor={colors.lightGray}
-        style={[defaultStyle.text, inputStyle]}
+        style={[defaultStyle.text, inputStyle, { padding: 10 }]}
         underlineColorAndroid="transparent"
       />
     </View>
@@ -21,7 +21,6 @@ const AppTextInput = React.forwardRef(
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     marginTop: 5,
     borderRadius: 10,
     borderWidth: 1,

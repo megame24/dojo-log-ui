@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const useLogbookScreenTutorial = (
   logbookName,
@@ -9,6 +10,7 @@ const useLogbookScreenTutorial = (
   monthlyYearlyDropdownRef,
   screenRef
 ) => {
+  const inserts = useSafeAreaInsets();
   const tutorialOverlayContentDefault = [
     {
       position: 1,
@@ -93,73 +95,87 @@ const useLogbookScreenTutorial = (
   }, [logbookName]);
 
   useEffect(() => {
-    if (monthlyHeatmapRef.current) {
-      rightFloatingButtonRef.current.measure(
-        (x, y, width, height, pageX, pageY) => {
-          tutorialOverlayContent[1].pulsePosition = {
-            y: pageY - 20,
-            x: pageX - 20,
-          };
-          tutorialOverlayContent[1].tooltipContainerPosition.y = pageY - 200;
+    setTimeout(() => {
+      if (monthlyHeatmapRef.current) {
+        if (rightFloatingButtonRef.current) {
+          rightFloatingButtonRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              tutorialOverlayContent[1].pulsePosition = {
+                y: pageY - 20,
+                x: pageX - 20,
+              };
+              tutorialOverlayContent[1].tooltipContainerPosition.y =
+                pageY - 200;
 
-          tutorialOverlayContent[6].pulsePosition = {
-            y: pageY - 74,
-            x: pageX - 17,
-          };
-          tutorialOverlayContent[6].tooltipContainerPosition.y = pageY - 218;
+              tutorialOverlayContent[6].pulsePosition = {
+                y: pageY - 74,
+                x: pageX - 17,
+              };
+              tutorialOverlayContent[6].tooltipContainerPosition.y =
+                pageY - 218;
 
-          callToActionContent.position = { top: pageY - 5, right: pageX - 200 };
-          setCallToActionContent(callToActionContent);
+              callToActionContent.position = {
+                top: pageY - 5,
+                right: pageX - 200,
+              };
+              setCallToActionContent(callToActionContent);
+            }
+          );
         }
-      );
 
-      leftFloatingButtonRef.current.measure(
-        (x, y, width, height, pageX, pageY) => {
-          tutorialOverlayContent[7].pulsePosition = {
-            y: pageY - 20,
-            x: pageX + 7,
-          };
-          tutorialOverlayContent[7].tooltipContainerPosition.y = pageY - 220;
+        if (leftFloatingButtonRef.current) {
+          leftFloatingButtonRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              tutorialOverlayContent[7].pulsePosition = {
+                y: pageY - 20,
+                x: pageX + 7,
+              };
+              tutorialOverlayContent[7].tooltipContainerPosition.y =
+                pageY - 220;
+            }
+          );
         }
-      );
 
-      monthlyYearlyDropdownRef.current.measure(
-        (x, y, width, height, pageX, pageY) => {
-          const pulseY = pageY - 23;
-          const tooltipY = pageY + 50;
-          tutorialOverlayContent[3].pulsePosition = {
-            y: pulseY,
-            x: pageX - 28,
-          };
-          tutorialOverlayContent[3].tooltipContainerPosition.y = tooltipY;
+        monthlyYearlyDropdownRef.current.measure(
+          (x, y, width, height, pageX, pageY) => {
+            const pulseY = pageY - 23;
+            const tooltipY = pageY + 50;
+            tutorialOverlayContent[3].pulsePosition = {
+              y: pulseY,
+              x: pageX - 28,
+            };
+            tutorialOverlayContent[3].tooltipContainerPosition.y = tooltipY;
 
-          tutorialOverlayContent[4].pulsePosition = {
-            y: pulseY,
-            x: pageX + 60,
-          };
-          tutorialOverlayContent[4].tooltipContainerPosition.y = tooltipY;
+            tutorialOverlayContent[4].pulsePosition = {
+              y: pulseY,
+              x: pageX + 60,
+            };
+            tutorialOverlayContent[4].tooltipContainerPosition.y = tooltipY;
 
-          tutorialOverlayContent[5].pulsePosition = {
-            y: pulseY,
-            x: pageX + 128,
-          };
-          tutorialOverlayContent[5].tooltipContainerPosition.y = tooltipY;
-        }
-      );
-      screenRef.current.measure((x, y, width, height, pageX, pageY) => {
-        tutorialOverlayContent[0].tooltipContainerPosition.y = pageY + 50;
-      });
+            tutorialOverlayContent[5].pulsePosition = {
+              y: pulseY,
+              x: pageX + 128,
+            };
+            tutorialOverlayContent[5].tooltipContainerPosition.y = tooltipY;
+          }
+        );
+        screenRef.current.measure((x, y, width, height, pageX, pageY) => {
+          tutorialOverlayContent[0].tooltipContainerPosition.y = pageY + 50;
+        });
 
-      monthlyHeatmapRef.current.measure((x, y, width, height, pageX, pageY) => {
-        tutorialOverlayContent[2].pulsePosition = {
-          y: pageY + 75,
-          x: pageX + 117,
-        };
-        tutorialOverlayContent[2].tooltipContainerPosition.y = pageY + 140;
-        setTutorialOverlayContent(tutorialOverlayContent);
-        setTutorialOverlayContentReady(true);
-      });
-    }
+        monthlyHeatmapRef.current.measure(
+          (x, y, width, height, pageX, pageY) => {
+            tutorialOverlayContent[2].pulsePosition = {
+              y: pageY + 75,
+              x: pageX + 117,
+            };
+            tutorialOverlayContent[2].tooltipContainerPosition.y = pageY + 140;
+            setTutorialOverlayContent(tutorialOverlayContent);
+            setTutorialOverlayContentReady(true);
+          }
+        );
+      }
+    }, 1000);
   }, [heatmapReady]);
 
   return {
