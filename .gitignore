@@ -15,7 +15,7 @@ web-build/
 .vscode
 
 .env
-GoogleService-info.plist
+GoogleService-Info.plist
 google-services.json
 *.apk
 *.aab

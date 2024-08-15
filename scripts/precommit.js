@@ -34,7 +34,7 @@ function updateEasJson() {
 function updateGitignore() {
   if (fs.existsSync(gitignorePath)) {
     let gitignoreContent = fs.readFileSync(gitignorePath, 'utf8');
-    const patterns = ['GoogleService-info.plist', 'google-services.json'];
+    const patterns = ['GoogleService-Info.plist', 'google-services.json'];
 
     patterns.forEach((pattern) => {
       const regex = new RegExp(`#?\\s*${pattern}`, 'g');
@@ -52,26 +52,31 @@ function updateGitignore() {
   }
 }
 
-// Function to unstage files if they are in .gitignore
+// Function to unstage all instances of files at different directory levels
 function unstageIgnoredFiles() {
   const filesToUnstage = ['GoogleService-Info.plist', 'google-services.json'];
 
-  filesToUnstage.forEach((file) => {
-    try {
-      // Check if the file is staged for commit
-      const isStaged = execSync(`git diff --cached --name-only`)
-        .toString()
-        .includes(file);
+  try {
+    // Get all staged files
+    const stagedFiles = execSync('git diff --cached --name-only')
+      .toString()
+      .split('\n');
 
-      // If the file is staged, unstage it
-      if (isStaged) {
+    filesToUnstage.forEach((filePattern) => {
+      // Find all instances of the file pattern in the staged files list
+      const matchingFiles = stagedFiles.filter((file) =>
+        file.includes(filePattern)
+      );
+
+      matchingFiles.forEach((file) => {
+        // Unstage each matching file
         execSync(`git reset HEAD ${file}`);
         console.log(`${file} was unstaged as it is now in .gitignore.`);
-      }
-    } catch (err) {
-      console.error(`Error unstaging ${file}:`, err.message);
-    }
-  });
+      });
+    });
+  } catch (err) {
+    console.error(`Error unstaging files:`, err.message);
+  }
 }
 
 // Run the functions
