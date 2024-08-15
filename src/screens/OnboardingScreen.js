@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   skipButton: {
-    fontSize: 12,
+    fontSize: 16,
     textDecorationLine: 'underline',
     color: colors.primary,
     marginBottom: 10,

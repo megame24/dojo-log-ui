@@ -30,6 +30,7 @@ const MonthlyDateHeatmap = forwardRef(
       const endOfMonthDayOfYear = dateService.getDayOfYear(endOfMonth);
 
       const today = new Date();
+      const currentYear = today.getFullYear();
       const todayDayOfYear = dateService.getDayOfYear(today);
 
       const daysArr = [];
@@ -56,7 +57,7 @@ const MonthlyDateHeatmap = forwardRef(
           heatmapTemp[i].day = ' ';
           if (weekTracker % 2 === 0) heatmapTemp[i].day = day;
         }
-        if (i === todayDayOfYear) {
+        if (i === todayDayOfYear && currentYear === year) {
           heatmapTemp[i].isToday = true;
         }
         if (i < startOfMonthDayOfYear) heatmapTemp[i].inactive = true;

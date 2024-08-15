@@ -15,7 +15,7 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
   // Schedule a local notification
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: 'From background!!',
+      title: notification.request.content.title || 'Notification',
       body: notification.request.content.body || 'You have a new notification',
       data: notification.request.content.data,
     },
@@ -23,5 +23,16 @@ TaskManager.defineTask(TASK_NAME, async ({ data, error }) => {
   });
 });
 
-// Register the background notification task
-Notifications.registerTaskAsync(TASK_NAME);
+// Register the background notification task only once
+(async () => {
+  try {
+    const tasks = await TaskManager.getRegisteredTasksAsync();
+    const isTaskRegistered = tasks.some((task) => task.taskName === TASK_NAME);
+
+    if (!isTaskRegistered) {
+      await Notifications.registerTaskAsync(TASK_NAME);
+    }
+  } catch (err) {
+    console.error('Failed to register task:', err);
+  }
+})();

@@ -128,6 +128,7 @@ function UpdateLogbookScreen({ navigation, route }) {
           <FormField
             name="description"
             label="Description"
+            placeholder="Add details or inspiration here (optional)"
             textArea
             autoCorrect
           />

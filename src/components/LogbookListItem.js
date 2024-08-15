@@ -13,7 +13,7 @@ import useQuickLog from '../hooks/userQuickLog';
 function LogbookListItem({
   item,
   navigation,
-  getLogbooks,
+  reload,
   setPlayTadaAnimation,
   setQuickLogError,
   setQuickLogToastVisible,
@@ -32,7 +32,7 @@ function LogbookListItem({
         constants.LOGBOOK_DATA_CACHE
       }_${logbookId}_${new Date().getFullYear()}`,
     ]);
-    await getLogbooks();
+    await reload();
     if (shouldSetQuickLogToastVisible) setQuickLogToastVisible(true);
   };
 

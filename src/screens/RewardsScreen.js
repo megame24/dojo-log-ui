@@ -157,7 +157,7 @@ function RewardsScreen({ navigation, route }) {
         </View>
         <SuccessToast
           message="Reward deleted successfully"
-          duration={2000}
+          duration={800}
           visible={toastVisible}
           onClose={() => {
             setToastVisible(false);

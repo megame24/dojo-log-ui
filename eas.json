@@ -8,5 +8,10 @@
       "distribution": "internal"
     },
     "production": {}
+  },
+  "submit": {
+    "production": {
+      "ios": {}
+    }
   }
 }

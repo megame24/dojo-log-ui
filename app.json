@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dojologs",
     "slug": "dojologs",
-    "version": "1.0.3",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./src/assets/dojologs-icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,8 @@
       "supportsTablet": true,
       "usesAppleSignIn": true,
       "bundleIdentifier": "com.megame.dojologs",
-      "googleServicesFile": "./GoogleService-info.plist"
+      "googleServicesFile": "./GoogleService-info.plist",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +30,8 @@
         "backgroundColor": "#2980B9"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.megame.dojologs"
+      "package": "com.megame.dojologs",
+      "versionCode": 9
     },
     "web": {
       "favicon": "./src/assets/dojologs-favicon.png"

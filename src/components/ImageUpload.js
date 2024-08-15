@@ -22,7 +22,8 @@ function ImageUpload({ style, imageData, setImageData, deleteImage }) {
           cameraRollStatus.status !== 'granted' ||
           cameraStatus.status !== 'granted'
         ) {
-          alert('Sorry, we need these permissions to proceed');
+          return;
+          // alert('Sorry, we need these permissions to proceed');
         }
       }
     })();

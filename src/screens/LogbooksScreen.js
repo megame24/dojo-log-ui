@@ -46,8 +46,6 @@ function LogbooksScreen({ navigation }) {
   const [logbooks, setLogbooks] = useState([]);
   const [filteredLogbooks, setFilteredLogbooks] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [logbooksReady, setLogbooksReady] = useState(false);
   const [playTadaAnimation, setPlayTadaAnimation] = useState(false);
   const { isNotConnected } = useContext(ConnectionContext);
@@ -61,6 +59,7 @@ function LogbooksScreen({ navigation }) {
   const [quickLogToastVisible, setQuickLogToastVisible] = useState(false);
   const [quickLogError, setQuickLogError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [toggleReload, setToggleReload] = useState(false);
 
   const {
     tutorialOverlayContent,
@@ -111,7 +110,6 @@ function LogbooksScreen({ navigation }) {
       setLogbooksReady(true);
       setFilteredLogbooks(cachedLogbooks);
       extractCategories(cachedLogbooks);
-      setRefreshing(false);
     } else {
       setFilteredLogbooks([]);
       setCategories([]);
@@ -138,7 +136,6 @@ function LogbooksScreen({ navigation }) {
           });
         }
       }
-      setRefreshing(false);
     }
   };
 
@@ -148,11 +145,10 @@ function LogbooksScreen({ navigation }) {
       const startDateValue = dateService.getStartOfDay(
         dateService.subtractTimeFromDate(endDateValue, 6, 'd')
       );
-      setStartDate(startDateValue);
-      setEndDate(endDateValue);
       getLogbooksAsync(startDateValue, endDateValue);
+      setRefreshing(false);
     }
-  }, [isFocused]);
+  }, [isFocused, toggleReload]);
 
   const filterLogbooks = (category) => {
     category.active = !category.active; // treat favourites filter differently
@@ -220,7 +216,8 @@ function LogbooksScreen({ navigation }) {
                 refreshing={refreshing}
                 onRefresh={() => {
                   setRefreshing(true);
-                  getLogbooksAsync(startDate, endDate);
+                  setToggleReload(!toggleReload);
+                  // getLogbooksAsync(startDate, endDate);
                 }}
               />
             }
@@ -231,7 +228,7 @@ function LogbooksScreen({ navigation }) {
                 key={item.id}
                 item={item}
                 navigation={navigation}
-                getLogbooks={() => getLogbooksAsync(startDate, endDate)}
+                reload={() => setToggleReload(!toggleReload)}
                 setPlayTadaAnimation={setPlayTadaAnimation}
                 setQuickLogError={setQuickLogError}
                 setQuickLogToastVisible={setQuickLogToastVisible}
@@ -241,7 +238,7 @@ function LogbooksScreen({ navigation }) {
         </View>
         <SuccessToast
           message="Progress logged successfully"
-          duration={2000}
+          duration={800}
           visible={quickLogToastVisible}
           onClose={() => {
             setQuickLogToastVisible(false);
